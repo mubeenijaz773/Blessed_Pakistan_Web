@@ -12,7 +12,11 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { UserChangePassword } from "../../action/user";
 import { DotSpinner } from "@uiball/loaders";
-
+import { IoCopyOutline, IoPersonCircle } from "react-icons/io5";
+import { MdAttachEmail } from "react-icons/md";
+import { FiEdit } from "react-icons/fi";
+import { LuSaveAll } from "react-icons/lu";
+import Image from "next/image";
 const SettingsTabs = () => {
   const [openTab, setOpenTab] = useState(1);
   const [userData, setUserData] = useState([]);
@@ -31,7 +35,7 @@ const SettingsTabs = () => {
   const tabClassName = (tabNumber) =>
     `text-xs font-bold uppercase px-5 py-3  block leading-normal ${
       openTab === tabNumber
-        ? "text-white bg-blue-600 shadow-xl rounded-full hover:scale-105 transform transition duration-500 "
+        ? "text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800  shadow-purple-500/50 dark:shadow-lg dark:shadow-purple-800/80 shadow-xl rounded-full hover:scale-105 transform transition duration-500 "
         : "text-black bg-slate-100 rounded-full opacity-30 "
     }`;
 
@@ -77,11 +81,47 @@ const SettingsTabs = () => {
                 <div className={openTab === 1 ? "block" : "hidden"} id="link1">
                   {userData.length === 0 ? (
                     // Render loading state or any other content while data is being fetched
-                    <>
-                      <div className="flex justify-center items-center">
-                        <DotSpinner size={40} speed={0.9} color="blue" />
+                    <div className="mb-2  p-4 rounded-lg flex flex-col animate-pulse w-full  ">
+      
+                      <div className="bg-white  rounded-lg p-6 flex flex-col  w-full min-h-screen">
+
+                   <div className="w-full mx-auto mt-8 p-8 border rounded shadow">
+
+                        <div
+                          className="flex flex-row w-1/3 ml-5 gap-2  mb-2 rounded-lg cursor-pointer "
+                        >
+                             <div className="h-10 w-10 rounded-full bg-slate-200"></div>
+                          <div className="mb-1 h-[40px] w-[200px] rounded-full bg-slate-200 text-lg"></div>
+                        </div>
+    
+                        <div className="w-full p-4 px-5">
+    
+                          <div className="flex flex-col gap-4">
+                            <div className="flex justify-start gap-2 w-full ">
+                              <div className="h-6 w-6 rounded-full bg-slate-200"></div>
+                              <div className="mb-1 h-7 w-[25%] rounded-full bg-slate-200 text-lg"></div>
+                            </div>
+                     
+                            <div className="mb-1 h-[50px] w-full rounded-full bg-slate-200 text-lg"></div>
+                     
+                            <div className="flex justify-start gap-2 w-full ">
+                              <div className="h-6 w-6 rounded-full bg-slate-200"></div>
+                              <div className="mb-1 h-7 w-[25%] rounded-full bg-slate-200 text-lg"></div>
+                            </div>
+                     
+                            <div className="mb-1 h-[50px] w-full rounded-full bg-slate-200 text-lg"></div>
+                     
+                          </div>
+    
+                          <div className="mb-1 mt-3 flex justify-center items-center">
+  <div className="h-[50px] w-[150px] rounded-full bg-slate-200 text-lg"></div>
+</div>
+
+                        </div>
+    
                       </div>
-                    </>
+                  </div>
+</div>    
                   ) : (
                     // Map through the userData array and render ProfileSection for each item
                     userData.map((item, index) => (
@@ -153,58 +193,30 @@ const ProfileSection = ({ user }) => {
 
   return (
     <div className="bg-white  rounded-lg p-6 flex flex-col   min-h-screen">
-      {/* <div className="mt-2 mb-6 flex flex-row gap-3 bg-blue-600 shadow-md w-[200px] justify-center items-center py-3 rounded-lg">
-        <img src="/profile.png" className=" h-10 w-10 " />
-        <button className="font-sans text-white text-xl font-bold">
-          Edit Profile
-        </button>
-      </div> */}
-      {/* <div className="flex flex-row justify-start mt-[30px] items-center gap-3">
-        <div className="relative border-8 border-blue-600 bg-white shadow-lg rounded-full w-[220px] h-[220px] flex justify-center items-center">
-          <img src="/pro.png" className="rounded-full h-28 w-28 object-cover" />
-          <div className="absolute bottom-1 p-2 border-4 border-blue-600 rounded-full bg-white shadow-xl right-4">
-            <FaCameraRetro className="w-6 h-6  text-blue-600 hover:text-blue-700 cursor-pointer" />
-          </div>
-        </div>
-      </div> */}
 
       <div className="w-full mx-auto mt-8 p-8 border rounded shadow">
-        <h2 className="text-2xl font-semibold mb-4">User Profile</h2>
+        <div className="flex flex-row gap-3" >
+          <div className="bg-gray-100  w-[40px] h-[40px] flex justify-center items-center rounded-lg  shadow-md" >
+        <FiEdit className="w-5 h-5 text-blue-600" />
+        </div>
+        <h2 className="text-xl font-semibold mb-4 mt-2">Edite Your Personal Details</h2>
+        </div>
         {user ? (
           <form onSubmit={handleSubmit}>
-            <div className="mb-4">
-              <label
-                htmlFor="name"
-                className="block text-sm font-medium text-gray-600"
-              >
-                Name
-              </label>
-              <input
-                type="text"
-                id="name"
-                name="name"
+
+<NormalField
+                name="Name"
+                placeholder="Enter your username"
                 value={editedUsername}
                 onChange={handleUsernameChange}
-                className="mt-1 p-3 border rounded w-full focus:outline-none focus:ring focus:border-blue-300"
-              />
-            </div>
+                />
 
-            <div className="mb-4">
-              <label
-                htmlFor="email"
-                className="block text-sm font-medium text-gray-600"
-              >
-                Email
-              </label>
-              <input
-                type="email"
-                id="email"
-                name="email"
+<EmailField
+                name="Email"
+                placeholder="Enter your email"
                 value={editedEmail}
                 onChange={handleEmailChange}
-                className="mt-1 p-3 border rounded w-full focus:outline-none focus:ring focus:border-blue-300"
-              />
-            </div>
+                />
 
             {/* Add more input fields for other user data as needed */}
             {isLoading ? (
@@ -214,12 +226,16 @@ const ProfileSection = ({ user }) => {
             ) : (
               <>
                 <div className="mt-6">
-                  <button
-                    type="submit"
-                    className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 focus:outline-none focus:shadow-outline-blue active:bg-blue-800"
-                  >
-                    Save Changes
-                  </button>
+                <div className='w-full  flex justify-center items-center' >
+        <button
+        type="submit"
+        className="px-24 h-[50px] flex gap-2 justify-center items-center bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800  shadow-purple-500/50 dark:shadow-lg dark:shadow-purple-800/80   cursor-pointer relative  transform transition-transform motion-ease-in-out motion-duration-300 hover:scale-105 active:scale-95  text-white m-2 font-sans font-medium text-sm rounded-lg shadow-lg hover:shadow-xl "
+            >
+<LuSaveAll className='w-4 h-4 text-white' />
+          Save Changes          
+        </button>
+        </div>
+
                 </div>
               </>
             )}
@@ -241,15 +257,62 @@ const PasswordInput = ({ name, placeholder, value, onChange }) => {
         htmlFor={name}
         className="flex flex-row mt-2 mb-2 items-center gap-3"
       >
-        <img
+        <Image
           src="/password1.png"
-          className="rounded-full h-5 w-5"
+          className="rounded-full"
+          width={15} height={15}
           alt="Password Icon"
         />
         {name}
       </label>
       <input
         type="password"
+        name={name}
+        placeholder={placeholder}
+        className="block w-full px-4 py-4 rounded-lg border border-gray-100 shadow-md bg-blue-50 focus:outline-none"
+        value={value}
+        onChange={onChange}
+      />
+    </div>
+  );
+};
+
+
+const NormalField = ({ name, placeholder, value, onChange }) => {
+  return (
+    <div className="mt-[30px]">
+      <label
+        htmlFor={name}
+        className="flex flex-row mt-2 mb-2 items-center gap-3"
+      >
+        <IoPersonCircle className="h-5 w-5 text-blue-600" />
+        {name}
+      </label>
+      <input
+        type="text"
+        name={name}
+        placeholder={placeholder}
+        className="block w-full px-4 py-4 rounded-lg border border-gray-100 shadow-md bg-blue-50 focus:outline-none"
+        value={value}
+        onChange={onChange}
+      />
+    </div>
+  );
+};
+
+
+const EmailField = ({ name, placeholder, value, onChange }) => {
+  return (
+    <div className="mt-[30px]">
+      <label
+        htmlFor={name}
+        className="flex flex-row mt-2 mb-2 items-center gap-3"
+      >
+     <MdAttachEmail className="h-5 w-5 text-blue-600" />
+        {name}
+      </label>
+      <input
+        type="text"
         name={name}
         placeholder={placeholder}
         className="block w-full px-4 py-4 rounded-lg border border-gray-100 shadow-md bg-blue-50 focus:outline-none"
@@ -314,24 +377,15 @@ const ChangePassword = () => {
   return (
     <div className="bg-white shadow-lg rounded-lg p-6 flex flex-col min-h-screen">
       <ToastContainer />
-      {/* <div className="mt-2 mb-6 flex flex-row gap-3 bg-blue-600 shadow-md w-[300px] justify-center items-center py-3 rounded-lg">
-        <img
-          src="/password.png"
-          className="rounded-full h-10 w-10 shadow-xl"
-          alt="Password Icon"
-        />
-        <button className="font-sans text-white text-xl font-bold">
-          Changed Password
-        </button>
-      </div> */}
 
       <div className="flex justify-center h-full w-full items-center rounded-tl-3xl rounded-tr-3xl">
         <div className="mt-6 bg-white shadow-lg w-[600px] h-auto border-2 border-gray-100 p-5 rounded-tl-3xl rounded-tr-3xl">
           <div className="flex flex-col justify-center items-center w-full">
             <div className="bg-blue-600 shadow-lg rounded-full w-[100px] h-[100px] flex justify-center items-center">
-              <img
+              <Image
                 src="/password.png"
-                className="rounded-full h-14 w-14 object-cover"
+                className="rounded-full object-cover"
+                width={50} height={50}
                 alt="Password Icon"
               />
             </div>
@@ -356,21 +410,24 @@ const ChangePassword = () => {
                   value={confirmPassword}
                   onChange={handleChange}
                 />
+                <div className="flex justify-center items-center mt-10 w-full" >
                 <button
                   type="submit"
-                  className="bg-blue-700 w-full mt-[50px] mb-[30px] text-white py-3 px-4 rounded-lg text-center hover:bg-blue-600"
-                >
-                  {isLoading ? (
+                  className="px-24  h-[50px] flex gap-2 justify-center items-center bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800  shadow-purple-500/50 dark:shadow-lg dark:shadow-purple-800/80   cursor-pointer relative  transform transition-transform motion-ease-in-out motion-duration-300 hover:scale-105 active:scale-95  text-white m-2 font-sans font-medium text-sm rounded-lg shadow-lg hover:shadow-xl "
+                  >
+                        {isLoading ? (
                     <div className="flex gap-1 justify-center items-center text-blue-600 text-xs">
                       {/* Replace with your loading spinner */}
                       Loading...
                     </div>
                   ) : (
-                    <div className="flex justify-center items-center">
-                      Submit
-                    </div>
+                    <>
+<LuSaveAll className='w-4 h-4 text-white' />
+                      <span>Submit</span>
+                  </>
                   )}
                 </button>
+                </div>
               </form>
             </div>
           </div>

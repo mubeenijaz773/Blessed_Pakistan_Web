@@ -1,7 +1,5 @@
 "use client"
-
 import { Inter } from 'next/font/google'
-
 import NavbarUnique from '../Navbar/page'
 import { usePathname } from 'next/navigation'
 
@@ -14,9 +12,7 @@ export default  function Layout({ children }) {
  return (
  <div>
    {pathName !== '/Components/Add_Agencies' ? 
-   
    <NavbarUnique />
-   
     : ''}
       <div className={inter.className}>{children}</div>
  </div>
@@ -24,3 +20,6 @@ export default  function Layout({ children }) {
  
   )
 }
+
+
+

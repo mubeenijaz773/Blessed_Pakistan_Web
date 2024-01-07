@@ -18,13 +18,11 @@ export default  function RootLayout({ children }) {
 //  console.log(pathName) 
  return (
     <html lang="en">
-   {/* {pathName !== '/' && pathName !== '/Dashboard' ? 
-   <>
-   <NavbarUnique />
-   </>
-   : null
-     } */}
-      <body className={inter.className}>{children}</body>
+     <body className={inter.className}>
+        <main>
+        {children}
+        </main>
+        </body>
     </html>
   )
 }

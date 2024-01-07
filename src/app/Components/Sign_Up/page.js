@@ -9,6 +9,7 @@ import { BiLock, BiMailSend } from "react-icons/bi";
 import { BsEye, BsEyeSlash, BsFillPersonBadgeFill, BsPerson } from "react-icons/bs";
 import { Ring } from "@uiball/loaders";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 
 
@@ -68,20 +69,16 @@ const router =  useRouter()
   
           const data = await response.json();
           console.log(data); // Check the response from the API
-          if (data["status"] === 200) {
-           
-            if(selectedRole === "agent"){
-              
-           
-              router.push(`/Components/Add_Agencies?email=${email}`)
-              toast.success("Email Sent First make your Profile")
-            }else{
-
-              toast.success("Email Sent successfully");
-            }
-          } else if (data["status"] === 400) {
-            toast.error("Enter Valid Email");
-          }
+          // if (data["status"] === 200) {
+          //   if(selectedRole === "agent"){
+          //     router.push(`/Components/Add_Agencies?email=${email}`)
+          //     toast.success("Email Sent First make your Profile")
+          //   }else{
+          //     toast.success("Email Sent successfully");
+          //   }
+          // } else if (data["status"] === 400) {
+          //   toast.error("Enter Valid Email");
+          // }
           // You can handle the response here and show appropriate messages to the user
         } catch (error) {
           toast.error("Error signing up:", error);
@@ -102,8 +99,8 @@ return(
    
     <div className="bg-white p-8 rounded-lg shadow-lg w-96 h-auto mt-[30px] ">
     <div className=" flex justify-center items-center  " >
-  <img src="/logo2.png" className="w-20 h-20 " />
-  </div>
+    <Image src="/logo_app.jpg" width={120} height={120}/>
+ </div>
 
     <h2 className="text-3xl font-semibold mb-4 font-sans text-center text-purple-700 ">Sign Up</h2>
      

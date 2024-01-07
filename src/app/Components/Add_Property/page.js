@@ -23,6 +23,7 @@ import { DraftById}  from "../../action/draft_property";
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 import seedrandom from 'seedrandom';
+import Image from "next/image";
 
 // City dropdown
 
@@ -266,8 +267,6 @@ const handleDescriptionChange = (e) => {
 
 
 
-//  get email and mobile feild 
-
 
 const handleEmailChange = (e) => {
   setEmail(e.target.value);
@@ -280,11 +279,8 @@ const handleMobileChange = (e) => {
 
 
 const handleUpgradeClick = () => {
-  // Handle the logic for upgrading the ad here
-  // You can add the logic to update the ad based on the selected checkboxes
   setShowDialog(false);
 };
-//  Upload image
 
  
  
@@ -347,7 +343,6 @@ const handleTabsClick = (tab) => {
 };
 
 
-//  City value get success
 
 
 
@@ -360,7 +355,6 @@ const handleTabsClick = (tab) => {
     };
   
   
-    // const [address, setAddress] = useState('');
     
     
     
@@ -379,7 +373,6 @@ const handleTabsClick = (tab) => {
 
 
 
-//////////////////////   If All Done ///////////////////////////////
 
 
 
@@ -482,26 +475,6 @@ async function SavePropertyInDraft() {
 const handleUpload = async () => {
 
   const propertyId = Math.floor(Math.random() * 10000000000);
-
-
-
-// Check if the city is selected
-///////////////////////////////// Validation ///////////////////////////////////////////
-
-// if (!selectedCity || !locationError ||  !AreaError) {
-//   setCityError(true);
-//   setLocationError(true);
-//   setAreaError(true);
-//   return;
-// } else{
-//   setCityError(false);
-//   setLocationError(false)
-//   setAreaError(false)
-// }
-
-
-
-  // setShowDialog(true)
   if (
     file &&
     selectedOption &&
@@ -631,12 +604,11 @@ const center = {
 
 
     return (
-        <main  className="h-[400vh] m-9"  >
-
-{/* Location and Purpose Card */}
+        <main  className="h-auto  bg-white">
 
 
-<div className="bg-white rounded-lg shadow-md p-4">
+
+<div className="bg-white  border border-gray-300 p-10">
    
    <div className="flex flex-row gap-10 p-4 justify-center  w-[100%]" >
    
@@ -647,7 +619,6 @@ const center = {
         <h2 className="text-xl font-semibold">Location and Purpose</h2>
        </div>
 
-{/* Select Purpose */}
  
  <div className="w-[65%]" >
 
@@ -689,7 +660,6 @@ const center = {
     </div>
 
 
-{/* Select Property Type */}
 
 
 <div className="flex flex-row gap-3 ">
@@ -717,7 +687,6 @@ const center = {
       </div>
 <ToastContainer />
 
-{/*  Tabs content */}
     
       <div className="mt-9 ">
        
@@ -783,10 +752,8 @@ const center = {
     
 </div>
 
+
    
-
-{/* City Dropdown */}
-
 <div className="container mx-auto mt-10">
     
 <div className="flex flex-row gap-3 mb-5 ">
@@ -798,11 +765,7 @@ const center = {
 
         <CityDropdown selectedCity={selectedCity} onChange={handleCityChange} cityError={cityError} />
        
-      </div>
-
-
-
-   
+      </div>   
     </div>
     
     </div>
@@ -812,17 +775,17 @@ const center = {
 
 
 
-
-{/*  Price and Area Card */}
-
-
-<div className="bg-white rounded-lg shadow-md mt-9 p-8">
+<div className="bg-white border border-gray-300 mt-9 p-8">
      
      <div className="flex flex-row gap-12 justify-center  w-[100%] " >
 
      <div className="flex flex-col  w-[15%] gap-2">
       <div className="border border-gray-100 bg-gray-100 p-2 rounded-lg w-10 h-10 flex justify-center items-center  " >        
-        <img src="/price.png" className="w-4 h-4 text-blue-500" />
+        <Image 
+        src="/price.png"
+        width={15}
+        height={15}
+        className=" text-blue-500" />
 </div>        
         <h2 className="text-xl font-semibold">Price and Area</h2>
        </div>
@@ -838,7 +801,10 @@ const center = {
 <div className="mb-2">
           <div className="flex flex-row gap-3 mb-5 ">
   <div className="border border-gray-100 bg-gray-100 p-2 rounded-full  " >
- < img src="/area.png" className="w-4 h-4" />    
+ < Image src="/area.png"
+  width={15}
+  height={15}
+   />    
 </div>
 <label className="block text-gray-900 text-sm font-semibold ">Area Size</label>   
 </div>
@@ -856,7 +822,7 @@ const center = {
 )}
         </div>
 
-{/* dropdown */}
+
 
 <div className="relative mt-14 text-xs">
       <select
@@ -880,10 +846,6 @@ const center = {
           height="14"
           viewBox="0 0 24 24"
           fill="none"
-          // stroke="currentColor"
-          // stroke-width="2"
-          // stroke-linecap="round"
-          // stroke-linejoin="round"
         >
           <polyline points="6 9 12 15 18 9"></polyline>
         </svg>
@@ -896,7 +858,11 @@ const center = {
         <div>
           <div className="flex flex-row gap-3 mb-5 ">
   <div className="border border-gray-100 bg-gray-100 p-2 rounded-full  " >
- < img src="/price.png" className="w-4 h-4" />    
+ < Image src="/price.png"
+ width={15}
+ height={15}
+ 
+ />    
 </div>
 <label className="block text-gray-900 text-sm font-semibold ">Price</label>   
 </div>
@@ -920,17 +886,19 @@ const center = {
 
 
 
-{/*  Location from google Map */}
 
 
-<div className="bg-white rounded-lg shadow-md mt-9 p-8">
+<div className="bg-white  border border-gray-300 mt-9 p-8">
      
      <div className="flex flex-row gap-12 justify-center  w-[100%] " >
 
      <div className="flex flex-col  w-[15%] gap-2">
       
       <div className="border border-gray-100 bg-gray-100 p-2 rounded-lg w-10 h-10 flex justify-center items-center  " >        
-        <img src="/price.png" className="w-4 h-4 text-blue-500" />
+        <Image src="/price.png"
+        width={15}
+        height={15}
+        className=" text-blue-500" />
 </div>        
         <h2 className="text-xl font-semibold">Google Map Location</h2>
        </div>
@@ -961,8 +929,6 @@ const center = {
      </div>
 
 
-{/* Location */}
-
 
 <div
         className={` transition-all duration-500 mt-11 ml-[300px]`}
@@ -992,33 +958,20 @@ const center = {
                   </div>
 
         </div>   
-
-
-
-
      </div>
 
 
-
-
-
-
-
-
-
-
-{/* Feature and Amenities */}
-
-
-
-<div className="bg-white rounded-lg shadow-md mt-9 p-4 ">
+<div className="bg-white border border-gray-300  mt-9 p-10 ">
      
        
 <div className="flex flex-row gap-4 justify-center  w-[100%] " >
 
         <div className="flex flex-col  w-[15%] gap-2">
       <div className="border border-gray-100 bg-gray-100 p-2 rounded-lg w-10 h-10 flex justify-center items-center  " >        
-        <img src="/price.png" className="w-4 h-4 text-blue-500" />
+        <Image src="/price.png" 
+        width={15}
+        height={15}
+        className=" text-blue-500" />
 </div>        
         <h2 className="text-xl font-semibold">Feature and Amenities</h2>
        </div>
@@ -1029,7 +982,11 @@ const center = {
 
        <div className="flex flex-row gap-3 mt-5">
   <div className="border border-gray-100 bg-gray-100 p-2 rounded-full  " >
- < img src="/price.png" className="w-4 h-4" />    
+ < Image src="/price.png"
+ width={15}
+ height={15}
+ 
+ />    
 </div>
 <label className="block text-gray-900 text-sm font-semibold ">Bedrooms</label>   
 </div>
@@ -1052,7 +1009,11 @@ const center = {
      
       <div className="flex flex-row gap-3 mt-5">
   <div className="border border-gray-100 bg-gray-100 p-2 rounded-full  " >
- < img src="/price.png" className="w-4 h-4" />    
+ < Image 
+        src="/price.png" 
+        width={15}
+        height={15}   
+  />    
 </div>
 <label className="block text-gray-900 text-sm font-semibold ">Bathrooms</label>   
 </div>
@@ -1082,17 +1043,18 @@ const center = {
 
 
 
-{/* Ad Information */}
 
 
-
-<div className="bg-white rounded-lg shadow-md mt-9 p-4">
+<div className="bg-white border border-gray-300  mt-9 p-10">
       
       <div className="flex flex-row gap-12 justify-center w-[100%]" >
 
 <div className="flex flex-col gap-2  w-[15%] ">
       <div className="border border-gray-100 bg-gray-100 p-2 rounded-lg w-10 h-10 flex justify-center items-center  " >        
-        <img src="/price.png" className="w-4 h-4 text-blue-500" />
+        <Image src="/price.png"
+        width={15}
+        height={15}
+         className=" text-blue-500" />
 </div>        
         <h2 className="text-xl font-semibold">Add Information</h2>
        </div>
@@ -1104,7 +1066,11 @@ const center = {
       
         <div className="flex flex-row gap-3 mt-5">
   <div className="border border-gray-100 bg-gray-100 p-2 rounded-full  " >
- < img src="/price.png" className="w-4 h-4" />    
+ < Image src="/price.png"
+ width={15}
+        height={15}
+        
+  />    
 </div>
 <label className="block text-gray-900 text-sm font-semibold ">Title</label>   
 </div>
@@ -1120,7 +1086,10 @@ const center = {
       
 <div className="flex flex-row gap-3 mt-5">
   <div className="border border-gray-100 bg-gray-100 p-2 rounded-full  " >
- < img src="/price.png" className="w-4 h-4" />    
+ < Image src="/price.png"
+        width={15}
+        height={15}
+   />    
 </div>
 <label className="block text-gray-900 text-sm font-semibold ">Description</label>   
 </div>
@@ -1137,11 +1106,10 @@ const center = {
     </div>
 
 
-{/* Property Images and Videos */}
 
 
 
-<div className="bg-white rounded-lg shadow-md mt-9 p-4">
+<div className="bg-white   border border-gray-300 mt-9 p-10">
       
 
 <div className="flex flex-row gap-12 justify-center w-[100%]" >
@@ -1149,7 +1117,11 @@ const center = {
 
 <div className="flex flex-col gap-2  w-[15%] ">
       <div className="border border-gray-100 bg-gray-100 p-2 rounded-lg w-10 h-10 flex justify-center items-center  " >        
-        <img src="/price.png" className="w-4 h-4 text-blue-500" />
+        <Image src="/price.png"
+        width={15}
+        height={15}
+        
+         className=" text-blue-500" />
 </div>        
         <h2 className="text-xl font-semibold">Property Images And Videos</h2>
        </div>
@@ -1163,7 +1135,11 @@ const center = {
   
 <div className="flex flex-row gap-3 mt-5">
   <div className="border border-gray-100 bg-gray-100 p-2 rounded-full  " >
- < img src="/price.png" className="w-4 h-4" />    
+ < Image src="/price.png" 
+ width={15}
+        height={15}
+        
+  />    
 </div>
 <label className="block text-gray-900 text-sm font-semibold ">Upload Your Images</label>   
 </div>
@@ -1173,7 +1149,9 @@ const center = {
         <div className="flex gap-5 w-[50%] " >
 
 <div className=" flex justify-center items-center border border-gray-100 bg-gray-100  rounded-full w-20 h-20  " >
-<img src="/image.png" className="w-12 h-12 " />    
+<Image src="/image.png" width={45}
+        height={45}
+         />    
 </div>
       
       <div>
@@ -1205,11 +1183,14 @@ const center = {
       
           
         {previewImages.map((imageUrl, index) => (
-          <div key={index} className="w-32 h-32 relative">
-            <img
+          <div key={index} className=" relative">
+            <Image
               src={imageUrl}
               alt={`Uploaded Image ${index + 1}`}
-              className="w-full h-full object-cover rounded-lg"
+             width={250}
+        height={250}
+        
+              className=" object-cover rounded-lg"
             />
             <button
               className="absolute top-0 right-0 text-white mt-2 bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 shadow-lg shadow-red-500/50 dark:shadow-lg dark:shadow-red-800/80 font-medium rounded-lg text-sm px-4 py-2 opacity-30 hover:opacity-100 text-center mr-2 mb-2"
@@ -1225,12 +1206,14 @@ const center = {
         ))}
       </div>
     </div>
-      {/*  Upload video */}
 
 
       <div className="flex flex-row gap-3 mt-5">
   <div className="border border-gray-100 bg-gray-100 p-2 rounded-full  " >
- < img src="/price.png" className="w-4 h-4" />    
+ < Image src="/price.png" 
+        width={15}
+        height={15}
+ />    
 </div>
 <label className="block text-gray-900 text-sm font-semibold ">Upload Your Videos</label>   
 </div>
@@ -1241,7 +1224,9 @@ const center = {
       <div className="flex gap-5 w-[50%] " >
 
       <div className=" flex justify-center items-center border border-gray-100 bg-gray-100  rounded-full w-20 h-20  " >
- <img src="/play.png" className="w-12 h-12 " />    
+ <Image src="/play.png" width={45}
+        height={45}
+         />    
 </div>
 
      <div>
@@ -1303,14 +1288,11 @@ const center = {
 
 
 
-{/* Contact Information */}
 
 
 
 
-
-
-<div className="bg-white rounded-lg shadow-md mt-9 p-4">
+<div className="bg-white  border border-gray-300 mt-9 p-10">
 
 
 <div className="flex flex-row gap-12 justify-center w-[100%]" >
@@ -1318,7 +1300,10 @@ const center = {
 
 <div className="flex flex-col gap-2  w-[15%] ">
       <div className="border border-gray-100 bg-gray-100 p-2 rounded-lg w-10 h-10 flex justify-center items-center  " >        
-        <img src="/price.png" className="w-4 h-4 text-blue-500" />
+        <Image src="/price.png" 
+        width={15}
+        height={15}
+        className=" text-blue-500" />
 </div>        
         <h2 className="text-xl font-bold">Contact Information</h2>
        </div>
@@ -1330,7 +1315,10 @@ const center = {
       
 <div className="flex flex-row gap-3 mt-5">
   <div className="border border-gray-100 bg-gray-100 p-2 rounded-full  " >
- < img src="/price.png" className="w-4 h-4" />    
+ < Image src="/price.png"
+        width={15}
+        height={15}
+/>    
 </div>
 <label className="block text-gray-900 text-sm font-semibold ">Email</label>   
 </div>
@@ -1347,7 +1335,10 @@ const center = {
 
 <div className="flex flex-row gap-3 mt-5">
   <div className="border border-gray-100 bg-gray-100 p-2 rounded-full  " >
- < img src="/price.png" className="w-4 h-4" />    
+ < Image src="/price.png" 
+        width={15}
+        height={15}
+ />    
 </div>
 <label className="block text-gray-900 text-sm font-semibold ">Mobile</label>   
 </div>
@@ -1367,10 +1358,9 @@ const center = {
     
     </div>
 
-{/* Submit Product */}
 
 
-<div className="text-center">
+<div className="text-center bg-white">
 
   {loading ? (
 
@@ -1412,8 +1402,6 @@ const center = {
 
   
 
-
-  {/* Dialog */}
   <UpgradeDialog
         isOpen={showDialog}
         onClose={() => setShowDialog(false)}

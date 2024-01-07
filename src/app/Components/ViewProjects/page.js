@@ -7,6 +7,7 @@ import LoadingSpinner from "../Loader/page";
 import { cities } from "../../GetList";
 import { GetAllProjects } from "../../action/projects";
 import Footer from "../Footer/page";
+import Image from "next/image";
 
 // Define custom styles for the Select component
 const customStyles = {
@@ -142,11 +143,13 @@ export default function Projects() {
               className="bg-white shadow-lg rounded-lg overflow-hidden transform hover:scale-105 duration-300"
             >
               <div className="relative">
-                <img
-                  className="w-full h-[400px] object-cover transition transform scale-100 hover:scale-105"
+              <div className="w-full h-[400px] relative" >
+      <Image
+       className=" object-cover transition transform scale-100 hover:scale-105"
                   src={`${ServiceUrl}/Add_Project/?filename=${Project.images[0]["name"]}`}
                   alt={Project.name}
                 />
+                </div>
                 <h1 className="absolute text-white top-0 font-bold p-4 text-3xl">
                   {Project.name}
                 </h1>

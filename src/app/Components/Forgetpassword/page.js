@@ -293,9 +293,10 @@ const Forgetpassword = () => {
           )}
         </form>
         <div className="flex gap-2 mt-4 justify-center">
-          <p className="text-center text-xs text-gray-600">
-            Don't have an account?
-          </p>
+        <p className="text-center text-xs text-gray-600">
+  Don&apos;t have an account?
+</p>
+
           <Link
             className="text-indigo-600 text-xs hover:text-indigo-800"
             href={"/Components/Sign_Up"}

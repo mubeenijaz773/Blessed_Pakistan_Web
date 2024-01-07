@@ -8,6 +8,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/navigation";
 import LoadingSpinner from "../Loader/page";
 import { BsArrowLeft, BsArrowRight } from "react-icons/bs";
+import Image from "next/image";
 
 export default function DisplayAgencies() {
   const [images, setImages] = useState([]);
@@ -64,22 +65,50 @@ function GotoAgentProfile(item) {
 }
   
   return (
-    <div className="container mx-auto mt-[50px] mb-[100px] p-4 ">
-       <h1 className="text-black font-bold font-sans text-2xl mb-4 ">
+    <div className="container mx-auto mt-[50px] mb-[100px] px-3 ">
+          <div className="max-w-full border border-slate-300 p-10 rounded-lg relative overflow-hidden">
+  
+       <h1 className="text-black font-bold font-sans text-2xl ">
           Titanium Agencies
         </h1>
-      <div className="max-w-full  p-10 rounded-lg relative overflow-hidden">
+      <div className="rounded-lg relative overflow-hidden">
        
 
         <ToastContainer />
 
         {isLoading ? (
-          <LoadingSpinner />
-        ) : (
+        <div className="loading-indicator flex flex-row flex-wrap gap-10 mt-10">
+        {[...Array(4)].map((_, index) => (
+          <div
+            key={index}
+            className=" flex flex-row w-64 gap-2   p-4 mb-2 rounded-lg cursor-pointer   animate-pulse"     
+          >
+            <li className="flex flex-col items-center gap-2 w-[200px]">
+           
+           <div className="flex flex-row gap-5 w-full">
+
+            <div className=" h-[70px] w-[90px] rounded-lg bg-slate-200 text-lg"></div>
+           
+           <div className="w-full h-full flex-col justify-center items-center  ">
+                 
+                 <div className="mb-1 h-5 w-full rounded-lg bg-slate-200 text-lg mt-2"></div>
+           
+                 <div className="flex justify-start gap-2 w-full mt-2">  
+               <div className="h-4 w-4 rounded-full bg-slate-200"></div>
+                <div className="mb-1 h-5 w-[100px] rounded-lg bg-slate-200 text-lg"></div>
+           </div>
+           </div>
+     
+     </div>
+            </li>
+          </div>
+        ))}
+      </div>
+       ) : (
           <div>
             <BsArrowLeft
               onClick={scrollLeft}
-              className="absolute left-4 top-1/2 text-blue-500 h-[40px] w-[40px] font-bold bg-white shadow-lg rounded-full p-3 hover:bg-gray-200"
+              className="absolute z-50 -left-0 top-1/2 text-blue-500 border h-[40px] w-[40px] font-bold bg-white shadow-lg rounded-full p-3 hover:bg-gray-200"
             >
               &lt;
             </BsArrowLeft>
@@ -97,12 +126,15 @@ function GotoAgentProfile(item) {
 item.status === "Active" && (
 
   <div key={item._id} className="p-2 scroll-snap-align: start;">
-    <div onClick={() => GotoAgentProfile(item)} className="flex flex-row gap-4 rounded-lg cursor-pointer transform hover:scale-105 transition duration-300 snap-start bg-white shadow-md p-4 ml-7">
-      <img
-        className="rounded-lg h-[70px] w-[70px]"
+    <div onClick={() => GotoAgentProfile(item)} className="flex flex-row mt-10  gap-4 rounded-lg cursor-pointer transform hover:scale-105 transition duration-300 snap-start bg-white shadow-md p-4 ">
+     <div className="h-[70px] w-[70px] relative" >
+      <Image
+        className="rounded-lg "
         src={`${ServiceUrl}/Add_Agency/?filename=${item.Logoimages[0]["name"]}`}
         alt={item.Logoimages.name}
+        layout="fill"
       />
+      </div>
       <div className="flex flex-col">
         <h5 className="mb-2 text-xs text-neutral-900 font-bold font-sans relative ml-4 mt-2">
           {item.Agencyname}
@@ -127,13 +159,14 @@ item.status === "Active" && (
 
             <BsArrowRight
               onClick={scrollRight}
-              className="absolute right-4 top-1/2 text-blue-500 h-[40px] w-[40px] font-bold bg-white shadow-lg rounded-full p-3 hover:bg-gray-200"
+              className="absolute right-0 z-50 top-1/2 text-blue-500 border h-[40px] w-[40px] font-bold bg-white shadow-lg rounded-full p-3 hover:bg-gray-200"
             >
               &gt;
             </BsArrowRight>
           </div>
         )}
       </div>
+ </div>
     </div>
   );
 }

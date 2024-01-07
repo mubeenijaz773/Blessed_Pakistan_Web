@@ -5,19 +5,7 @@ import Select from 'react-select';
 import { ServiceUrl } from "../../global";
 import LoadingSpinner from "../Loader/page";
 import {cities} from '../../GetList'
-
- 
-
-
-
-
-
-
-
-
-
-
-
+import Image from 'next/image';
 
 // Define custom styles for the Select component
 const customStyles = {
@@ -116,7 +104,7 @@ export  default function SocietiesPage() {
 
 
   return (
-    <div className="bg-gray-100 min-h-screen w-full">
+    <div className="bg-white min-h-screen w-full">
     <div className=" mx-auto py-12 w-full bg-slate-900 text-white ">
       <div className="text-center">
         <h1 className="text-4xl font-bold text-white mb-4">
@@ -152,9 +140,6 @@ export  default function SocietiesPage() {
   }}
 />
 
-      {/* <button className="absolute right-4 p-4 top-1/2 transform -translate-y-1/2 px-3 py-2 rounded-md bg-blue-500 text-white shadow-lg focus:outline-none">
-        Search
-      </button> */}
     </div>
 
 
@@ -163,19 +148,34 @@ export  default function SocietiesPage() {
         </div>
       </div>
     </div>
-
-    <div className="mt-8 p-4 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+    {isLoading ? (
+     <div className="mt-8 p-10 flex flex-row justify-start items-center flex-wrap  gap-7  w-full">
+     {[...Array(3)].map((_, index) => (
+       <div
+         key={index}
+         className="flex flex-row w-[400px]   mb-2 rounded-lg cursor-pointer   animate-pulse"     
+       >
+         <div className="mb-1 h-[400px] w-[400px] rounded-lg bg-slate-200 text-lg"></div>
+       </div>
+     ))}
+   </div>
+   
+     ) : (
+    <div className="mt-8 p-10 flex flex-row justify-start items-center flex-wrap  gap-10  w-full">
     {filteredImages.filter(society => !selectedCity || society.city === selectedCity.value).map((society, index) => (
     <div
       key={index}
-      className="bg-white shadow-lg rounded-lg overflow-hidden transform hover:scale-105 duration-300"
+      className="bg-white shadow-lg w-[400px] rounded-lg overflow-hidden transform hover:scale-105 duration-300"
     >
       <div className="relative">
-        <img
-          className="w-full h-[400px] object-cover transition transform scale-100 hover:scale-105"
+      <div className="w-full h-[400px] relative" >
+      <Image
+      className=" object-cover transition transform scale-100 hover:scale-105"
           src={`${ServiceUrl}/Add_Society/?filename=${society.images[0]["name"]}`}
           alt={society.name}
+          layout='fill'
         />
+        </div>
         <h1 className='absolute text-white top-0 font-bold p-4 text-3xl' >{society.name}</h1>
         <h1 className='absolute text-white top-[40px] p-4 font-semibold' >{society.city}</h1>
         <div className="absolute inset-0 flex flex-col justify-center mt-[170px] m-7  opacity-0 hover:opacity-100 transition-opacity duration-300">
@@ -188,7 +188,8 @@ export  default function SocietiesPage() {
   ))}
 </div>
 
-  </div>
+        )}
+          </div>
   );
 }
 

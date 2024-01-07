@@ -13,6 +13,7 @@ import { BsArrowLeft, BsArrowRight } from "react-icons/bs";
 import { useRouter } from "next/navigation";
 import { formatDistanceToNow } from "date-fns";
 import { GetProductByPropertyid } from "../../../action/Property";
+import Image from "next/image";
 
 const FindPropertyById = ({ params }) => {
   const [images, setImages] = useState([]);
@@ -118,11 +119,16 @@ function Properties({ item }) {
   return (
     <div className="w-full">
       <div className="w-[300px] ml-5 cursor-pointer rounded-lg transform hover:scale-105 transition duration-300 snap-start">
-        <img
+      
+      <div className="h-[200px] w-[300px] relative">
+                <Image
           className="rounded-lg h-[200px] w-[300px]"
           src={`${ServiceUrl}/Product/?filename=${item.images[0]["name"]}`}
           alt={item.images.name}
+          layout="fill"
         />
+        </div>
+      
         <div className="p-1 mt-3">
           <div className="flex gap-2">
             <RiPriceTag3Line className="text-gray-900" />

@@ -1,8 +1,10 @@
 "use client"
 import { Ring } from "@uiball/loaders";
+import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";
-import { PiArrowUpRightBold } from 'react-icons/pi'
+import { PiArrowUpRightBold } from "react-icons/pi";
+import Footer from "../Footer/page";
 
 
 
@@ -29,18 +31,20 @@ const handlemove1=()=>{
     <main className="bg-white" >
 <div className="bg-white  min-h-screen  relative" >
       <div className="w-full relative h-[400px] shadow-lg bg-white">
-        <img
+        <Image
           src="/land6.jpeg"
           alt="Land Image"
-          className="w-full h-full object-cover  transition-transform group-hover:scale-105"
+          className=" object-cover  transition-transform group-hover:scale-105"
+          layout="fill"
         />
         <div className="w-full h-full bg-black opacity-10 " />
       </div>
 
       <div className=" absolute ml-[100px] mt-[-330px]  flex flex-col justify-center items-center text-center">
-        <h1 className="text-3xl font-sans font-bold text-white ">
-          Blessed Pakistan Land Records
-        </h1>
+      <h1 className="text-3xl font-sans font-bold text-white">
+  {`Blessed Pakistan Land Records`}
+</h1>
+
         <p className="text-lg px-36 mt-5 text-white font-sans font-semibold">
           Providing you with an all-inclusive platform to help you get verified property details with digital convenience
         </p>
@@ -78,11 +82,12 @@ const handlemove1=()=>{
               </button>
               </Link>
             </div>
-            <div className="h-[350px]  overflow-hidden">
-              <img
+            <div className="h-[350px]  overflow-hidden relative">
+              <Image
                 src="/badsha.jpeg"
                 alt="Punjab Land Record"
-                className="w-full h-full object-cover rounded-lg  transform transition duration-500 hover:scale-150"
+                className="object-cover rounded-lg transform transition duration-500 hover:scale-150"
+                layout="fill"
               />
             </div>
           </div>
@@ -118,11 +123,12 @@ const handlemove1=()=>{
               </button>
             </Link>
             </div>
-            <div className="h-[350px]  overflow-hidden">
-              <img
+            <div className="h-[350px] relative  overflow-hidden">
+              <Image
                 src="/Quid.jpeg"
                 alt="Sindh Land Record"
-                className="w-full h-full object-cover rounded-lg  transform transition duration-500 hover:scale-150 "
+                className=" object-cover rounded-lg  transform transition duration-500 hover:scale-150 "
+                layout="fill"
               />
             </div>
           </div>
@@ -148,15 +154,15 @@ const Content=()=>{
 <div className="flex flex-col  mt-[100px] w-full" >
 
 <div className="flex flex-row justify-between" >
-<div className=" bg-white rounded-full flex justify-center items-center w-[200px] h-[200px] shadow-lg " >
-    <img src="/records.jpeg" className="w-full h-full rounded-full object-cover object-center " />
+<div className=" bg-white rounded-full flex justify-center items-center w-[200px] h-[200px] shadow-lg relative " >
+    <Image layout="fill" src="/records.jpeg" className=" rounded-full object-cover object-center " />
 </div>
-<div className=" bg-white rounded-full w-[200px] h-[200px] shadow-lg flex justify-center items-center " >
-<img src="/records.jpeg" className="w-full h-full rounded-full object-cover object-center" />
+<div className=" bg-white rounded-full relative w-[200px] h-[200px] shadow-lg flex justify-center items-center " >
+<Image layout="fill" src="/records.jpeg" className=" rounded-full object-cover object-center" />
 
 </div>
-<div className=" bg-white rounded-full w-[200px] h-[200px] shadow-lg  flex justify-center items-center " >
-<img src="/records.jpeg" className=" w-full h-full rounded-full object-cover object-center" />
+<div className=" bg-white rounded-full relative w-[200px] h-[200px] shadow-lg  flex justify-center items-center " >
+<Image layout="fill" src="/records.jpeg" className=" rounded-full object-cover object-center" />
 
 </div>
 </div>
@@ -175,7 +181,7 @@ const Content=()=>{
 <p className="text-black font-sans  text-sm w-[250px] text-center" >
 Save yourself from the hassle of traditional methods. Book an appointment and get your Fards and Mutation in a digital format.
 </p>
-<p className="text-black font-sans  text-sm w-[250px] text-center" >Find all the relevant details of any property's location, with its complete official address, including information such as tehsil, district, and tasla etc.</p>
+<p className="text-black font-sans  text-sm w-[250px] text-center" >Find all the relevant details of any properties location, with its complete official address, including information such as tehsil, district, and tasla etc.</p>
 <p className="text-black font-sans  text-sm w-[200px] text-center" >Check out all the ownership information of any property unit for transparent transactions, including possession history.</p>
 
 </div>
@@ -187,7 +193,7 @@ Save yourself from the hassle of traditional methods. Book an appointment and ge
 
 
 </div>
-
+<Footer/>
 </main>
   );
 }

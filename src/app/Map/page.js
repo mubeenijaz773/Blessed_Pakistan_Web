@@ -1,6 +1,7 @@
 'use client'
 import React, { useState , useEffect } from 'react';
 import { GoogleMap, LoadScript, MarkerF , OverlayView  } from '@react-google-maps/api';
+import Image from 'next/image';
 
 const containerStyle = {
   width: '100%',
@@ -77,7 +78,10 @@ function GoogleMapView() {
             >
           
           <div className="bg-white w-[60px] h-auto rounded-lg flex justify-center items-center flex-col">
-                <img src={business.image} className='w-[40px] h-[40px] object-cover ' alt={business.name} />
+          <div className="relative w-[40px] h-[40px]" >
+    
+                <Image src={business.image} className=' object-cover ' alt={business.name} layout='fill'/>
+   </div>
                 <p className='mt-2' >{business.name}</p>
               </div>
          

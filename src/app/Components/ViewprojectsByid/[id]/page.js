@@ -10,6 +10,7 @@ import EmailDailogBox from "../../Email_Dailog/page"
 
 import {FindProjectbyid } from "../../../action/projects"
 import { DotSpinner} from "@uiball/loaders";
+import Image from "next/image";
 
 
 
@@ -115,11 +116,14 @@ const Slider = ({ images }) => {
                 width: `${100 / images?.length}%`,
               }}
             >
-              <img
+                   <div className="w-full h-[400px] relative" >
+      <Image
                 src={`${ServiceUrl}/Add_Project/?filename=${image?.name}`}
                 alt={`Slide ${image?.name}`}
-                className="w-full rounded h-[400px] object-cover"
+                className=" rounded object-cover"
               />
+              </div>
+
             </div>
           ))}
         </div>
@@ -229,17 +233,22 @@ const PropertyDetails = ({params}) => {
 
 
   return (
-    <div className=" shadow-lg p-10 rounded-lg ">
+    <div className="p-10 rounded-lg bg-white min-h-screen w-full ">
     
     
 {isLoading ? (
-  <>
-   <div className="flex justify-center  mb-[60px] items-center">
- 
-       <DotSpinner size={40} speed={0.9} color="blue" />
-   
+      <div className="w-full h-full  animate-pulse py-4">
+<div className="w-[100%] h-[400px]">
+
+<div className="flex flex-row justify-start gap-3 w-full mb-2">   
+      <div className=" w-[100px] h-9 rounded-full bg-slate-200 text-lg"></div>
+      <div className=" w-[100px] h-9 rounded-full bg-slate-200 text-lg"></div>
    </div>
-  </>
+
+  <div className="mb-2 w-full h-[400px] rounded-lg bg-slate-200 text-lg"></div>
+   <div className="w-[200px] h-9 rounded-full bg-slate-200 text-lg flex justify-start"></div>
+</div>
+</div>
 ):(
   <>
   
@@ -327,46 +336,33 @@ const PropertyDetails = ({params}) => {
 
 
 
-      <div className="mb-8 mt-[30px]  bg-white shadow-lg border  ">
+      <div className="mb-8 mt-[30px]  bg-white shadow-lg border rounded-tr-xl rounded-tl-xl ">
      
-     <div className="w-full p-3 bg-gray-100">
+     <div className="w-full p-5 bg-gray-100">
        <text className="text-black font-sans font-semibold text-2xl" >OverView</text>
      </div>
     
 <div className="p-5" >
  
-
-
-
-
-
-
  <div className="flex flex-col" >
-
-
-
-      
-
 
 <text className="text-black font-sans font-semibold text-xl" >Details & Description</text>
     <div className="border border-b-4 mt-1 w-[160px] rounded-lg border-blue-500 bg-blue-500 " /></div>
 
-
-
 <div className="mt-10" >
 <div className="grid grid-cols-2 md:grid-cols-2 gap-6">
              
-     <div className="w-full flex flex-row justify-between font-sans font-xs px-4 py-5  bg-gray-100">
+     <div className="w-full flex flex-row justify-between font-sans font-xs px-4 py-5 rounded-full  bg-gray-100">
                 <span className="font-semibold ">Project</span>{" "}
                 {data?.name}
      </div>
-     <div className="w-full py-5 flex flex-row justify-between font-sans  px-4 bg-gray-100">
+     <div className="w-full py-5 flex flex-row justify-between font-sans  px-4 bg-gray-100 rounded-full">
                 <span className="font-semibold">City</span> 
                 
                 {data?.city}
     </div>
     
-    <div className="w-full py-5 flex flex-row justify-between font-sans  px-4 bg-gray-100">
+    <div className="w-full py-5 flex flex-row justify-between font-sans  px-4 bg-gray-100 rounded-full">
                 <span className="font-semibold">location</span> 
                 
                 {data?.location}
@@ -384,7 +380,7 @@ const PropertyDetails = ({params}) => {
      </div>
 
 
-     <div className="w-full py-5 mt-10 flex flex-col justify-between font-sans  px-4 bg-gray-100">
+     <div className="w-full py-5 mt-10 flex flex-col justify-between font-sans  px-4 bg-gray-100 rounded-tl-lg rounded-tr-lg">
                {data?.description}
               
     </div>
@@ -402,16 +398,12 @@ const PropertyDetails = ({params}) => {
           center={center}
           zoom={2}
         >
-         
-          
             <MarkerF
-         
               position={{ lat: data?.Latitude, lng: data?.Longitude }}
               icon={{
                 url: '/circle.png',
                 scaledSize: { width: 10, height: 10 },
               }}
-            
             >
      
          <OverlayView
@@ -420,11 +412,14 @@ const PropertyDetails = ({params}) => {
             >
           
           <div className="bg-white w-[240px] h-[300px] rounded-lg overflow-hidden shadow-lg">
-  <img
+  <div className="w-full h-[150px] relative">
+  <Image
     src={`${ServiceUrl}/Product/?filename=${data?.images[0]['name']}`}
     alt={`Slide ${data?.images[0]['name']}`}
-    className="w-full h-[150px] object-cover"
+    className=" object-cover"
+    layout="fill"
   />
+  </div>
   <div className="p-4">
     <h2 className="text-2xl font-bold mb-2 text-gray-800">{data?.propertyType}</h2>
     <p className="text-gray-600 mb-2">

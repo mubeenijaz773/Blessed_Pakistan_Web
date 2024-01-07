@@ -1,10 +1,10 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-// import { Collapse,initTE,} from "tw-elements";
-import { ServiceUrl } from '../../global';
+import { ServiceUrl } from "../../global";
 import Link from "next/link";
-// import   './DropdownMenu.css';
+
+
 import {
   Commercial_Type,
   HomeList,
@@ -94,7 +94,7 @@ const SearchFilter = ({Purpose}) => {
 
   const handleSearch = async () => {
     setIsLoading(true);
-    var userid = localStorage.getItem('_id')
+    var userid = localStorage.getItem("_id")
     const response = await fetch(`${ServiceUrl}/Search`, {
       method: "POST",
       headers: {
@@ -177,19 +177,14 @@ const SearchFilter = ({Purpose}) => {
 
   return (
     // Accordian
-
     <div
       id="accordionExample5"
-      className="w-[900px] mt-[40px] ml-[60px] opacity-120  "
+      className="w-auto mt-[40px] ml-[60px] opacity-120  "
     >
-
-
-
-     
       <div className="font-sans uppercase" >
-      {activeTab == 'Home' &&  <h1  className="text-center font-semibold text-3xl mb-9" >Search properties for sale in Pakistan</h1>}
-      {activeTab == 'Plots' && <h1 className="text-center font-semibold text-3xl mb-9" >Search plots for sale in Pakistan</h1>}
-      {activeTab == 'Commercials' &&  <h1  className="text-center font-semibold text-3xl mb-9">Search commercial properties for sale in Pakistan</h1>}
+      {activeTab == "Home" &&  <h1  className="text-center font-semibold text-3xl mb-9" >Search properties for sale in Pakistan</h1>}
+      {activeTab == "Plots" && <h1 className="text-center font-semibold text-3xl mb-9" >Search plots for sale in Pakistan</h1>}
+      {activeTab == "Commercials" &&  <h1  className="text-center font-semibold text-3xl mb-9">Search commercial properties for sale in Pakistan</h1>}
       
       </div>
 
@@ -230,7 +225,8 @@ const SearchFilter = ({Purpose}) => {
                 </div>
               </div>
               {iscityDropdownOpen && ( // Render the dropdown only if isDropdownOpen is true
-                <ul className="bg-white border shadow-lg rounded-sm ml-5 transform overflow-y-auto scale-100 absolute transition duration-150 ease-in-out origin-top min-w-32 h-64 custom-scrollbar">
+                <ul className="bg-white z-50 border shadow-lg rounded-sm  transform overflow-y-auto scale-100 absolute transition
+                 duration-150 ease-in-out origin-top min-w-32 w-[200px] h-64 custom-scrollbar">
                   {cities.map((city, index) => (
                     <li
                       key={index}
@@ -287,7 +283,7 @@ const SearchFilter = ({Purpose}) => {
               <button
                 onClick={handleSearch}
                 type="submit"
-                className="text-white ml-1 w-[100px] h-[64px] font-sans  font-medium  text-sm  bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 shadow-lg   dark:shadow-purple-800/80 "
+                className="text-white ml-1 w-[150px] h-[64px] font-sans  font-medium  text-sm  bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 shadow-lg   dark:shadow-purple-800/80 "
               >
                 
               {isLoading ? (
@@ -312,7 +308,7 @@ const SearchFilter = ({Purpose}) => {
         </div>
       </div>
 
-      <div className="bg-black   dark:bg-neutral-800">
+      <div className="border  border-neutral-200 bg-black dark:border-neutral-600 dark:bg-neutral-800">
         <div
           id="collapseTwo5"
           //   className="!visible hidden"
@@ -330,16 +326,11 @@ const SearchFilter = ({Purpose}) => {
                 </span>
              
                 <div className="flex gap-1 mt-2 px-2">
-                {subType == '' || subType == null && <span className="text-black">{activeTab}</span> } 
+                {subType == "" || subType == null && <span className="text-black">{activeTab}</span> } 
                     {isDropdownOpen ? (
-                      <>
-                       ''
-                      </>
-                    
-                   
+                      <></> 
                     ) : (
                       <>
-                     
                         {subType != "" ? (
                           <span className="text-sm font-sans text-black flex-1">
                             {subType}
@@ -368,7 +359,7 @@ const SearchFilter = ({Purpose}) => {
               </div>
 
               {isDropdownOpen && (
-                <div className="bg-white border shadow-lg rounded-sm ml-5 transform overflow-hidden scale-100 absolute transition duration-150 ease-in-out origin-top w-[300px] h-64 custom-scrollbar">
+                <div className="bg-white z-50 ml-2 border shadow-lg rounded-sm  transform overflow-hidden scale-100 absolute transition duration-150 ease-in-out origin-top w-[300px] h-64 custom-scrollbar">
                   {/* Dropdown content here */}
                   <div className="flex justify-center gap-3 p-2">
                     <div
@@ -454,7 +445,7 @@ const SearchFilter = ({Purpose}) => {
                     </span>
                   </div>
                 </div>
-                <div className="bg-white border  shadow-lg rounded-sm  transform overflow-hidden scale-0 group-hover:scale-100 absolute transition duration-150 ease-in-out origin-top w-[262px] h-64 custom-scrollbar">
+                <div className="bg-white z-50 border  shadow-lg rounded-sm  transform overflow-hidden scale-0 group-hover:scale-100 absolute transition duration-150 ease-in-out origin-top w-[262px] h-64 custom-scrollbar">
                   <div className="flex flex-row gap-2 max-w-md mx-auto p-2 px-2 ">
                     <div className="">
                       <label
@@ -525,12 +516,12 @@ const SearchFilter = ({Purpose}) => {
 
             {/* Area SQRFT  filter Home */}
 
-{activeTab == 'Home'  && 
+{activeTab == "Home"  && 
             <div className="py-4">
               <div className="group inline-block relative">
                 <div className="outline-none focus:outline-none border cursor-pointer bg-white rounded-sm h-[64px] w-[262px]">
                   <span className="font-semibold text-blue-600 text-xs font-sans text-start ml-2 mt-0">
-                    AREA (Marla)
+                    AREA (SQFT)
                   </span>
                   <div className="flex flex-row justify-between gap-1 mt-2 px-2">
                     <div className="flex flex-row justify-between w-1/2 ">
@@ -562,7 +553,7 @@ const SearchFilter = ({Purpose}) => {
                     </span>
                   </div>
                 </div>
-                <div className="bg-white border shadow-lg rounded-sm transform overflow-hidden scale-0 group-hover:scale-100 absolute transition duration-150 ease-in-out origin-top w-[262px] h-64 custom-scrollbar">
+                <div className="bg-white z-50 border shadow-lg rounded-sm transform overflow-hidden scale-0 group-hover:scale-100 absolute transition duration-150 ease-in-out origin-top w-[262px] h-64 custom-scrollbar">
                   <div className="flex flex-row gap-2 max-w-md mx-auto p-2 px-2">
                     <div className="">
                       <label
@@ -633,7 +624,7 @@ const SearchFilter = ({Purpose}) => {
 
 {/* Area Size For Plots */}
 
-{activeTab == 'Plots'  && 
+{activeTab == "Plots"  && 
             <div className="py-4">
               <div className="group inline-block relative">
                 <div className="outline-none focus:outline-none border cursor-pointer bg-white rounded-sm h-[64px] w-[262px]">
@@ -670,7 +661,7 @@ const SearchFilter = ({Purpose}) => {
                     </span>
                   </div>
                 </div>
-                <div className="bg-white border shadow-lg rounded-sm transform overflow-hidden scale-0 group-hover:scale-100 absolute transition duration-150 ease-in-out origin-top w-[262px] h-64 custom-scrollbar">
+                <div className="bg-white z-50 border shadow-lg rounded-sm transform overflow-hidden scale-0 group-hover:scale-100 absolute transition duration-150 ease-in-out origin-top w-[262px] h-64 custom-scrollbar">
                   <div className="flex flex-row gap-2 max-w-md mx-auto p-2 px-2">
                     <div className="">
                       <label
@@ -744,7 +735,7 @@ const SearchFilter = ({Purpose}) => {
 
 {/* Area Size For Commercials */}
 
-{activeTab == 'Commercials'  && 
+{activeTab == "Commercials"  && 
             <div className="py-4">
               <div className="group inline-block relative">
                 <div className="outline-none focus:outline-none border cursor-pointer bg-white rounded-sm h-[64px] w-[262px]">
@@ -781,7 +772,7 @@ const SearchFilter = ({Purpose}) => {
                     </span>
                   </div>
                 </div>
-                <div className="bg-white border shadow-lg rounded-sm transform overflow-hidden scale-0 group-hover:scale-100 absolute transition duration-150 ease-in-out origin-top w-[262px] h-64 custom-scrollbar">
+                <div className="bg-white z-50 border shadow-lg rounded-sm transform overflow-hidden scale-0 group-hover:scale-100 absolute transition duration-150 ease-in-out origin-top w-[262px] h-64 custom-scrollbar">
                   <div className="flex flex-row gap-2 max-w-md mx-auto p-2 px-2">
                     <div className="">
                       <label
@@ -856,10 +847,10 @@ const SearchFilter = ({Purpose}) => {
 
             {/* BEDS filter */}
 
-{activeTab == 'Home' && 
+{activeTab == "Home" && 
             <div className="py-4">
               <div className="group inline-block relative">
-                <div className="outline-none focus:outline-none border cursor-pointer bg-white rounded-sm h-[64px] w-[100px]">
+                <div className="outline-none focus:outline-none border cursor-pointer bg-white rounded-sm h-[64px] w-[150px]">
                   <span className="font-semibold text-blue-600 text-xs font-sans text-start ml-2 mt-0">
                     BEDS
                   </span>
@@ -878,8 +869,8 @@ const SearchFilter = ({Purpose}) => {
                     </span>
                   </div>
                 </div>
-                <div className="bg-white border shadow-lg rounded-sm transform overflow-hidden scale-0 group-hover:scale-100 absolute transition duration-150 ease-in-out origin-top ml-2 w-[127px] h-64">
-                  <div className="h-64 w-[125px] overflow-y-auto transform border border-gray-400 custom-scrollbar">
+                <div className="bg-white z-50 border shadow-lg rounded-sm transform overflow-hidden scale-0 group-hover:scale-100 absolute transition duration-150 ease-in-out origin-top  w-[150px] h-64">
+                  <div className="h-64 w-[150px] overflow-y-auto transform border border-gray-400 custom-scrollbar">
                     <ul className="">
                       {Bedrooms.map((value, index) => (
                         <li

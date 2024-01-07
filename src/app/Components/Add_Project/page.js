@@ -11,6 +11,7 @@ import { RiDeleteBin6Line } from "react-icons/ri";
 import { MdSlowMotionVideo } from "react-icons/md";
 import { FaImages, FaVideo } from "react-icons/fa";
 import { IoIosSave } from "react-icons/io";
+import  Image  from 'next/image';
 
 import LoadingSpinner from "../Loader/page";
 
@@ -222,7 +223,11 @@ const handleButtonnClick = () => {
         <div className="flex flex-row gap-12 justify-center w-[100%]">
           <div className="flex flex-col gap-2  w-[15%] ">
             <div className="border border-gray-100 bg-gray-100 p-2 rounded-lg w-10 h-10 flex justify-center items-center  ">
-              <img src="/price.png" className="w-4 h-4 text-blue-500" />
+              <Image 
+                src="/price.png"
+                width={25}
+                height={25}
+                className=" text-blue-500" />
             </div>
             <h2 className="text-xl font-semibold">Add Project Information</h2>
           </div>
@@ -232,7 +237,11 @@ const handleButtonnClick = () => {
 
             <div className="flex flex-row gap-3 mt-5">
               <div className="border border-gray-100 bg-gray-100 p-2 rounded-full  ">
-                <img src="/price.png" className="w-4 h-4" />
+                <Image 
+                src="/price.png" 
+                width={15}
+                height={15}
+                 />
               </div>
               <label className="block text-gray-900 text-sm font-semibold ">
                 Project Name
@@ -253,7 +262,11 @@ const handleButtonnClick = () => {
 
             <div className="flex flex-row gap-3 mt-5">
               <div className="border border-gray-100 bg-gray-100 p-2 rounded-full  ">
-                <img src="/price.png" className="w-4 h-4" />
+                <Image 
+                  src="/price.png"
+                  width={15}
+                  height={15}
+                   />
               </div>
 
               <label className="block text-gray-900 text-sm font-semibold ">
@@ -279,7 +292,11 @@ const handleButtonnClick = () => {
 
             <div className="flex flex-row gap-3 mt-5">
               <div className="border border-gray-100 bg-gray-100 p-2 rounded-full  ">
-                <img src="/price.png" className="w-4 h-4" />
+                <Image 
+                src="/price.png"
+                width={15}
+                height={15}
+                />
               </div>
               <label className="block text-gray-900 text-sm font-semibold ">
                 City
@@ -321,7 +338,11 @@ const handleButtonnClick = () => {
      <div className="flex flex-col  w-[15%] gap-2">
       
       <div className="border border-gray-100 bg-gray-100 p-2 rounded-lg w-10 h-10 flex justify-center items-center  " >        
-        <img src="/price.png" className="w-4 h-4 text-blue-500" />
+        <Image 
+        src="/price.png"
+        width={25}
+        height={25}
+        className="text-blue-500" />
 </div>        
         <h2 className="text-xl font-semibold">Google Map Location</h2>
        </div>
@@ -348,9 +369,16 @@ const handleButtonnClick = () => {
 
      </div>
 <ToastContainer />
-     <div className="flex flex-row gap-3 mt-11 ml-[300px]">
+    <div className="flex justify-end " >
+<div className="flex flex-col justify-end gap-5 w-[75%]" >
+
+     <div className="flex flex-row gap-3 mt-11 ">
               <div className="border border-gray-100 bg-gray-100 p-2 rounded-full  ">
-                <img src="/price.png" className="w-4 h-4" />
+                <Image 
+                src="/price.png"
+                width={15}
+                height={15}
+                  />
               </div>
               <label className="block text-gray-900 text-sm font-semibold ">
                 Location
@@ -364,11 +392,12 @@ const handleButtonnClick = () => {
              value={location}
              onChange={handleInputChange}
              
-              className="border border-gray-300 rounded p-2 w-full py-3 mb-4 mt-2 text-xs focus:outline-none focus:border-blue-500"
+              className="border border-gray-300  rounded p-2 w-full py-3 mb-4 mt-2 text-xs focus:outline-none focus:border-blue-500"
       
             />
+</div>
      </div>
-
+     </div>
 
 
 
@@ -380,7 +409,12 @@ const handleButtonnClick = () => {
         <div className="flex flex-row gap-12 justify-center w-[100%]">
           <div className="flex flex-col gap-2  w-[15%] ">
             <div className="border border-gray-100 bg-gray-100 p-2 rounded-lg w-10 h-10 flex justify-center items-center  ">
-              <img src="/price.png" className="w-4 h-4 text-blue-500" />
+              <Image 
+              src="/price.png"
+              width={25}
+              height={25}
+               className=" text-blue-500" 
+               />
             </div>
             <h2 className="text-xl font-semibold">
               Project Images
@@ -390,7 +424,11 @@ const handleButtonnClick = () => {
           <div className="flex flex-col w-[65%] ">
             <div className="flex flex-row gap-3 mt-5">
               <div className="border border-gray-100 bg-gray-100 p-2 rounded-full  ">
-                <img src="/price.png" className="w-4 h-4" />
+                <Image 
+                src="/price.png"
+                width={15}
+                height={15}
+                 />
               </div>
               <label className="block text-gray-900 text-sm font-semibold ">
                 Upload Your Images
@@ -400,7 +438,11 @@ const handleButtonnClick = () => {
             <div className="border-dotted border-gray-500 p-4 rounded-lg border-2 mt-2">
               <div className="flex gap-5 w-[50%] ">
                 <div className=" flex justify-center items-center border border-gray-100 bg-gray-100  rounded-full w-20 h-20  ">
-                  <img src="/image.png" className="w-12 h-12 " />
+                  <Image 
+                  src="/image.png"
+                  width={45}
+                  height={45}
+                  />
                 </div>
 
                 <div>
@@ -427,11 +469,14 @@ const handleButtonnClick = () => {
               />
               <div className="flex flex-wrap gap-4 mt-4">
                 {previewLogoImages.map((imageUrl, index) => (
-                  <div key={index} className="w-32 h-32 relative">
-                    <img
+                  <div key={index} className=" relative">
+                    <Image
                       src={imageUrl}
                       alt={`Uploaded Image ${index + 1}`}
-                      className="w-full h-full object-cover rounded-lg"
+                      width={250}
+                      height={250}
+                      // w-full h-full
+                      className="object-cover rounded-lg"
                     />
                     <button
                       className="absolute top-0 right-0 text-white mt-2 bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 shadow-lg shadow-red-500/50 dark:shadow-lg dark:shadow-red-800/80 font-medium rounded-lg text-sm px-4 py-2 opacity-30 hover:opacity-100 text-center mr-2 mb-2"
@@ -450,7 +495,11 @@ const handleButtonnClick = () => {
 
             <div className="flex flex-row gap-3 mt-5">
   <div className="border border-gray-100 bg-gray-100 p-2 rounded-full  " >
- < img src="/price.png" className="w-4 h-4" />    
+ < Image 
+ src="/price.png"
+ width={15}
+ height={15}
+ />    
 </div>
 <label className="block text-gray-900 text-sm font-semibold ">Upload Your Videos</label>   
 </div>
@@ -461,7 +510,11 @@ const handleButtonnClick = () => {
       <div className="flex gap-5 w-[50%] " >
 
       <div className=" flex justify-center items-center border border-gray-100 bg-gray-100  rounded-full w-20 h-20  " >
- <img src="/play.png" className="w-12 h-12 " />    
+ <Image 
+ src="/play.png"
+ width={45}
+ height={45}
+ />    
 </div>
 
      <div>
@@ -494,10 +547,9 @@ const handleButtonnClick = () => {
         {previewVideos.map((videoUrl, index) => (
           <div key={index} className="mb-4">
             <video
-              src={videoUrl}
-            
+              src={videoUrl} 
               controls
-              className="w-[200px] h-[200px] rounded-lg  "
+              className="w-[300px] h-[200px] rounded-lg  "
             />
             <button
               onClick={() => {

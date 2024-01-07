@@ -5,17 +5,15 @@ import { useEffect, useState } from "react";
 import { ServiceUrl } from "../../global";
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import Link from "next/link";
-import LoadingSpinner from "../../Components/Loader/page";
 import { MdLocationOn, MdOutlineShareLocation } from 'react-icons/md';
 import { IoMdCall } from 'react-icons/io';
-import { RxCross2 } from 'react-icons/rx';
 import { TbArrowAutofitHeight, TbMailFilled } from "react-icons/tb";
-import { FaPhoneSquareAlt } from "react-icons/fa";
-import { BiMailSend } from "react-icons/bi";
 import EmailDailogBox from "../Email_Dailog/page"
 import  CallDialog from "../Call_Dailogbox/page"
 import { useRouter } from "next/navigation";
+import { formatDistanceToNow } from "date-fns";
+import Image from "next/image";
+import Footer from "../Footer/page";
 
 
 export default function FilterLocations(){
@@ -23,7 +21,6 @@ export default function FilterLocations(){
 const router = useSearchParams()
 const [details, setDetails] = useState([]);
 const [searchText, setSearchText] = useState("");
-const [isLoading, setIsLoading] = useState(true);
 const [userid, setUserid] = useState('');
 var purpose  =  router.get('purpose');
 var location =  router.get('location');
@@ -33,8 +30,12 @@ var subType = router.get('subType')
 const routerr = useRouter()
 const [isDialogOpen, setDialogOpen] = useState(false);
 const [isEmailDialogOpen, setEmailDialogOpen] = useState(false);
+const [title, setTitle] = useState('');
+
 
 const toggleDialog = () => {
+  const header_title ="Contact Number"
+  setTitle(header_title)  
   setDialogOpen(!isDialogOpen);
 };
 
@@ -42,6 +43,9 @@ const toggleDialog = () => {
 const openEmailDialog = () => {
   setEmailDialogOpen(true);
 };
+
+
+
 
 const closeEmailDialog = () => {
   setEmailDialogOpen(false);
@@ -56,7 +60,6 @@ useEffect(() => {
 
   const fetchProperty = async () => {
     try {
-      setIsLoading(true);
       const response = await fetch(
         `${ServiceUrl}/Find_PopularLocations/?purpose=${purpose}&city=${city}&location=${location}&subType=${subType}`,
         {
@@ -70,9 +73,7 @@ useEffect(() => {
 
       setDetails(data["filteredProducts"]);
       console.log(data["filteredProducts"], 'data')
-      setIsLoading(false);
     } catch (error) {
-      setIsLoading(false);
       console.error("Error fetching images:", error);
     }
   };
@@ -95,7 +96,30 @@ useEffect(() => {
 
 
 
+  const [timeSinceInsertion, setTimeSinceInsertion] = useState(false);
 
+  useEffect(() => {
+    // Assuming that images is an array of objects and each object has a 'createdAt' property
+      details.map((item,index) => {
+      if (item && item.createdAt) {
+        const insertionDate = new Date(item.createdAt);
+        const timeAgo = formatDistanceToNow(insertionDate, { addSuffix: true });
+        setTimeSinceInsertion(timeAgo);
+    
+        // Update time every minute (you can adjust the interval based on your needs)
+        const intervalId = setInterval(() => {
+          const updatedTimeAgo = formatDistanceToNow(insertionDate, {
+            addSuffix: true,
+          });
+          setTimeSinceInsertion(updatedTimeAgo);
+        }, 60000);
+    
+        return () => clearInterval(intervalId); // Cleanup interval on component unmount
+      }
+    });
+  
+    
+  }, [details]);
 
 
 
@@ -116,102 +140,188 @@ useEffect(() => {
 
 
   return (
-    <div className="mt-[50px] m-11 " >
+    <div className="bg-white min-h-screen w-full">
 
-<div className="relative flex justify-center mb-9 ">
-      <input
-        type="text"
-        value={searchText}
-        onChange={(e) => setSearchText(e.target.value)}
-        placeholder="Search Properties"
-        className=" w-[900px] h-[50px] pl-9  pr-10 border-2 border-gray-300 rounded-lg  focus:outline-none focus:ring-2 focus:ring-purple-500"
-      />
-      <button className="absolute top-1/2 right-2 transform -translate-y-1/2 text-purple-500">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          className="h-5 w-5"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            // strokeWidth="2"
-            d="M16 16 22 22 16 16 8 8 2 2 8 8 16 16"
-          />
-        </svg>
-      </button>
-    </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-        {details.length === 0 ? (
-         
-         <div className="flex justify-center mt-10">
-         <LoadingSpinner />
-         </div>
+<div className="flex justify-center items-center  w-full" >
+        <div
+          className="w-full flex flex-col justify-center items-center opacity-120 bg-black  py-10">
+          <div className=" bg-black  dark:bg-neutral-800 ">
+
+            <div className="flex flex-wrap">
+
+              {/* Purpose  */}
+
+              <div  className="px-1 py-4 flex gap-1">
+                <div className="group inline-block relative">
         
+                  {/* Search Bar */}
 
-        ) : (
-            filteredProperties.map((item) => (
-            <div   key={item._id} className="bg-white w-9/12 rounded-lg overflow-hidden shadow-md">
-             <div onClick={() => GotToNextPage(item) } className="cursor-pointer" >
+                   <div className="flex flex-col justify-center items-center">
+                   <h1 className="text-3xl font-bold text-white mb-4">Explore Properties by Location</h1>
+                 
+                    <div className="w-[630px] ">
+                    
+                      <div className="relative rounded-full ">
+                        <div className="absolute inset-y-0  left-0 flex items-center pl-3 cursor-pointer ">
+                          <svg
+                            className="w-4 h-4 text-gray-500 dark:text-gray-400"
+                            aria-hidden="true"
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 20 20"
+                          >
+                            <path
+                              stroke="currentColor"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width="2"
+                              d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
+                            />
+                          </svg>
+                        </div>
+                        <input
+                          type="text"
+                          value={searchText}
+                          onChange={(e) => setSearchText(e.target.value)}
+                          id="search"
+                          className="block w-full h-[64px] rounded-full  font-sans p-5 pl-10 text-sm text-gray-900 border border-gray-300    focus:ring-blue-500 focus:border-blue-500 dark:bg-blue-700 dark:border-blue-600 bg-white dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                          placeholder="Search by city, location, property type, price, bedrooms, bathrooms..."
+                          required
+                        />
+                      </div>
+                    </div>
 
-          
-              <img
-                className="w-full h-[150px] object-cover object-center"
-                src={`${ServiceUrl}/Product/?filename=${item.images[0]["name"]}`}
-                alt={item.images.name}
-              />
-                 </div>
-              <div className="p-4">
-                <div className="flex flex-row justify-between">
-                  <text className="text-gray-400 text-xs font-sans">Added: 6 days Ago</text>
-                  <img src="/verification.png" className="w-5 h-5" />
+                  </div>
                 </div>
-                <p className="text-xs text-gray-700 mb-2">
-                  Pkr
-                  <span className="text-sm text-black font-medium font-sans"> {item.price}</span>
-                </p>
+              </div>
+            </div>
+
+          </div>
+        
+          </div>
+        </div>
+      
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 p-10">
+        {details.length === 0 ? (
+      
+       [...Array(3)].map((_,index) => (
+        <div key={index} className="bg-white border mb-10 border-gray-300 w-[400px] rounded-[30px] overflow-hidden shadow-lg animate-pulse ">
+
+      <div className="cursor-pointer p-3" >
+<div className="w-full h-[180px] object-cover object-center rounded-[30px] bg-gray-200"/>
+      </div>
+
+      <div className="p-4">
+        <div className="flex flex-row justify-between mb-2" >
+          <div className="text-gray-400 bg-gray-200 text-xs w-[43%] h-5 rounded-full font-sans" />
+          <div  className="w-5 h-5 bg-gray-200 rounded-full" />
+        </div>
+        
+        <div className="text-gray-400 bg-gray-200 mb-2 text-xs w-[43%] h-5 rounded-full font-sans" />
+        <div className="text-gray-400 bg-gray-200 mb-2  text-xs w-[43%] h-5 rounded-full font-sans" />
+      
+        
+        <div className="flex justify-start gap-2 w-full mb-2 ">  
+               <div className="h-5 w-5 rounded-full bg-slate-200"></div>
+                <div className="mb-1 h-5 w-[35%] rounded-lg bg-slate-200 text-lg"></div>
+                </div>
+                
+                <div className="flex justify-start gap-2 w-full mb-2 ">  
+               <div className="h-5 w-5 rounded-full bg-slate-200"></div>
+                <div className="mb-1 h-5 w-[35%] rounded-lg bg-slate-200 text-lg"></div>
+                </div>
+      
+      <div className=" flex items-center justify-center px-4 mb-5">
+        <button
+          className="flex justify-center items-center gap-2 text-white bg-gray-200  font-medium rounded-full text-xs px-5 w-full py-3.5 text-center mr-2 mb-2"
+        >
+        </button>
+
+
+        <button
+          className="flex justify-center items-center gap-2 text-white bg-gray-200 rounded-full  text-xs px-5 w-full py-3.5  mr-2 mb-2"
+        >
+        </button>
+
+      </div>
+
+    </div>
+</div>
+
+))
+       
+       
+       ) : (
+  
+          filteredProperties.map((item) => (
+                <div key={item._id} className="bg-white border p-3 mb-10 border-gray-300 w-[400px] rounded-[30px] overflow-hidden shadow-lg">
+    
+              <div className="w-full h-[180px] relative cursor-pointer p-3" onClick={() => GotToNextPage(item)} >
+                <Image
+                  className="object-cover object-center rounded-[30px]"
+                  src={`${ServiceUrl}/Product/?filename=${item.images[0]["name"]}`}
+                  alt={item.images.name}
+                layout="fill"
+                />
+              </div>
+              <div className="p-4">
+                <div className="flex flex-row justify-between" >
+                  <text className="text-gray-400 text-xs font-sans" >{`Added: ${timeSinceInsertion}` || 0 }</text>
+                  <Image  src="/verification.png" width={20} height={20} />
+                </div>
+                <p className="text-xs text-gray-700 mb-2">Pkr
+                  <span className="text-sm text-black font-medium font-sans" > {item.price}</span></p>
                 <h2 className="text-sm font-semibold text-gray-900 mb-2">{item.title}</h2>
                 <div className="flex items-center gap-2 text-xs text-black mb-2">
                   <MdLocationOn />
                   {item.location}
                 </div>
                 <div className="flex flex-row items-center text-sm text-gray-600">
+
                   <div className="flex items-center text-xs text-black gap-2">
                     <MdOutlineShareLocation />
                     {item.city}
                   </div>
                   <div className="flex items-center font-sans ml-3 text-xs gap-2 text-black">
+
                     <TbArrowAutofitHeight />
                     {item.Area_size}
                   </div>
                 </div>
               </div>
+              <div className=" flex items-center justify-center px-4 mb-5">
+                <button
+                  onClick={openEmailDialog}
 
-              <div className=" flex items-center justify-center mb-5">
-                <button onClick={openEmailDialog}
-                  className="flex gap-2 text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 shadow-lg shadow-purple-500/50 dark:shadow-lg dark:shadow-purple-800/80 font-medium rounded-lg text-xs px-5 py-2.5 text-center mr-2 mb-2"
+                  className="flex justify-center items-center gap-2 text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 shadow-lg shadow-purple-500/50 dark:shadow-lg dark:shadow-purple-800/80 font-medium rounded-full text-xs px-5 w-full py-3.5 text-center mr-2 mb-2"
                 >
                   <TbMailFilled className="w-4 h-4" />
                   Email
                 </button>
-                <CallDialog call={item.mobile} isOpen={isDialogOpen} onClose={toggleDialog} />
-  <EmailDailogBox item={item}  isOpen={isEmailDialogOpen} onClose={closeEmailDialog}  />
+
+
                 <button
-                onClick={toggleDialog}
-                  className="flex gap-2 text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 shadow-lg shadow-purple-500/50 dark:shadow-lg dark:shadow-purple-800/80 font-medium rounded-lg text-xs px-5 py-2.5 text-center mr-2 mb-2"
+                  className="flex justify-center items-center gap-2 text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 shadow-lg shadow-purple-500/50 dark:shadow-lg dark:shadow-purple-800/80 font-medium rounded-full  text-xs px-5 w-full py-3.5  mr-2 mb-2"
+                  onClick={toggleDialog}
                 >
                   <IoMdCall className="w-4 h-4" />
                   Call
                 </button>
+
+
+                <CallDialog call={item.mobile} title={title} isOpen={isDialogOpen} onClose={toggleDialog} />
+                <EmailDailogBox item={item} isOpen={isEmailDialogOpen} onClose={closeEmailDialog} />
+
               </div>
+
             </div>
-          ))
-        )}
+
+)))}
         <ToastContainer />
       </div>
+      <Footer/>
     </div>
   );
   

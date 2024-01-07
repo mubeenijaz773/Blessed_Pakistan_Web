@@ -21,7 +21,7 @@ import { IoIosSave } from "react-icons/io";
 import { BiBuildingHouse, BiCheckCircle } from "react-icons/bi";
 import { TbHomeSearch } from "react-icons/tb";
 import { GoLocation } from "react-icons/go";
-import { HiOutlineMap } from "react-icons/hi";
+import  Image  from "next/image";
 import  {GoogleMapKey} from  "../../../global"
 
 
@@ -370,13 +370,11 @@ function EditPropertyPage({ params }) {
                 name="subType"
                 value={subType}
                 onChange={handleSubTypeChange}
-                // placeholder='Select SubType'
                 className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300"
               >
                 <option value="">Select SubType</option>
 
-                {/* Home Types */}
-
+             
                 {propertyType == "Home" && (
                   <>
                     {HomeList.map((option) => (
@@ -387,8 +385,7 @@ function EditPropertyPage({ params }) {
                   </>
                 )}
 
-                {/* Plots Types */}
-
+             
                 {propertyType == "Plots" && (
                   <>
                     {Plots_Type.map((option) => (
@@ -399,8 +396,7 @@ function EditPropertyPage({ params }) {
                   </>
                 )}
 
-                {/* Commercials Types */}
-
+             
                 {propertyType == "Commercials" && (
                   <>
                     {Commercial_Type.map((option) => (
@@ -414,8 +410,7 @@ function EditPropertyPage({ params }) {
             </div>
           </div>
 
-          {/* Second Row */}
-
+          
           <div className="flex justify-between gap-6">
             <div className="mb-4 w-full">
               <label
@@ -442,7 +437,9 @@ function EditPropertyPage({ params }) {
             </div>
 
             <div className="mb-4 w-full">
-              {/* Area Size input */}
+          
+
+
               <label
                 className="block text-gray-700 text-sm font-bold mb-2"
                 htmlFor="Area_size"
@@ -460,7 +457,8 @@ function EditPropertyPage({ params }) {
             </div>
 
             <div className="mb-4 w-full">
-              {/* Location input */}
+          
+          
               <label
                 className="block text-gray-700 text-sm font-bold mb-2 "
                 htmlFor="Location"
@@ -478,11 +476,11 @@ function EditPropertyPage({ params }) {
             </div>
           </div>
 
-          {/*     Third  Row */}
-
+          
           <div className="flex justify-between gap-6">
             <div className="mb-4 w-full">
-              {/* Price input */}
+          
+          
               <label
                 className="block text-gray-700 text-sm font-bold mb-2"
                 htmlFor="Price"
@@ -500,7 +498,8 @@ function EditPropertyPage({ params }) {
             </div>
 
             <div className="mb-4 w-full">
-              {/* Bedrooms input */}
+          
+          
               <label
                 className="block text-gray-700 text-sm font-bold mb-2 "
                 htmlFor="Bedrooms"
@@ -518,7 +517,9 @@ function EditPropertyPage({ params }) {
             </div>
 
             <div className="mb-4 w-full">
-              {/* Bathrooms input */}
+          
+          
+          
               <label
                 className="block text-gray-700 text-sm font-bold mb-2 "
                 htmlFor="Bathrooms"
@@ -536,8 +537,7 @@ function EditPropertyPage({ params }) {
             </div>
           </div>
 
-          {/*    Fourth  Row */}
-
+          
           <div className="flex justify-between gap-6">
             <div className="mb-4 w-full">
               <label
@@ -557,7 +557,9 @@ function EditPropertyPage({ params }) {
             </div>
 
             <div className="mb-4 w-full">
-              {/* Description input */}
+          
+          
+          
               <label
                 className="block text-gray-700 text-sm font-bold mb-2 mt-4"
                 htmlFor="Description"
@@ -574,7 +576,8 @@ function EditPropertyPage({ params }) {
             </div>
 
             <div className="mb-4 w-full">
-              {/* Email input */}
+          
+          
               <label
                 className="block text-gray-700 text-sm font-bold mb-2 mt-4"
                 htmlFor="Email"
@@ -592,11 +595,12 @@ function EditPropertyPage({ params }) {
             </div>
           </div>
 
-          {/*   Fifth  Row */}
+          
 
           <div className="flex justify-between gap-6">
             <div className="mb-4 w-full">
-              {/* Mobile input */}
+          
+          
               <label
                 className="block text-gray-700 text-sm font-bold mb-2 mt-4"
                 htmlFor="Mobile"
@@ -612,44 +616,8 @@ function EditPropertyPage({ params }) {
                 className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300"
               />
             </div>
-            {/* <div className="mb-4 w-full">
-           
-              <label
-                className="block text-gray-700 text-sm font-bold mb-2"
-                htmlFor="Longitude"
-              >
-                Longitude
-              </label>
-              <input
-                type="number"
-                id="Longitude"
-                name="Longitude"
-                value={longitude}
-                onChange={handleLongitudeChange}
-                className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300"
-              />
-            </div>
-
-            <div className="mb-4 w-full">
-          
-              <label
-                className="block text-gray-700 text-sm font-bold mb-2 mt-4"
-                htmlFor="Latitude"
-              >
-                Latitude
-              </label>
-              <input
-                type="number"
-                id="Latitude"
-                name="Latitude"
-                value={latitude}
-                onChange={handleLatitudeChange}
-                className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300"
-              />
-            </div> */}
           </div>
 
-    {/* Edit Images  */}
 
 <div className="flex justify-between">
 <h1 className="p-4 font-semibold  text-2xl">Your Property Images</h1>
@@ -680,11 +648,14 @@ function EditPropertyPage({ params }) {
 <div className="flex flex-wrap gap-4 mb-8">
   {previewImages.map((imageUrl, index) => (
     <div key={index} className="relative">
-      <img
+     <div className="w-32 h-32 relative ">
+      <Image
         src={imageUrl}
         alt={`Uploaded Image ${index + 1}`}
-        className="w-32 h-32 object-cover rounded-lg"
+        className=" object-cover rounded-lg"
+        layout="fill"
       />
+      </div>
       <button
         className="absolute top-2 right-2 text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 shadow-lg shadow-red-500/50 dark:shadow-lg dark:shadow-red-800/80 font-medium rounded-lg text-sm px-3 py-1 opacity-30 hover:opacity-100"
         onClick={() => {
@@ -704,11 +675,6 @@ function EditPropertyPage({ params }) {
 ))}
 
 
-
-
-
-
-          {/* Edit Videos  */}
 
 
 <div className="flex justify-between">
@@ -779,7 +745,6 @@ function EditPropertyPage({ params }) {
           onClick={handleMapClick} // Add a click event listener
         >
          
-     // Display a marker for the clicked location
             <MarkerF
               position={{ lat: latitude, lng: longitude }}
             />
@@ -801,8 +766,8 @@ function EditPropertyPage({ params }) {
                 <button
                   onClick={SaveChanges}
                   type="submit"
-                  className="bg-blue-500 mt-7 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:border-blue-300"
-                >
+                  className="flex justify-center p-4 items-center  gap-2 text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 shadow-lg shadow-purple-500/50 dark:shadow-lg dark:shadow-purple-800/80 font-medium rounded-lg text-xs mt-7 text-center "
+                  >
                   Save Changes
                 </button>
               </div>
@@ -843,19 +808,22 @@ const handleDelete = (type , _id , name , imageid) =>{
   return (
     <div className="flex overflow-x-auto space-x-4 p-4">
       {images.map((image) => (
-        <div key={image.name} className="w-32 h-32 flex-shrink-0 relative">
-          <img
+          <div key={image.name} className="relative">
+          <div className="w-32 h-32 relative ">
+           <Image
             src={`${ServiceUrl}/Product/?filename=${image.name}`}
             alt="Property Image"
             className="w-full h-full object-cover rounded-md shadow-md"
-          />
-          <button
-            onClick={() => handleDelete('image', item._id, image.name , image._id)}
-            className="absolute top-0 right-0 bg-red-500 text-white px-2 py-1 rounded-md"
-          >
-            Delete
-          </button>
-        </div>
+            layout="fill"
+           />
+           </div>
+           <button
+             className="absolute top-2 right-2 text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 shadow-lg shadow-red-500/50 dark:shadow-lg dark:shadow-red-800/80 font-medium rounded-lg text-sm px-3 py-1 opacity-30 hover:opacity-100"
+             onClick={() => handleDelete('image', item._id, image.name , image._id)}
+           >
+             <RiDeleteBin6Line className="w-4 h-4" />
+           </button>
+         </div>
       ))}
     </div>
   );
@@ -891,11 +859,12 @@ const EditVideos = ({ item, onDelete }) => {
           />
           <button
             onClick={() => handleDelete('video', item._id, video.name , video._id)}
-            className="absolute top-0 right-0 bg-red-500 text-white px-2 py-1 rounded-md"
-          >
-            Delete
+            className="absolute top-2 right-2 text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 shadow-lg shadow-red-500/50 dark:shadow-lg dark:shadow-red-800/80 font-medium rounded-lg text-sm px-3 py-1 opacity-30 hover:opacity-100"
+            >
+       <RiDeleteBin6Line className="w-4 h-4" />
           </button>
         </div>
+        
       ))}
     </div>
   );

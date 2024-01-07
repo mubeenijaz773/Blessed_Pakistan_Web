@@ -5,7 +5,7 @@ import {UserEmailNotify , SaveUserNotify} from "../../action/EmailNotify";
 import {ServiceUrl} from "../../global"
 import { toast , ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import Image from 'next/image';
 
 
 const BottomSheetCard = () => {
@@ -20,8 +20,7 @@ const BottomSheetCard = () => {
     const fetchImages = async () => {
       try {
 
-        const data = await UserEmailNotify(email)
- 
+        const data = await UserEmailNotify(email) 
      
   if(data['status'] == 200){
   setIsVisible(false);
@@ -110,7 +109,11 @@ if(email != ''){
           <>
       <div className="flex items-center justify-around ">
         <div className="flex flex-grow gap-2">
-        <img src="/bell.png"  className="w-[70px] h-[70px]" />
+        <Image
+         src="/bell.png"      
+         width={50}
+         height={50}
+               />
    
           <span className="text-lg mt-5 text-white font-sans font-semibold">
             Get the latest Property updates, real estate Projects and News
@@ -120,7 +123,7 @@ if(email != ''){
         
             <button
               onClick={handleSubscribe}
-              className="bg-white hover:bg-red-700 hover:text-white font-sans text-black px-4 py-2  focus:outline-none transition-transform transform hover:scale-105"
+              className="bg-white rounded-full hover:bg-purple-700 hover:text-white font-sans text-black px-4 py-2  focus:outline-none transition-transform transform hover:scale-105"
             >
               I want to be Notified
             </button>
@@ -138,8 +141,14 @@ if(email != ''){
           : (
            
            <p className=" justify-center items-center text-center text-xl flex gap-3  text-white  " >
-            <img src="/bellalert.png"  className="w-[70px] h-[70px]" /> 
-            Don't miss out on your dream property! Sign in to get notified via email.  <a className="text-blue-700 decoration-blue-600 text-sm underline" href={'/Components/Login'} >Go to Login Page </a>
+            <Image 
+            src="/bellalert.png"
+            width={50}
+            height={50}
+               /> 
+            Don't miss out on your dream property! Sign in to get notified via email.  
+            <a className="text-blue-700 decoration-blue-600 text-sm underline" href={'/Components/Login'} >Go to Login Page &rsquo;</a>
+
             </p>
          )}
     </div>

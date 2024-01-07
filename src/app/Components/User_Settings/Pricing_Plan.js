@@ -79,10 +79,40 @@ useEffect(() =>{
     <section className="bg-white dark:bg-gray-900">
       <div className="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6">
         <div className="mx-auto max-w-screen-md text-center mb-8 lg:mb-12">
-        <h2 className="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">
-  Explore Our Property Packages
+        <h2 className="mb-4 text-6xl tracking-tight font-extrabold ">
+  <span className="text-gradient-light-blue">
+    Expl
+  </span>
+  <span className="text-gradient-light-gray">
+    ore
+  </span>
+  
+  <span className="text-gradient-light-blue">
+    O
+  </span>
+  <span className="text-gradient-light-gray">
+    ur
+  </span>
+ 
+  <span className="text-gradient-light-blue">
+    Prop
+  </span>
+  <span className="text-gradient-light-gray">
+  erty
+    </span>
+  
+  <br/>
+  <span className="text-gradient-light-blue text-center">
+    Pack
+  </span>
+  <span className="text-gradient-light-gray">
+  ages
+    </span>
+  
 </h2>
-<p className="mb-5 font-light text-gray-500 sm:text-xl dark:text-gray-400">
+
+
+<p className="mb-5 font-light text-gray-500 sm:text-lg dark:text-gray-400">
   Discover the perfect property solution for your needs. At Blessed Pakistan , we specialize in offering tailored packages that align with your goals and preferences. Our focus is on providing exceptional value and contributing to the growth of your property portfolio.
 </p>
 <ToastContainer />

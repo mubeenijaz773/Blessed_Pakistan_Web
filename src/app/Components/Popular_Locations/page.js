@@ -2,7 +2,7 @@
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import React, { useState, useEffect } from "react";
-import { FaHome, FaLocationArrow, FaSearchLocation } from "react-icons/fa";
+import { GrMapLocation } from "react-icons/gr";
 import { ServiceUrl } from "../../global";
 import LoadingSpinner from "../../Components/Loader/page";
 import Link from "next/link";
@@ -134,11 +134,57 @@ export default function DisplayLocations  () {
 {/* /////////////////// Tabs Content ////////////////////////////////////// */}
 
 
-          <div className="border border-b h-0.5 border-gray-300 w-full" />
+          {/* <div className="border border-b h-0.5 border-gray-300 w-full" /> */}
 
           {isLoading ? (
-            <LoadingSpinner />
-          ) : (
+        <>
+        <div className="loading-indicator flex flex-row justify-between flex-wrap animate-pulse w-full mt-5">
+         {[...Array(3)].map((_, index) => (
+          <div
+          key={index}
+          className='py-4'
+          >
+             <div className=" h-[40px] w-[60px] rounded-full flex justify-start bg-slate-200 text-lg"></div>
+                  <div
+                  className="flex justify-between items-center gap-5  w-full mt-2 ">  
+                <div className="h-[40px] w-[40px] rounded-full bg-slate-200"></div>
+                 <div className="mb-1 h-7 w-[300px] rounded-full bg-slate-200 text-lg mt-1"></div>
+            </div>  
+           </div>
+         ))}
+       </div>
+        <div className="loading-indicator flex flex-row justify-between flex-wrap animate-pulse w-full mt-5">
+        {[...Array(3)].map((_, index) => (
+         <div
+         key={index}
+         className='py-4'
+         >
+            <div className=" h-[40px] w-[60px] rounded-full flex justify-start bg-slate-200 text-lg"></div>
+                 <div
+                 className="flex justify-between items-center gap-5  w-full mt-2 ">  
+               <div className="h-[40px] w-[40px] rounded-full bg-slate-200"></div>
+                <div className="mb-1 h-7 w-[300px] rounded-full bg-slate-200 text-lg mt-1"></div>
+           </div>  
+          </div>
+        ))}
+      </div>
+       <div className="loading-indicator flex flex-row justify-between flex-wrap animate-pulse w-full mt-5">
+       {[...Array(3)].map((_, index) => (
+        <div
+        key={index}
+        className='py-4'
+        >
+           <div className=" h-[40px] w-[60px] rounded-full flex justify-start bg-slate-200 text-lg"></div>
+                <div
+                className="flex justify-between items-center gap-5  w-full mt-2 ">  
+              <div className="h-[40px] w-[40px] rounded-full bg-slate-200"></div>
+               <div className="mb-1 h-7 w-[300px] rounded-full bg-slate-200 text-lg mt-1"></div>
+          </div>  
+         </div>
+       ))}
+     </div>
+     </>
+       ) : (
             <div className="mt-4">
               <div className="mb-4">
                 {headerText && (
@@ -155,9 +201,10 @@ export default function DisplayLocations  () {
 
 
 
-                  <div className="flex flex-row  justify-around ">
+<div className='flex flex-row justify-center items-center w-full' >
+                  <div className="flex flex-row  justify-between w-[100%]  gap-10 ">
                     {/* Lahore   */}
-                    <div>
+                    <div className='w-[33%]' >
                       <h1 className="text-black font-medium mt-7 font-sans mb-7">
                         Lahore
                       </h1>
@@ -170,7 +217,7 @@ export default function DisplayLocations  () {
                           <div
                             key={index}
                          
-                            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"
+                            className=""
                           >
                             <div    onClick={GotToNextPage} className="location-card">
                               <Link
@@ -178,9 +225,9 @@ export default function DisplayLocations  () {
                               >
                                
                                     <div className="flex items-center mb-2">
-                                      <FaLocationArrow className="w-3 h-3 text-blue-700" />
+                                      <GrMapLocation  className="w-5 h-5 text-blue-700" />
 
-                                      <span className="ml-2 font-sans underline text-gray-600 hover:text-blue-500">
+                                      <span className="ml-2 font-sans underline text-sm text-blue-600 hover:text-blue-500">
                                         {location} {activeLocations.length}
                                       </span>
                                     </div>
@@ -194,7 +241,7 @@ export default function DisplayLocations  () {
 
                     {/* Karachi */}
 
-                    <div>
+                    <div  className='w-[33%]' >
                       <h1 className="text-black font-medium mt-7 font-sans mb-7">
                         Karachi
                       </h1>
@@ -207,7 +254,7 @@ export default function DisplayLocations  () {
                           <div
                             key={index}
                            
-                            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"
+                            className=""
                           >
                             <div  onClick={GotToNextPage} className="location-card">
                             <Link
@@ -215,9 +262,9 @@ export default function DisplayLocations  () {
                               >
                               
                                     <div className="flex items-center mb-2">
-                                      <FaLocationArrow className="w-3 h-3 text-blue-700" />
+                                      <GrMapLocation  className="w-5 h-5 text-blue-700" />
 
-                                      <span className="ml-2 font-sans underline text-gray-600 hover:text-blue-500">
+                                      <span className="ml-2 font-sans underline text-sm text-blue-600 hover:text-blue-500">
                                         {location} {activeLocations.length}
                                       </span>
                                     </div>
@@ -231,7 +278,7 @@ export default function DisplayLocations  () {
 
                     {/* Islamabad */}
 
-                    <div>
+                    <div  className='w-[33%]' >
                       <h1 className="text-black font-medium mt-7 font-sans mb-7">
                         Islamabad
                       </h1>
@@ -243,7 +290,7 @@ export default function DisplayLocations  () {
                         <>
                           <div
                             key={index}
-                            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"
+                            className=""
                           >
                             <div    onClick={GotToNextPage} className="location-card">
                             <Link
@@ -251,9 +298,9 @@ export default function DisplayLocations  () {
                               >
                                
                                     <div className="flex items-center mb-2">
-                                      <FaLocationArrow className="w-3 h-3 text-blue-700" />
+                                      <GrMapLocation  className="w-5 h-5 text-blue-700" />
 
-                                      <span className="ml-2 font-sans underline text-gray-600 hover:text-blue-500">
+                                      <span className="ml-2 font-sans text-sm underline text-blue-600 hover:text-blue-500">
                                         {location} {activeLocations.length}
                                       </span>
                                     </div>
@@ -264,6 +311,7 @@ export default function DisplayLocations  () {
                         </>
                       ))}
                     </div>
+                  </div>
                   </div>
                   </>
                 )}
@@ -277,9 +325,11 @@ export default function DisplayLocations  () {
                 {/*  /////////////////////////////  For Sale Plots //////////////////////////// */}
 
                 {activeTab == "For Sale" && (
-                  <div className="flex flex-row  justify-around ">
-                    {/* Lahore   */}
-                    <div>
+           
+<div className='flex flex-row justify-center items-center w-full' >
+                  <div className="flex flex-row  justify-between w-[100%]  gap-10 ">
+                     {/* Lahore   */}
+                    <div className='w-[33%]' >
                       <h1 className="text-black font-medium mt-7 font-sans mb-7">
                         Lahore
                       </h1>
@@ -291,7 +341,7 @@ export default function DisplayLocations  () {
                         <>
                           <div
                             key={index}
-                            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"
+                            className=""
                           >
                             <div    onClick={GotToNextPage} className="location-card">
                             <Link
@@ -299,9 +349,9 @@ export default function DisplayLocations  () {
                               >
                               
                                     <div className="flex items-center mb-2">
-                                      <FaLocationArrow className="w-3 h-3 text-blue-700" />
+                                      <GrMapLocation  className="w-5 h-5 text-blue-700" />
 
-                                      <span className="ml-2 font-sans underline text-gray-600 hover:text-blue-500">
+                                      <span className="ml-2 text-sm font-sans underline text-bllue-600 hover:text-blue-500">
                                         {location} {activeLocations.length}
                                       </span>
                                     </div>
@@ -315,7 +365,7 @@ export default function DisplayLocations  () {
 
                     {/* Karachi */}
 
-                    <div>
+                    <div className='w-[33%]' >
                       <h1 className="text-black font-medium mt-7 font-sans mb-7">
                         Karachi
                       </h1>
@@ -327,7 +377,7 @@ export default function DisplayLocations  () {
                         <>
                           <div
                             key={index}
-                            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"
+                            className=""
                           >
                             <div    onClick={GotToNextPage} className="location-card">
                             <Link
@@ -335,9 +385,9 @@ export default function DisplayLocations  () {
                               >
                              
                                     <div className="flex items-center mb-2">
-                                      <FaLocationArrow className="w-3 h-3 text-blue-700" />
+                                      <GrMapLocation  className="w-5 h-5 text-blue-700" />
 
-                                      <span className="ml-2 font-sans underline text-gray-600 hover:text-blue-500">
+                                      <span className="ml-2 font-sans text-sm underline text-blue-600 hover:text-blue-500">
                                         {location} {activeLocations.length}
                                       </span>
                                     </div>
@@ -351,7 +401,7 @@ export default function DisplayLocations  () {
 
                     {/* Islamabad */}
 
-                    <div>
+                    <div className='w-[33%]' >
                       <h1 className="text-black font-medium mt-7 font-sans mb-7">
                         Islamabad
                       </h1>
@@ -362,7 +412,7 @@ export default function DisplayLocations  () {
                         <>
                           <div
                             key={index}
-                            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"
+                            className=""
                           >
                             <div    onClick={GotToNextPage} className="location-card">
                             <Link
@@ -370,9 +420,9 @@ export default function DisplayLocations  () {
                               >
                               
                                     <div className="flex items-center mb-2">
-                                      <FaLocationArrow className="w-3 h-3 text-blue-700" />
+                                      <GrMapLocation  className="w-5 h-5 text-blue-700" />
 
-                                      <span className="ml-2 font-sans underline text-gray-600 hover:text-blue-500">
+                                      <span className="ml-2 font-sans text-sm underline text-blue-600 hover:text-blue-500">
                                         {location} {activeLocations.length}
                                       </span>
                                     </div>
@@ -383,6 +433,7 @@ export default function DisplayLocations  () {
                         </>
                       ))}
                     </div>
+                  </div>
                   </div>
                 )}
                 {/* //////////////////////////////////////////////////////////////////////////////////// */}
@@ -395,9 +446,14 @@ export default function DisplayLocations  () {
                       Most Popular Locations For Flats
                     </h1>
 
-                    <div className="flex flex-row  justify-around ">
+                  
+<div className='flex flex-row justify-center items-center w-full' >
+                  <div className="flex flex-row  justify-between w-[100%]  gap-10 ">
+                 
+                      
+                      
                       {/* Lahore   */}
-                      <div>
+                      <div className='w-[33%]' >
                         <h1 className="text-black font-medium mt-7 font-sans mb-7">
                           Lahore
                         </h1>
@@ -409,7 +465,7 @@ export default function DisplayLocations  () {
                           <>
                             <div
                               key={index}
-                              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"
+                              className=""
                             >
                               <div     onClick={GotToNextPage} className="location-card">
                               <Link
@@ -417,9 +473,9 @@ export default function DisplayLocations  () {
                               >
                                
                                       <div className="flex items-center mb-2">
-                                        <FaLocationArrow className="w-3 h-3 text-blue-700" />
+                                        <GrMapLocation  className="w-5 h-5 text-blue-700" />
 
-                                        <span className="ml-2 font-sans underline text-gray-600 hover:text-blue-500">
+                                        <span className="ml-2 font-sans text-sm underline text-blue-600 hover:text-blue-500">
                                           {location} {activeLocations.length}
                                         </span>
                                       </div>
@@ -433,7 +489,7 @@ export default function DisplayLocations  () {
 
                       {/* Karachi */}
 
-                      <div>
+                      <div className='w-[33%]'>
                         <h1 className="text-black font-medium mt-7 font-sans mb-7">
                           Karachi
                         </h1>
@@ -445,7 +501,7 @@ export default function DisplayLocations  () {
                           <>
                             <div
                               key={index}
-                              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"
+                              className=""
                             >
                               <div    onClick={GotToNextPage} className="location-card">
                               <Link
@@ -453,9 +509,9 @@ export default function DisplayLocations  () {
                               >
                                
                                       <div className="flex items-center mb-2">
-                                        <FaLocationArrow className="w-3 h-3 text-blue-700" />
+                                        <GrMapLocation  className="w-5 h-5 text-blue-700" />
 
-                                        <span className="ml-2 font-sans underline text-gray-600 hover:text-blue-500">
+                                        <span className="ml-2 font-sans text-sm underline text-blue-600 hover:text-blue-500">
                                           {location} {activeLocations.length}
                                         </span>
                                       </div>
@@ -469,7 +525,7 @@ export default function DisplayLocations  () {
 
                       {/* Islamabad */}
 
-                      <div>
+                      <div className='w-[33%]' >
                         <h1 className="text-black font-medium mt-7 font-sans mb-7">
                           Islamabad
                         </h1>
@@ -481,7 +537,7 @@ export default function DisplayLocations  () {
                           <>
                             <div
                               key={index}
-                              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"
+                              className=""
                             >
                               <div    onClick={GotToNextPage} className="location-card">
                               <Link
@@ -489,9 +545,9 @@ export default function DisplayLocations  () {
                               >
                                  
                                       <div className="flex items-center mb-2">
-                                        <FaLocationArrow className="w-3 h-3 text-blue-700" />
+                                        <GrMapLocation  className="w-5 h-5 text-blue-700" />
 
-                                        <span className="ml-2 font-sans underline text-gray-600 hover:text-blue-500">
+                                        <span className="ml-2 font-sans text-sm underline text-blue-600 hover:text-blue-500">
                                           {location} {activeLocations.length}
                                         </span>
                                       </div>
@@ -502,6 +558,7 @@ export default function DisplayLocations  () {
                           </>
                         ))}
                       </div>
+                    </div>
                     </div>
                   </>
                 )}
@@ -515,9 +572,11 @@ export default function DisplayLocations  () {
                       Most Popular Locations For Houses
                     </h1>
 
-                    <div className="flex flex-row  justify-around ">
+                  
+<div className='flex flex-row justify-center items-center w-full' >
+                  <div className="flex flex-row  justify-between w-[100%]  gap-10 ">
                       {/* Lahore   */}
-                      <div>
+                      <div className='w-[33%]' >
                         <h1 className="text-black font-medium mt-7 font-sans mb-7">
                           Lahore
                         </h1>
@@ -529,7 +588,7 @@ export default function DisplayLocations  () {
                           <>
                             <div
                               key={index}
-                              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"
+                              className=""
                             >
                               <div    onClick={GotToNextPage} className="location-card">
                               <Link
@@ -537,9 +596,9 @@ export default function DisplayLocations  () {
                               >
                                
                                       <div className="flex items-center mb-2">
-                                        <FaLocationArrow className="w-3 h-3 text-blue-700" />
+                                        <GrMapLocation  className="w-5 h-5 text-blue-700" />
 
-                                        <span className="ml-2 font-sans underline text-gray-600 hover:text-blue-500">
+                                        <span className="ml-2 font-sans text-sm underline text-blue-600 hover:text-blue-500">
                                           {location} {activeLocations.length}
                                         </span>
                                       </div>
@@ -553,7 +612,7 @@ export default function DisplayLocations  () {
 
                       {/* Karachi */}
 
-                      <div>
+                      <div className='w-[33%]' >
                         <h1 className="text-black font-medium mt-7 font-sans mb-7">
                           Karachi
                         </h1>
@@ -565,7 +624,7 @@ export default function DisplayLocations  () {
                           <>
                             <div
                               key={index}
-                              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"
+                              className=""
                             >
                               <div    onClick={GotToNextPage} className="location-card">
                               <Link
@@ -573,9 +632,10 @@ export default function DisplayLocations  () {
                               >
                                   
                                       <div className="flex items-center mb-2">
-                                        <FaLocationArrow className="w-3 h-3 text-blue-700" />
+                                        <GrMapLocation  className="w-5 h-5 text-blue-700" />
 
-                                        <span className="ml-2 font-sans underline text-gray-600 hover:text-blue-500">
+                                        <span className="ml-2 font-sans text-sm underline text-blue-600 hover:text-blue-500">
+                      
                                           {location}  {activeLocations.length}
                                         </span>
                                       </div>
@@ -589,7 +649,7 @@ export default function DisplayLocations  () {
 
                       {/* Islamabad */}
 
-                      <div>
+                      <div className='w-[33%]' >
                         <h1 className="text-black font-medium mt-7 font-sans mb-7">
                           Islamabad
                         </h1>
@@ -601,7 +661,7 @@ export default function DisplayLocations  () {
                           <>
                             <div
                               key={index}
-                              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"
+                              className=""
                             >
                               <div    onClick={GotToNextPage} className="location-card">
                               <Link
@@ -609,9 +669,10 @@ export default function DisplayLocations  () {
                               >
                               
                                       <div className="flex items-center mb-2">
-                                        <FaLocationArrow className="w-3 h-3 text-blue-700" />
+                                        <GrMapLocation  className="w-5 h-5 text-blue-700" />
 
-                                        <span className="ml-2 font-sans underline text-gray-600 hover:text-blue-500">
+                                        <span className="ml-2 font-sans text-sm underline text-blue-600 hover:text-blue-500">
+                         
                                           {location} {activeLocations.length}
                                         </span>
                                       </div>
@@ -622,6 +683,7 @@ export default function DisplayLocations  () {
                           </>
                         ))}
                       </div>
+                    </div>
                     </div>
                   </>
                 )}
@@ -638,9 +700,11 @@ export default function DisplayLocations  () {
   <h1 className="text-black font-medium mt-7 font-sans text-xl">
   Most Popular Locations For Houses
   </h1>
-                  <div className="flex flex-row  justify-around ">
-                    {/* Lahore   */}
-                    <div>
+              
+<div className='flex flex-row justify-center items-center w-full' >
+                  <div className="flex flex-row  justify-between w-[100%]  gap-10 ">
+                           {/* Lahore   */}
+                    <div className=' w-[33%]' >
                       <h1 className="text-black font-medium mt-7 font-sans mb-7">
                         Lahore
                       </h1>
@@ -652,7 +716,7 @@ export default function DisplayLocations  () {
                         <>
                           <div
                             key={index}
-                            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"
+                            className=""
                           >
                             <div     onClick={GotToNextPage} className="location-card">
                             <Link
@@ -660,9 +724,10 @@ export default function DisplayLocations  () {
                               >
                           
                                     <div className="flex items-center mb-2">
-                                      <FaLocationArrow className="w-3 h-3 text-blue-700" />
+                                      <GrMapLocation  className="w-5 h-5 text-blue-700" />
 
-                                      <span className="ml-2 font-sans underline text-gray-600 hover:text-blue-500">
+                                      <span className="ml-2 font-sans text-sm underline text-blue-600 hover:text-blue-500">
+                            
                                         {location} {activeLocations.length}
                                       </span>
                                     </div>
@@ -676,7 +741,7 @@ export default function DisplayLocations  () {
 
                     {/* Karachi */}
 
-                    <div>
+                    <div className='w-[33%]' > 
                       <h1 className="text-black font-medium mt-7 font-sans mb-7">
                         Karachi
                       </h1>
@@ -688,7 +753,7 @@ export default function DisplayLocations  () {
                         <>
                           <div
                             key={index}
-                            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"
+                            className=""
                           >
                             <div    onClick={GotToNextPage} className="location-card">
                             <Link
@@ -696,9 +761,10 @@ export default function DisplayLocations  () {
                               >
                               
                                     <div className="flex items-center mb-2">
-                                      <FaLocationArrow className="w-3 h-3 text-blue-700" />
+                                      <GrMapLocation  className="w-5 h-5 text-blue-700" />
 
-                                      <span className="ml-2 font-sans underline text-gray-600 hover:text-blue-500">
+                                      <span className="ml-2 font-sans text-sm underline text-blue-600 hover:text-blue-500">
+                               
                                         {location} {activeLocations.length}
                                       </span>
                                     </div>
@@ -712,7 +778,7 @@ export default function DisplayLocations  () {
 
                     {/* Islamabad */}
 
-                    <div>
+                    <div className=' w-[33%]' >
                       <h1 className="text-black font-medium mt-7 font-sans mb-7">
                         Islamabad
                       </h1>
@@ -724,7 +790,7 @@ export default function DisplayLocations  () {
                         <>
                           <div
                             key={index}
-                            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"
+                            className=""
                           >
                             <div    onClick={GotToNextPage} className="location-card">
                             <Link
@@ -732,9 +798,10 @@ export default function DisplayLocations  () {
                               >
                              
                                     <div className="flex items-center mb-2">
-                                      <FaLocationArrow className="w-3 h-3 text-blue-700" />
+                                      <GrMapLocation  className="w-5 h-5 text-blue-700" />
 
-                                      <span className="ml-2 font-sans underline text-gray-600 hover:text-blue-500">
+                                      <span className="ml-2 font-sans text-sm underline text-blue-600 hover:text-blue-500">
+                                  
                                         {location} {activeLocations.length}
                                       </span>
                                     </div>
@@ -745,6 +812,7 @@ export default function DisplayLocations  () {
                         </>
                       ))}
                     </div>
+                  </div>
                   </div>
                   </>
                 )}

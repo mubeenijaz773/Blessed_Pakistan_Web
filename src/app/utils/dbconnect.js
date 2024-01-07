@@ -1,5 +1,3 @@
-
-
 import mongoose from 'mongoose';
  const connection = {}
 const connectDB = async () => { 

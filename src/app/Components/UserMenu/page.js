@@ -81,15 +81,15 @@ setIsLoading(false)
       {isOpen && (
         <div
           ref={dropdownRef}
-          className="absolute right-0 z-10 mt-2 w-[400px] h-[400px] p-3  font-sans origin-top-right rounded-3xl bg-gray-100 shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none"
+          className="absolute right-0 z-10 mt-2 w-[400px] h-[400px] p-3  font-sans origin-top-right rounded-3xl bg-white shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none"
         >
           <div
-            className="relative float-right hover:bg-gray-200 p-3 hover:rounded-full "
+            className="relative float-right rounded-full bg-purple-600 p-3 hover:rounded-full "
             onClick={onClose}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className="h-4 w-4 text-black cursor-pointer"
+              className="h-4 w-4 text-white cursor-pointer"
               viewBox="0 0 20 20"
               fill="currentColor"
             >
@@ -134,7 +134,7 @@ setIsLoading(false)
                 </div>
               ) : (
                 <div className="flex" >
-             <Link href={`/Components/User_Settings/?loginInfo=${data}`} >
+             <Link href={`/Components/User_Settings`} >
                 <p className="text-blue-700 font-semibold text-sm">
                   Manage Your Account
                 </p>

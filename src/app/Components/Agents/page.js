@@ -7,6 +7,7 @@ import { ServiceUrl } from "../../global";
 import { cities } from "../../GetList";
 import { GetAllAgencies } from "../../action/Agency";
 import Footer from "../Footer/page";
+import Image from "next/image";
 
 const customStyles = {
   control: (provided) => ({
@@ -113,18 +114,20 @@ export default function Agents() {
           </div>
         </div>
       </div>
-<h1 className="p-4 font-semibold text-2xl">Agencies</h1>
+
+<h1 className="p-4 font-semibold py-10 text-2xl">Agencies</h1>
       <div className="p-4 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 mb-12">
         {agencylist.map((agency, index) => (
             <div
               key={index}
-              className="bg-white shadow-lg rounded-lg overflow-hidden transform hover:scale-105 duration-300"
-            >
+              className="bg-white shadow-lg rounded-lg overflow-hidden transform hover:scale-105 duration-300">
               <div className="relative">
-                <img
-                  className="w-full h-[400px] object-cover transition transform scale-100 hover:scale-105"
+                <Image
+                  className=" object-cover transition transform scale-100 hover:scale-105"
                   src={`${ServiceUrl}/Add_Agency/?filename=${agency.Logoimages[0]['name']}`}
                   alt={agency.name}
+                  width={800}
+                  height={600}
                 />
                 <div className="absolute inset-0 flex flex-col justify-center p-4 bg-black bg-opacity-50 hover:bg-opacity-0 transition duration-300">
                   <h1 className="text-white text-xl font-bold mb-2">{agency.Agencyname}</h1>
@@ -135,7 +138,6 @@ export default function Agents() {
             </div>
           ))}
       </div>
-
       {/* Footer */}
       <Footer />
     </div>

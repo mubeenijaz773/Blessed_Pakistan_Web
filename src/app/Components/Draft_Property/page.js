@@ -7,9 +7,10 @@ import { FaFileContract, FaPhoneSquareAlt } from "react-icons/fa";
 import { BiChevronLeft, BiChevronRight, BiImage, BiMailSend, BiVideo } from "react-icons/bi";
 import { GoogleMap, LoadScript, MarkerF , OverlayView  } from '@react-google-maps/api';
 
-import {DraftByUserId } from "../../action/draft_property"
+import { DraftByUserId } from "../../action/draft_property"
 import { DotSpinner} from "@uiball/loaders";
-
+import  Image  from 'next/image';
+import ReportDialogBox from "../Properties_Details/reportDialog";
 
 
 
@@ -165,7 +166,7 @@ router.push(`/Components/Add_Property/?id=${id}`)
 
       {/* Videos tab Content  */}
 
-      <div className="flex flex-grow justify-around">
+      <div className="flex flex-row gap-5  ">
         {selectedTab === "Property Videos" && (
           <>
             <VideosSlider videos={data?.videos} />
@@ -319,13 +320,14 @@ router.push(`/Components/Add_Property/?id=${id}`)
           
           <div className="bg-white w-[240px] h-[300px] rounded-lg overflow-hidden shadow-lg">
           {data?.images && data.images.length > 0 ? (
-  <>
-    <img
+    <div className="w-full h-[150px] relative">
+    <Image
       src={`${ServiceUrl}/Product/?filename=${data.images[0]['name'] || ''}`}
-      // alt={`Slide ${data.images[0]['name']}`}
-      className="w-full h-[150px] object-cover"
+      alt={`${data.images[0]['name'] || '' }`}
+      className="object-cover"
+      layout="fill"
     />
-  </>
+  </div>
 ) : (
   <>
     Not Added
@@ -457,71 +459,69 @@ const Card=({data})=>{
 
 
 
-
 const VideosSlider = ({ videos }) => {
   const sliderRef = useRef(null);
   const [scrollLeft, setScrollLeft] = useState(0);
 
   const slideLeft = () => {
     if (sliderRef.current) {
-      sliderRef.current.scrollLeft -= 200; // Adjust the scroll amount as needed
+      sliderRef.current.scrollLeft -= 200;
       setScrollLeft(sliderRef.current.scrollLeft);
     }
   };
 
   const slideRight = () => {
     if (sliderRef.current) {
-      sliderRef.current.scrollLeft += 200; // Adjust the scroll amount as needed
+      sliderRef.current.scrollLeft += 200;
       setScrollLeft(sliderRef.current.scrollLeft);
     }
   };
 
-
-  return (
-    <div className="bg-white ">
-      <div className="container mx-auto">
-        <div className="flex justify-between items-center ">      
-        </div>
+  return (  <div className="bg-white w-full">
+  <div className="container mx-auto relative">
+    <div
+      className="overflow-x-auto whitespace-nowrap row-container h-full w-full"
+      id="slider"
+      ref={sliderRef}
+      style={{ scrollLeft: scrollLeft, scrollBehavior: 'smooth' }}
+    >
+      {videos.map((video, index) => (
         <div
-          className="overflow-x-auto whitespace-nowrap  row-container"
-          id="slider"
-          ref={sliderRef}
-          style={{ scrollLeft: scrollLeft }}
+          key={index}
+          className="relative w-[100%] h-[400px] shadow-lg rounded-lg overflow-hidden"
         >
-          {videos.map((video) => (
-            <div
-              key={video.id}
-              className="inline-block w-full h-[400px]  shadow-lg rounded-lg overflow-hidden"
-            >
-              <video
-                src={`${ServiceUrl}/Product/?filename=${video.name}`}
-                controls
-                className="w-full h-full object-cover"
-              />
-            </div>
-
-          ))}
+          <video
+            src={`${ServiceUrl}/Product/?filename=${video.name}`}
+            controls
+            className="w-full object-cover"
+          />
         </div>
-        <div className="flex justify-center space-x-4">
-            <button
-              title="Scroll Left"
-              onClick={slideLeft}
-              className="bg-black hover:bg-white rounded hover:shadow-2xl hover:border  text-white hover:text-black p-3  focus:outline-none"
-            >
-              <BiChevronLeft className="w-4 h-4"  />
-            </button>
-            <button
-              title="Scroll Right"
-              onClick={slideRight}
-              className="bg-black hover:bg-white rounded hover:shadow-2xl hover:border text-white hover:text-black p-3 focus:outline-none"
-        >
-              <BiChevronRight className="w-4 h-4" />
-            </button>
-          </div>
-      </div>
+      ))}
     </div>
+    <div className="absolute top-1/2 left-0 transform -translate-y-1/2">
+      <button
+        title="Scroll Left"
+        onClick={slideLeft}
+        className="bg-black hover:bg-white rounded hover:shadow-2xl hover:border text-white hover:text-black p-3 focus:outline-none"
+      >
+        <BiChevronLeft className="w-4 h-4" />
+      </button>
+    </div>
+    <div className="absolute top-1/2 right-0 transform -translate-y-1/2">
+      <button
+        title="Scroll Right"
+        onClick={slideRight}
+        className="bg-black hover:bg-white rounded hover:shadow-2xl hover:border text-white hover:text-black p-3 focus:outline-none"
+      >
+        <BiChevronRight className="w-4 h-4" />
+      </button>
+    </div>
+  </div>
+</div>
   );
 };
+
+
 
 //  Images List Slider
 
@@ -558,11 +558,13 @@ const Slider = ({ images }) => {
                 width: `${100 / images?.length}%`,
               }}
             >
-              <img
+                <div className="w-full h-[400px] relative">
+              <Image
                 src={`${ServiceUrl}/Product/?filename=${image?.name}`}
                 alt={`Slide ${image?.name}`}
-                className="w-full rounded h-[400px] object-cover"
+                className="rounded object-cover"
               />
+              </div>
             </div>
           ))}
         </div>

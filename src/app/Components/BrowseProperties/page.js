@@ -8,6 +8,7 @@ import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 
 
 function BrowseProperties({Purpose}) {
@@ -137,9 +138,7 @@ function BrowseProperties({Purpose}) {
 
 
     return (
-
-      <main className='min-h-screen  p-2'>
-      
+      <main className='min-h-screen w-full '>
       <h1 className=" text-black text-2xl font-semibold  font-sans h-full ml-[40px]  "   >Browse Property</h1>
       <div className='flex  justify-between gap-7 px-6 ' >
       {/* Homes */}
@@ -147,7 +146,12 @@ function BrowseProperties({Purpose}) {
       
       <div className="border border-gray-300 rounded-lg bg-white shadow-lg w-[400px] h-auto my-4">
             <div className="flex p-2 mx-4">
-              <img src="/r1.png" className="w-8 h-8 mt-1" />
+              <Image 
+              src="/r1.png"
+              className="mt-1"
+              width={15}
+              height={15}
+              />
               <h1 className="text-black p-2 relative font-semibold text-xl font-sans">Homes</h1>
             </div>
       
@@ -264,7 +268,12 @@ function BrowseProperties({Purpose}) {
       
       <div className="border border-gray-300 rounded-lg bg-white shadow-lg w-[400px] h-auto my-4">
             <div className="flex p-2 mx-4">
-              <img src="/r1.png" className="w-8 h-8 mt-1" />
+              <Image 
+              src="/r1.png" 
+              className="mt-1"
+              width={15}
+              height={15}
+              />
               <h1 className="text-black p-2 relative font-semibold text-xl font-sans">Plots</h1>
             </div>
       
@@ -384,7 +393,12 @@ function BrowseProperties({Purpose}) {
       
       <div className="border border-gray-300 rounded-lg bg-white shadow-lg w-[400px] h-auto my-4">
             <div className="flex p-2 mx-4">
-              <img src="/r1.png" className="w-8 h-8 mt-1" />
+              <Image 
+              src="/r1.png"
+              className=" mt-1"
+              width={15}
+              height={15}
+              />
               <h1 className="text-black p-2 relative font-semibold text-xl font-sans">Commercials</h1>
             </div>
       

@@ -17,6 +17,7 @@ import { BsArrowLeft, BsArrowRight } from "react-icons/bs";
 import { useRouter } from "next/navigation";
 import { formatDistanceToNow } from "date-fns";
 import {SavefavoriteProperty} from "../../action/favorites";
+import Image from "next/image";
 
 
 
@@ -116,7 +117,7 @@ const DisplayProduct = ({ searchTerm }) => {
 
   return (
     <div className="container mx-auto mt-[50px] mb-[100px] p-4 ">
-      <div className="max-w-full bg-slate-100 p-10 rounded-lg relative overflow-hidden">
+      <div className="max-w-full border border-slate-300 p-10 rounded-lg relative overflow-hidden">
         <div className="flex flex-row justify-between">
           <h1 className="text-xl text-neutral-900 font-bold mb-4 font-sans">
             Properties
@@ -136,12 +137,53 @@ const DisplayProduct = ({ searchTerm }) => {
         </div>
 
         {isLoading ? (
-          <LoadingSpinner />
-        ) : (
+        <div className="loading-indicator flex flex-row  gap-10 w-full">
+        {[...Array(4)].map((_, index) => (
+          <div
+            key={index}
+            className=" flex flex-row w-[300px] ml-5   gap-2   p-4 mb-2 rounded-lg cursor-pointer   animate-pulse"     
+          >
+            <li className="flex flex-col items-center gap-2 w-[300px]">
+           
+            <div className="mb-1 h-[200px] w-[300px] rounded-lg bg-slate-200 text-lg"></div>
+           
+           <div className="flex flex-row justify-between w-full ">
+               
+               <div className="flex justify-start gap-2 w-full ">  
+               <div className="h-5 w-5 rounded-full bg-slate-200"></div>
+                <div className="mb-1 h-6 w-[35%] rounded-lg bg-slate-200 text-lg"></div>
+                </div>
+
+                <div className="mb-1 h-6 w-[35%] rounded-lg bg-slate-200 text-lg"></div>
+                
+                </div>
+
+                <div className="flex justify-start gap-2 w-full ">  
+               <div className="h-5 w-5 rounded-full bg-slate-200"></div>
+                <div className="mb-1 h-6 w-[90%] rounded-lg bg-slate-200 text-lg"></div>
+                </div>
+                           
+                
+                 <div className="flex justify-start gap-2 w-full ">  
+               <div className="h-5 w-5 rounded-full bg-slate-200"></div>
+                <div className="mb-1 h-6 w-[90%] rounded-lg bg-slate-200 text-lg"></div>
+           </div>
+     
+           <div className="flex justify-start gap-2 w-full ">  
+                <div className="h-5 w-5 rounded-full bg-slate-200"></div>   
+                <div className="mb-1 h-6 w-[90%] rounded-lg bg-slate-200 text-lg"></div>         
+           </div>
+     
+            </li>
+          </div>
+        ))}
+      </div>
+      
+      ) : (
           <div>
             <BsArrowLeft
               onClick={scrollLeft}
-              className="absolute left-4 top-1/2 z-50 text-blue-500 h-[40px] w-[40px] font-bold bg-white shadow-lg rounded-full p-3 hover:bg-gray-200"
+              className="absolute left-4 top-1/2 z-50 border text-blue-500 h-[40px] w-[40px] font-bold bg-white shadow-lg rounded-full p-3 hover:bg-gray-200"
             >
               &lt;
             </BsArrowLeft>
@@ -171,7 +213,7 @@ const DisplayProduct = ({ searchTerm }) => {
 
             <BsArrowRight
               onClick={scrollRight}
-              className="absolute right-4 top-1/2 text-blue-500 h-[40px] w-[40px] font-bold bg-white shadow-lg rounded-full p-3 hover:bg-gray-200"
+              className="absolute right-4 top-1/2 text-blue-500 border h-[40px] w-[40px] font-bold bg-white shadow-lg rounded-full p-3 hover:bg-gray-200"
             >
               &gt;
             </BsArrowRight>
@@ -188,7 +230,7 @@ export default DisplayProduct;
 function Properties({ item , userid }) {
   const [timeSinceInsertion, setTimeSinceInsertion] = useState(null);
   const [menuVisible, setMenuVisible] = useState(false);
-
+  const router = useRouter(); 
 
   useEffect(() => {
     if (item && item.createdAt) {
@@ -242,86 +284,52 @@ toast.success("Added Success")
 }
 
 
-  return (
-    <div className="w-full">
-      <div className="w-[300px] ml-5 cursor-pointer rounded-lg transform hover:scale-105 transition duration-300 snap-start">
-        <img
-         onClick={() => GotToNextPage(item)}
-          className="rounded-lg h-[200px] w-[300px]"
-          src={`${ServiceUrl}/Product/?filename=${item.images[0]["name"]}`}
-          alt={item.images.name}
-        />
-        <div className="p-1 mt-3">
-
-
-
-          {/*////////////////// Three-dot menu /////////////////// */}
-           
-           <div
-            className="absolute top-2 right-2 cursor-pointer"
-            onClick={handleToggleMenu}
-          >
-            <div className="group relative">
-              <div className="bg-gray-50 rounded-full p-2">
-              <HiDotsVertical className="text-black text-md " />
-              </div>
-         
-         
-              <div
-                className={`absolute ${
-                  menuVisible ? 'flex' : 'hidden'
-                } flex-col right-0 top-8 w-[150px] bg-white border border-gray-200 rounded shadow-md transform transition-transform duration-300 ease-in-out`}
-              >
-            
-                <button
-                  className="flex gap-3 px-4 py-2 text-xs hover:bg-gray-100 text-black"
-                  onClick={() => handleFavorite(item)}
-                >
-                  <GiSelfLove />
-                  
-                  <span>Add to Favorite</span> 
-                </button>
-              </div>
-            </div>
-          </div>
-{/* ///////////////////////////////////// */}
-
-
-          <div className="flex gap-2">
-            <RiPriceTag3Line className="text-gray-900" />
-
-            <div className="flex justify-between">
-              <h5 className="mb-2 text-xs text-neutral-900 font-bold font-sans">
-                {item.price}
-              </h5>
-              <p className="relative text-xs text-black ml-[90px]">
-                Added {timeSinceInsertion || 0}
-              </p>
-            </div>
-          </div>
-
-          <div className="flex gap-2">
-            <HiLocationMarker className="text-gray-900" />
-            <p className="mb-3 text-xs text-neutral-900 font-bold font-sans">
-              {item.city} {item.location}
-            </p>
-          </div>
-
-          <div className="flex space-x-2">
-            <FaHome className="text-gray-900" />
-            <span className="text-xs text-neutral-900 font-bold font-sans">
-              {" "}
-              {item.propertyType} , {item.subType}
-            </span>
-          </div>
-          <div className="flex space-x-2 mt-2">
-            <BiCategoryAlt className="text-gray-900" />
-            <span className="text-xs text-neutral-900 font-bold font-sans">
-              {item.Area_size}
-            </span>
-          </div>
+  return (<div className="w-full">
+  <div className="w-[300px] cursor-pointer rounded-lg transform hover:scale-105 transition duration-300 snap-start">
+    <div className="w-[300px] h-[200px] relative">
+      <Image
+        onClick={() => GotToNextPage(item)}
+        className="rounded-lg"
+        src={`${ServiceUrl}/Product/?filename=${item.images[0]["name"]}`}
+        alt={item.images.name}
+        layout="fill"
+      />
+    </div>
+    <div className="p-1 mt-3">
+      {/* Three-dot menu */}
+      {/* ... (unchanged) */}
+      <div className="flex gap-2">
+        <RiPriceTag3Line className="text-gray-900" />
+        <div className="flex justify-between">
+          <h5 className="mb-2 text-xs text-neutral-900 font-bold font-sans">
+            {item.price}
+          </h5>
+          <p className="relative text-xs text-black ml-[90px]">
+            Added {timeSinceInsertion || 0}
+          </p>
         </div>
       </div>
+      <div className="flex gap-2">
+        <HiLocationMarker className="text-purple-900" />
+        <p className="mb-3 text-xs text-neutral-900 font-bold font-sans">
+          {item.city} {item.location}
+        </p>
+      </div>
+      <div className="flex space-x-2">
+        <FaHome className="text-gray-900" />
+        <span className="text-xs text-neutral-900 font-bold font-sans">
+          {item.propertyType} , {item.subType}
+        </span>
+      </div>
+      <div className="flex space-x-2 mt-2">
+        <BiCategoryAlt className="text-gray-900" />
+        <span className="text-xs text-neutral-900 font-bold font-sans">
+          {item.Area_size}
+        </span>
+      </div>
     </div>
+  </div>
+</div>
+
   );
 }

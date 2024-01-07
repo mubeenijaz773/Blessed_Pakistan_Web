@@ -4,8 +4,8 @@
     align-items: center;
     padding: 10px 15px;
     gap: 15px;
-    background-color: #007ACC;
-    outline: 3px #007ACC solid;
+    background-color: rgb(19, 16, 16);
+    outline: 3px rgb(19, 16, 16) solid;
     outline-offset: -3px;
     border-radius: 5px;
     border: none;
@@ -32,6 +32,3 @@
     color: white;
   }
   
-  .button:hover svg path {
-    fill: #007ACC;
-  }

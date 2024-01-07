@@ -1,18 +1,20 @@
 import React from "react";
+import Image from "next/image";
 import { PiArrowUpRightBold } from 'react-icons/pi'
+import Footer from "../../Footer/page";
 
 const PunjabLandrecode = () => {
   return (
     <main className="bg-white" >
 <div className="bg-white  min-h-screen  relative" >
+      
       <div className="w-full relative h-[400px] shadow-lg bg-white">
-        <img
+        <Image
          src="/land6.jpeg"
-
          alt="Land Image"
-          className="w-full h-full object-cover absolute top-0 left-0 transition-transform group-hover:scale-105"
+        className=" object-cover absolute top-0 left-0 transition-transform group-hover:scale-105"
+        layout="fill"
         />
-        <div className="w-full h-full bg-black opacity-10 absolute top-0 left-0" />
       </div>
       <div className="absolute ml-[20px] mt-[-400px] text-center">
          <h1 className="text-4xl font-sans font-bold  mt-[450px] ">
@@ -22,8 +24,8 @@ const PunjabLandrecode = () => {
         Easily conduct your property transactions using certified documentation via computerised land records
         </p>
        <div className="bg-white flex shadow-lg w-[1200px] h-[400px] rounded-lg mt-10" >
-       <div className="w-[40%] h-[400px] overflow-hidden" >
-<img src="/badsha.jpeg" className="w-full h-full object-cover rounded-lg transform transition duration-500 hover:scale-150 " />
+       <div className="w-[40%] h-[400px] overflow-hidden relative rounded-lg" >
+<Image layout="fill" src="/badsha.jpeg" className=" object-cover rounded-lg transform transition duration-500 hover:scale-150 " />
 
        </div>
        <div className="w-[60%] h-[400px] overflow-hidden " >
@@ -46,6 +48,7 @@ const PunjabLandrecode = () => {
     
       </div>
       <Content/>
+      <Footer/>
  </main>
   );
 };

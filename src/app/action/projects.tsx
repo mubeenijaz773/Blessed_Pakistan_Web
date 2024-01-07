@@ -36,22 +36,3 @@ export async function FindProjectbyid(_id){
 }
 
 
-
-
-export async function DeleteProjectById(_id) {
-    try {
-      const deletedFavorite = await Project.deleteOne({_id}).lean();
-  
-      if (deletedFavorite) {
-        return ({ status: 200, message: "Project deleted successfully" });
-      } else {
-        return ({ status: 404, message: "Project not found" });
-      }
-    } catch (error) {
-      return ({ status: 500, message: "Internal server error", error: error });
-    }
-  }
-  
-  
-
-

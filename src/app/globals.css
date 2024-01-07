@@ -20,6 +20,22 @@ body , html {
   transition: transform 0.3s ease; /* Add a smooth transition effect */
 }
 
+
+.text-gradient-light-blue {
+  background: linear-gradient(90deg, #3498db, #ffffff);
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+.text-gradient-light-gray {
+  background: linear-gradient(90deg, #D3D3D3, #DCDCDC);
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+
+
+
   .custom-scrollbar::-webkit-scrollbar {
     width: 6px;
     height: 7px;
@@ -86,3 +102,51 @@ body , html {
 }
 
 
+@keyframes fromBottomFadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in-from-bottom {
+  animation: fromBottomFadeIn 1s ease-out;
+}
+
+@keyframes fromTopFadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in-from-top {
+  animation: fromTopFadeIn 1s ease-out;
+}
+
+
+/* styles/globals.css */
+@keyframes move-up-rotate {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.animate-move-up-rotate {
+  animation: move-up-rotate 1s linear infinite;
+}

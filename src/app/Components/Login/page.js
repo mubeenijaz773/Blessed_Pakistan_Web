@@ -1,16 +1,14 @@
-'use client'
-
+"use client"
 import Link from "next/link"
 import React, { useState } from 'react';
 import { useRouter } from "next/navigation";
 import { toast , ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {ServiceUrl} from "../../global"
-import { getAllUsers  } from '../../api/changepassowrd/passchange'
-import { FaMailchimp } from "react-icons/fa";
-import { BiCheckbox, BiHappyHeartEyes, BiLock, BiMailSend, BiSolidCheckboxChecked } from "react-icons/bi";
-import { BsEye, BsEyeSlash, BsFillEyeFill, BsLock } from "react-icons/bs";
-import { DotSpinner, Ring } from '@uiball/loaders'
+import {  BiLock, BiMailSend, } from "react-icons/bi";
+import { BsEye, BsEyeSlash, } from "react-icons/bs";
+import { Ring } from '@uiball/loaders'
+import Image from "next/image";
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -76,8 +74,8 @@ const Login = () => {
  <ToastContainer />
  
   <div className="bg-white p-8 rounded-lg shadow-lg w-96 h-[450px] mt-[30px]">
- <div className=" flex justify-center items-center  " >
-  <img src="/logo2.png" className="w-20 h-20 " />
+ <div className=" flex justify-center items-center">
+  <Image src="/logo_app.jpg" width={120} height={120}/>
   </div>
     <h2 className="text-3xl font-semibold mb-4 font-sans text-center text-purple-700">Sign In</h2>
     <form>
@@ -89,7 +87,7 @@ const Login = () => {
   <input
     id="email"
     type="email"
-    placeholder=" "
+    placeholder="Enter email"
     autoFocus
     value={email}
     onChange={(e) => setEmail(e.target.value)}
@@ -113,7 +111,7 @@ const Login = () => {
     type={showPassword ? "text" : "password"}
     value={password}
     onChange={(e) => setPassword(e.target.value)}
-    placeholder=" "
+    placeholder="Enter password"
     autoFocus
     className="relative z-10  border-0 border-b-2 border-blue-500 text-xs h-10 bg-transparent text-gray-900 outline-none px-2 peer"
   />

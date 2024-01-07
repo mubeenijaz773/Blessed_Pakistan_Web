@@ -1,16 +1,18 @@
 import React from "react";
+import Image from "next/image";
 import { PiArrowUpRightBold } from 'react-icons/pi'
+import Footer from "../../Footer/page";
 
 const SindhLandrecode = () => {
   return (
     <main className="bg-white" >
 <div className="bg-white  min-h-screen  relative" >
       <div className="w-full relative h-[400px] shadow-lg bg-white">
-        <img
-src="/land6.jpeg"
-
-alt="Land Image"
-          className="w-full h-full object-cover absolute top-0 left-0 transition-transform group-hover:scale-105"
+        <Image
+            src="/land6.jpeg"
+            alt="Land Image"
+            layout="fill"
+            className="object-cover absolute top-0 left-0 transition-transform group-hover:scale-105"
         />
         <div className="w-full h-full bg-black opacity-10 absolute top-0 left-0" />
       </div>
@@ -22,8 +24,8 @@ alt="Land Image"
         Enhance transparency by using computerised land records to find verified details of any property
         </p>
        <div className="bg-white flex shadow-lg w-[1200px] h-[400px] rounded-lg mt-10" >
-       <div className="w-[40%] h-[400px] overflow-hidden" >
-<img src="/quid.jpeg" className="w-full h-full object-cover rounded-lg transform transition duration-500 hover:scale-150 " />
+       <div className="w-[40%] h-[400px] overflow-hidden relative rounded-lg" >
+<Image layout="fill" src="/quid.jpeg" className=" object-cover rounded-lg transform transition duration-500 hover:scale-150 " />
 
        </div>
        <div className="w-[60%] h-[400px] overflow-hidden " >
@@ -46,6 +48,7 @@ alt="Land Image"
     
       </div>
       <SindhContent/>
+      <Footer/>
  </main>
   );
 };

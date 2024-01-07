@@ -13,10 +13,7 @@ export default function Home() {
 
 <Dashboard />
  {/* Render the bottom sheet card */}
-
-
  <BottomSheetCard />
- 
     <ToastContainer position="top-center" /> 
     </main>
   )

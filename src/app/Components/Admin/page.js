@@ -132,7 +132,7 @@ const handleDeleteUSer = async (id) => {
             <span className='text-xs text-zinc-50 mr-6 flex justify-end '>{user.role}</span>
           </div>
 
-          {/* <img src='/1.avif' className='w-10 h-10 object-cover' /> */}
+          {/* <Image src='/1.avif' className='w-10 h-10 object-cover' /> */}
           <div  className="    bg-white   focus:outline-none focus:ring-purple-300 dark:focus:ring-white shadow-lg cursor-pointer border-none rounded-full w-[40px] h-[40px] p-3 relative ml-4 ">
               <p className="text-black text-sm text-center relative uppercase ">
                 {user.username?.charAt(0)}
