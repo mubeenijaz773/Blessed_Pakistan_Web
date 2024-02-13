@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "target": "es5",
     "lib": [
       "dom",
       "dom.iterable",
@@ -26,8 +27,14 @@
     "next-env.d.ts",
     ".next/types/**/*.ts",
     "**/*.ts",
-    "**/*.tsx"
-, "src/app/api/Product/route.jsx", "src/app/Loader/page.jsx", "src/app/api/Fetch_Agency/route.js"  ],
+    "**/*.tsx",
+    "src/app/api/Product/route.jsx",
+    "src/app/Loader/page.jsx",
+    "src/app/api/Fetch_Agency/route.js",
+    "src/app/Components/BrowseProperties/page.jsx",
+    "src/app/Components/BrowseProperties/page.js",
+    "build/types/**/*.ts"
+  ],
   "exclude": [
     "node_modules"
   ]

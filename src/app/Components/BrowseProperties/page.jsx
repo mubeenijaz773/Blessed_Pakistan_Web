@@ -1,24 +1,23 @@
 "use client"
-import React, { useState,useEffect,useRef } from 'react';
-import { HomeList1, HomeList, AreaSize , Plots_Popular , Plots_Type , Plots_Area , Commercial_Popular , Commercial_Type , Commercial_Area } from '../../GetList';
+import React, { useState,useEffect } from 'react';
+import {  HomeList, AreaSize  , Plots_Type , Plots_Area  , Commercial_Type , Commercial_Area } from '../../GetList';
+
 
 import Link from 'next/link';
 import { ServiceUrl } from '../../global';
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 
 
-function BrowseProperties({Purpose}) {
+function BrowseProperties({purpose}) {
   const [images, setImages] = useState([]);
   // const [userid, setUserid] = useState('');
   const [activeTab, setActiveTab] = useState('Type');
   const [userid, setUserid] = useState('');
   const [activeTab2, setActiveTab2] = useState('Type');
   const [activeTab3, setActiveTab3] = useState('Type');
-  const router = useRouter()
+  // const router = useRouter()
 
 
 
@@ -118,20 +117,20 @@ function BrowseProperties({Purpose}) {
 
 
 
-  function GotToNextPage(){
+  // function GotToNextPage(){
 
-    if(userid == "" || userid == null){
+  //   if(userid == "" || userid == null){
     
-      router.push("/Components/Login")
-      toast.error("You Have to First Login")
-    }else{
+  //     router.push("/Components/Login")
+  //     toast.error("You Have to First Login")
+  //   }else{
     
   
-    }
+  //   }
     
     
     
-    }
+  //   }
     
 
 
@@ -158,17 +157,7 @@ function BrowseProperties({Purpose}) {
       
             {/* Tab bar */}
             <div className="flex justify-start gap-8 px-5 relative">
-              {/* <div
-                onClick={() => setActiveTab('Popular')}
-                className={`cursor-pointer py-2 text-center ${
-                  activeTab === 'Popular'
-                    ? 'border-b-2 font-sans font-medium border-blue-500 text-blue-500'
-                    : 'text-gray-500 font-sans hover:text-blue-500 hover:border-blue-500'
-                }`}
-                ref={tabRefs.Popular}
-              >
-                Popular
-              </div> */}
+           
               <div
                 onClick={() => setActiveTab('Type')}
                 className={`cursor-pointer py-2 text-center ${
@@ -201,37 +190,15 @@ function BrowseProperties({Purpose}) {
       
             <div className="border border-b text-gray-950 bg-gray-950 h-0.5 rounded-lg" />
       
-            {/* Content based on the active tab */}
-            {/* {activeTab === 'Popular' && (
-              <div className="grid grid-cols-3 gap-4 p-5 py-7">
-            
-                {HomeList1.map((item, index) => (
-                  <div
-                    key={index}
-                    className="text-xs border flex justify-center  border-gray-200 text-gray-500 rounded text-center items-center transform transition-transform hover:scale-105 cursor-pointer hover:bg-gray-100 hover:shadow-md hover:text-blue-500 hover:border-blue-500"
-                  >
-                   
-                      <div className="flex flex-col py-2 space-x-2">
-                        <text className="mt-1 font-bold text-black">{item.name}</text>
-                        <p className="font-sans">{item.type}</p>
-                      </div>
-                 
-                  </div>
-                ))}
-              </div>
-            )} */}
-      
-            {/* You can add similar sections for 'Type' and 'Area Size' tabs */}
             {activeTab === 'Type' && (
               <div className="grid grid-cols-3 gap-4 p-5 py-7">
-              {/* Populate items for the 'Popular' tab */}
-              {/* Replace HomeList with your actual data */}
+         
               {HomeList.map((item, index) => (
                 <div
                   key={index}
                   className="text-xs border flex justify-center  border-gray-200 text-gray-500 rounded text-center items-center transform transition-transform hover:scale-105 cursor-pointer hover:bg-gray-100 hover:shadow-md hover:text-blue-500 hover:border-blue-500"
                 >
-                  <Link href={`/Components/Property_Filter?purpose=${Purpose}&propertyType=Home&subType=${item.text}`}>
+                  <Link href={`/Components/Property_Filter?purpose=${purpose}&propertyType=Home&subType=${item.text}`}>
                     <div className="flex flex-col py-2 space-x-2">
                       <text className="mt-1 font-bold text-black ">{item.text}</text>
                     </div>
@@ -250,7 +217,7 @@ function BrowseProperties({Purpose}) {
                   key={index}
                   className="text-xs border flex justify-center  border-gray-200 text-gray-500 rounded text-center items-center transform transition-transform hover:scale-105 cursor-pointer hover:bg-gray-100 hover:shadow-md hover:text-blue-500 hover:border-blue-500"
                 >
-                  <Link href={`/Components/Property_Filter?purpose=${Purpose}&propertyType=Home&Area_size=${item.name}`}>
+                  <Link href={`/Components/Property_Filter?purpose=${purpose}&propertyType=Home&Area_size=${item.name}`}>
                     <div className="flex flex-col py-2 space-x-2">
                       <text className="mt-1 font-bold text-black ">{item.name}</text>
                       <p className="font-sans">{item.type}</p>
@@ -269,28 +236,17 @@ function BrowseProperties({Purpose}) {
       <div className="border border-gray-300 rounded-lg bg-white shadow-lg w-[400px] h-auto my-4">
             <div className="flex p-2 mx-4">
               <Image 
-              src="/r1.png" 
-              className="mt-1"
-              width={15}
-              height={15}
-              />
+                src="/r1.png"
+                className="mt-1"
+                width={15}
+                height={15} alt={''}              />
               <h1 className="text-black p-2 relative font-semibold text-xl font-sans">Plots</h1>
             </div>
       
       
             {/* Tab bar */}
             <div className="flex justify-start gap-8 px-5 relative">
-              {/* <div
-                onClick={() => setActiveTab2('Popular')}
-                className={`cursor-pointer py-2 text-center ${
-                  activeTab2 === 'Popular'
-                    ? 'border-b-2 font-sans font-medium border-blue-500 text-blue-500'
-                    : 'text-gray-500 font-sans hover:text-blue-500 hover:border-blue-500'
-                }`}
-                ref={tabRefs2.Popular}
-              >
-                Popular
-              </div> */}
+           
               <div
                 onClick={() => setActiveTab2('Type')}
                 className={`cursor-pointer py-2 text-center ${
@@ -323,38 +279,19 @@ function BrowseProperties({Purpose}) {
       
             <div className="border border-b text-gray-950 bg-gray-950 h-0.5 rounded-lg" />
       
-            {/* Content based on the active tab */}
-            {/* {activeTab2 === 'Popular' && (
-              <div className="grid grid-cols-3 gap-4 p-5 py-7">
-              
-                {Plots_Popular.map((item, index) => (
-                  <div
-                    key={index}
-                    className="text-xs border flex justify-center  border-gray-200 text-gray-500 rounded text-center items-center transform transition-transform hover:scale-105 cursor-pointer hover:bg-gray-100 hover:shadow-md hover:text-blue-500 hover:border-blue-500"
-                  >
-                
-                      <div className="flex flex-col py-2 space-x-2">
-                        <text className="mt-1 font-bold text-black">{item.name}</text>
-                        <p className="font-sans">{item.type}</p>
-                      </div>
-                    
-                  </div>
-                ))}
-              </div>
-            )} */}
+       
       
             {/* You can add similar sections for 'Type' and 'Area Size' tabs */}
             {activeTab2 === 'Type' && (
       
       <div className="grid grid-cols-3 gap-4 p-5 py-7">
-                {/* Populate items for the 'Popular' tab */}
-                {/* Replace HomeList with your actual data */}
+             
                 {Plots_Type.map((item, index) => (
                   <div
                     key={index}
                     className="text-xs border flex justify-center  border-gray-200 text-gray-500 rounded text-center items-center transform transition-transform hover:scale-105 cursor-pointer hover:bg-gray-100 hover:shadow-md hover:text-blue-500 hover:border-blue-500"
                   >
-                    <Link href={`/Components/Property_Filter?purpose=${Purpose}&propertyType=Plots&subType=${item.text}`}>
+                    <Link href={`/Components/Property_Filter?purpose=${purpose}&propertyType=Plots&subType=${item.text}`}>
                       <div className="flex flex-col py-2 space-x-2">
                         <text className="mt-1 font-bold text-black ">{item.text}</text>
                       </div>
@@ -366,14 +303,13 @@ function BrowseProperties({Purpose}) {
       
             {activeTab2 === 'Area Size' && (
               <div className="grid grid-cols-3 gap-4 p-5 py-7">
-              {/* Populate items for the 'Popular' tab */}
-              {/* Replace HomeList with your actual data */}
+         
               {Plots_Area.map((item, index) => (
                 <div
                   key={index}
                   className="text-xs border flex justify-center  border-gray-200 text-gray-500 rounded text-center items-center transform transition-transform hover:scale-105 cursor-pointer hover:bg-gray-100 hover:shadow-md hover:text-blue-500 hover:border-blue-500"
                 >
-                  <Link href={`/Components/Property_Filter?purpose=${Purpose}&propertyType=Plots&Area_size=${item.name}`}>
+                  <Link href={`/Components/Property_Filter?purpose=${purpose}&propertyType=Plots&Area_size=${item.name}`}>
                     <div className="flex flex-col py-2 space-x-2">
                       <text className="mt-1 font-bold text-black ">{item.name}</text>
                       <p className="font-sans">{item.type}</p>
@@ -405,17 +341,7 @@ function BrowseProperties({Purpose}) {
       
             {/* Tab bar */}
             <div className="flex justify-start gap-8 px-5 relative">
-              {/* <div
-                onClick={() => setActiveTab3('Popular')}
-                className={`cursor-pointer py-2 text-center ${
-                  activeTab3 === 'Popular'
-                    ? 'border-b-2 font-sans font-medium border-blue-500 text-blue-500'
-                    : 'text-gray-500 font-sans hover:text-blue-500 hover:border-blue-500'
-                }`}
-                ref={tabRefs3.Popular}
-              >
-                Popular
-              </div> */}
+        
               <div
                 onClick={() => setActiveTab3('Type')}
                 className={`cursor-pointer py-2 text-center ${
@@ -448,37 +374,16 @@ function BrowseProperties({Purpose}) {
       
             <div className="border border-b text-gray-950 bg-gray-950 h-0.5 rounded-lg" />
       
-            {/* Content based on the active tab */}
-            {/* {activeTab3 === 'Popular' && (
-              <div className="grid grid-cols-3 gap-4 p-5 py-7">
-           
-                {Commercial_Popular.map((item, index) => (
-                  <div
-                    key={index}
-                    className="text-xs border flex justify-center  border-gray-200 text-gray-500 rounded text-center items-center transform transition-transform hover:scale-105 cursor-pointer hover:bg-gray-100 hover:shadow-md hover:text-blue-500 hover:border-blue-500"
-                  >
-                   
-                      <div className="flex flex-col py-2 space-x-2">
-                        <text className="mt-1 font-bold text-black ">{item.name}</text>
-                        <p className="font-sans">{item.type}</p>
-                      </div>
-                 
-                  </div>
-                ))}
-              </div>
-            )} */}
-      
-            {/* You can add similar sections for 'Type' and 'Area Size' tabs */}
+       
             {activeTab3 === 'Type' && (
               <div className="grid grid-cols-3 gap-4 p-5 py-7">
-              {/* Populate items for the 'Popular' tab */}
-              {/* Replace HomeList with your actual data */}
+          
               {Commercial_Type.map((item, index) => (
                 <div
                   key={index}
                   className="text-xs border flex justify-center  border-gray-200 text-gray-500 rounded text-center items-center transform transition-transform hover:scale-105 cursor-pointer hover:bg-gray-100 hover:shadow-md hover:text-blue-500 hover:border-blue-500"
                 >
-                  <Link href={`/Components/Property_Filter?purpose=${Purpose}&propertyType=Commercials&subType=${item.text}`}>
+                  <Link href={`/Components/Property_Filter?purpose=${purpose}&propertyType=Commercials&subType=${item.text}`}>
                     <div className="flex flex-col py-2 space-x-2">
                       <text className="mt-1 font-bold text-black ">{item.text}</text>
                     </div>
@@ -490,14 +395,13 @@ function BrowseProperties({Purpose}) {
       
             {activeTab3 === 'Area Size' && (
               <div className="grid grid-cols-3 gap-4 p-5 py-7">
-              {/* Populate items for the 'Popular' tab */}
-              {/* Replace HomeList with your actual data */}
+           
               {Commercial_Area.map((item, index) => (
                 <div
                   key={index}
                   className="text-xs border flex justify-center  border-gray-200 text-gray-500 rounded text-center items-center transform transition-transform hover:scale-105 cursor-pointer hover:bg-gray-100 hover:shadow-md hover:text-blue-500 hover:border-blue-500"
                 >
-                  <Link href={`/Components/Property_Filter?purpose=${Purpose}&propertyType=Commercials&Area_size=${item.name}`}>
+                  <Link href={`/Components/Property_Filter?purpose=${purpose}&propertyType=Commercials&Area_size=${item.name}`}>
                     <div className="flex flex-col py-2 space-x-2">
                       <text className="mt-1 font-bold text-black ">{item.name}</text>
                       <p className="font-sans">{item.type}</p>

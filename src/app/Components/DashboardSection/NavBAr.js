@@ -15,9 +15,7 @@ import { BiDollar, BiSearch, BiSolidCity, BiTrash } from "react-icons/bi";
 import SearchFilter from './SearchFilter'
 import DisplayAgencies from "../View_Agencies/page";
 import Link from "next/link";
-// import  Skeleton  from 'react-loading-skeleton';
-// import  SkeletonTheme from 'react-loading-skeleton';
-// import 'react-loading-skeleton/dist/Skeleton';
+
 
 const Navbar = () => {
   const [show, setshow] = useState(true);
@@ -200,8 +198,8 @@ function  GotoProjects(option){
 {/* Property Filters */}
 
     
-    
-<BrowseProperties  Purpose={selectedOption}  /> 
+{/* purpose={selectedOption} */}
+<BrowseProperties    /> 
 {/*  recent searches */}
 
 
@@ -324,10 +322,10 @@ function RecentSearches({ recentSearches ,isLoading }) {
            className="flex flex-row overflow-x-auto  gap-4 w-[100%] "
          >
              {recentSearches.map((search, index) => (
-                 <Link href={`/Components/ViewAllProperties/?city=${search.city}&propertyType=${search.propertyType}&minPrice=${search.min_price}&maxPrice=${search.max_price}&minAreaSize=${search.min_area}&maxAreaSize=${search.max_area}`} >
+                 <Link  key={index} href={`/Components/ViewAllProperties/?city=${search.city}&propertyType=${search.propertyType}&minPrice=${search.min_price}&maxPrice=${search.max_price}&minAreaSize=${search.min_area}&maxAreaSize=${search.max_area}`} >
               
                <div
-               key={search._id}
+              
                className="border border-gray-500 bg-white hover:bg-gray-100 p-4 mb-2 rounded-lg hover:border-blue-500 hover:border-1 cursor-pointer " >
                  <li className="flex flex-row items-center gap-2 w-[200px]">
                    <div className="text-black">

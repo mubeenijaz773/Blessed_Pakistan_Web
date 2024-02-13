@@ -5,7 +5,7 @@ import React, { useState } from "react";
 import { MdCancel } from "react-icons/md";
 import { FaMobileAlt } from "react-icons/fa";
 import { FaRegCreditCard } from "react-icons/fa6";
-import getStipePromise from "../../lib/stripe";
+// import getStipePromise from "../../lib/stripe";
 
 
 
@@ -171,20 +171,20 @@ function PaymentMethods({ SelectedPlan, onClose }) {
   ];
 
 
-  const handleCheckout = async () => {
-    const stripe = await getStipePromise();
-    const response = await fetch("/api/stripe-session/", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      cache: "no-cache",
-      body: JSON.stringify(products),
-    });
+  // const handleCheckout = async () => {
+  //   const stripe = await getStipePromise();
+  //   const response = await fetch("/api/stripe-session/", {
+  //     method: "POST",
+  //     headers: { "Content-Type": "application/json" },
+  //     cache: "no-cache",
+  //     body: JSON.stringify(products),
+  //   });
 
-    const data = await response.json();
-    if (data.session) {
-      stripe?.redirectToCheckout({ sessionId: data.session.id });
-    }
-  };
+  //   const data = await response.json();
+  //   if (data.session) {
+  //     stripe?.redirectToCheckout({ sessionId: data.session.id });
+  //   }
+  // };
 
 
 
@@ -210,7 +210,7 @@ function PaymentMethods({ SelectedPlan, onClose }) {
             <p className="text-gray-700 font-semibold text-xl">
               Pay by Credit / Debit Card
             </p>
-            <div    onClick={handleCheckout}  className="flex flex-col justify-center items-center mt-4 border h-[200px] w-[300px] rounded-md cursor-pointer transition duration-300 transform hover:scale-105">
+            <div     className="flex flex-col justify-center items-center mt-4 border h-[200px] w-[300px] rounded-md cursor-pointer transition duration-300 transform hover:scale-105">
               <span className="text-3xl">
                 <FaRegCreditCard size={60} />
               </span>

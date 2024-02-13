@@ -9,7 +9,7 @@ const Loading = () => {
                     <div className="w-full h-full flex flex-col justify-center items-center">
                         <div className='animate-move-up-rotate'>
                         <Image 
-        src={`/logo_app.jpg`} width={650} height={650} alt={""} />
+        src={`/logo_app.jpg`} width={650} height={650} alt={"logo"} />
           </div>
                         <span className='mt-5 text-4xl text-blue-600'>Please wait...</span>
                     </div>

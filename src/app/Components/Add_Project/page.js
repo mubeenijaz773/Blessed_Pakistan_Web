@@ -227,6 +227,7 @@ const handleButtonnClick = () => {
                 src="/price.png"
                 width={25}
                 height={25}
+                alt={"logo"}
                 className=" text-blue-500" />
             </div>
             <h2 className="text-xl font-semibold">Add Project Information</h2>
@@ -241,6 +242,7 @@ const handleButtonnClick = () => {
                 src="/price.png" 
                 width={15}
                 height={15}
+                alt={"logo"}
                  />
               </div>
               <label className="block text-gray-900 text-sm font-semibold ">
@@ -266,6 +268,7 @@ const handleButtonnClick = () => {
                   src="/price.png"
                   width={15}
                   height={15}
+                  alt={"logo"}
                    />
               </div>
 
@@ -296,6 +299,7 @@ const handleButtonnClick = () => {
                 src="/price.png"
                 width={15}
                 height={15}
+                alt={"logo"}
                 />
               </div>
               <label className="block text-gray-900 text-sm font-semibold ">
@@ -304,7 +308,7 @@ const handleButtonnClick = () => {
             </div>
 
             <div>
-      {/* <label htmlFor="city">Select a city:</label> */}
+   
       <select
         id="city"
         name="city"
@@ -342,6 +346,7 @@ const handleButtonnClick = () => {
         src="/price.png"
         width={25}
         height={25}
+        alt={"logo"}
         className="text-blue-500" />
 </div>        
         <h2 className="text-xl font-semibold">Google Map Location</h2>
@@ -357,8 +362,6 @@ const handleButtonnClick = () => {
         >
          
       
-         
-            // Display a marker for the clicked location
             <MarkerF
               position={{ lat: latitude, lng: longitude }}
             />
@@ -378,6 +381,7 @@ const handleButtonnClick = () => {
                 src="/price.png"
                 width={15}
                 height={15}
+                alt={"logo"}
                   />
               </div>
               <label className="block text-gray-900 text-sm font-semibold ">
@@ -413,6 +417,7 @@ const handleButtonnClick = () => {
               src="/price.png"
               width={25}
               height={25}
+              alt={"logo"}
                className=" text-blue-500" 
                />
             </div>
@@ -428,6 +433,7 @@ const handleButtonnClick = () => {
                 src="/price.png"
                 width={15}
                 height={15}
+                alt={"logo"}
                  />
               </div>
               <label className="block text-gray-900 text-sm font-semibold ">
@@ -442,6 +448,7 @@ const handleButtonnClick = () => {
                   src="/image.png"
                   width={45}
                   height={45}
+                  alt={"logo"}
                   />
                 </div>
 
@@ -475,7 +482,8 @@ const handleButtonnClick = () => {
                       alt={`Uploaded Image ${index + 1}`}
                       width={250}
                       height={250}
-                      // w-full h-full
+                
+                    
                       className="object-cover rounded-lg"
                     />
                     <button
@@ -514,6 +522,7 @@ const handleButtonnClick = () => {
  src="/play.png"
  width={45}
  height={45}
+ alt={"logo"}
  />    
 </div>
 

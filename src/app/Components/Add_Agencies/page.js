@@ -102,6 +102,9 @@ const Add_Agency = () => {
     }
   };
 
+
+
+  
   const deleteMember = (index) => {
     const updatedMembers = [...members];
     updatedMembers.splice(index, 1);
@@ -288,7 +291,6 @@ const Add_Agency = () => {
             </div>
 
 
-            {/* Displaying Members */}
             {members.map((member, index) => (
               <div key={index} className="mt-5 relative mb-10">
                 <div className="flex flex-row gap-3">
@@ -417,8 +419,6 @@ const Add_Agency = () => {
             >
 
 
-
-            // Display a marker for the clicked location
               <MarkerF
                 position={{ lat: latitude, lng: longitude }}
               />
@@ -430,7 +430,7 @@ const Add_Agency = () => {
         </div>
       </div>
 
-      {/* Agency Images and Videos */}
+
 
       <div className="bg-white  border  p-10">
         <div className="flex flex-row gap-12 justify-center w-[100%]">
@@ -440,6 +440,7 @@ const Add_Agency = () => {
                src="/image.png"
                width={40}
                height={40}
+               alt={"logo"}
                 />
             </div>
             <h2 className="text-xl font-semibold">
@@ -450,7 +451,7 @@ const Add_Agency = () => {
           <div className="flex flex-col w-[65%] ">
             <div className="flex flex-row gap-3 mt-5">
               <div className="border border-gray-100 bg-gray-100 p-2 rounded-full  ">
-                <Image  width={30} height={30} src="/image.png" />
+                <Image  width={30} height={30} src="/image.png" alt={"logo"}/>
               </div>
 
               <label className="block text-gray-900 text-sm font-bold mt-2">
@@ -461,7 +462,7 @@ const Add_Agency = () => {
             <div className="border-dotted border-gray-500 p-4 rounded-lg border-2 mt-2">
               <div className="flex gap-5 w-[50%] ">
                 <div className=" flex justify-center items-center border border-gray-100 bg-gray-100  rounded-full w-20 h-20  ">
-                  <Image  width={70} height={70} src="/image.png"  />
+                  <Image  width={70} height={70} src="/image.png" alt={"logo"} />
                 </div>
 
                 <div>
@@ -511,11 +512,10 @@ const Add_Agency = () => {
               </div>
             </div>
 
-            {/*  Upload Banner */}
 
             <div className="flex flex-row gap-3 mt-5">
               <div className="border border-gray-100 bg-gray-100 p-2 rounded-full  ">
-                <Image width={30} height={30} src="/image.png" />
+                <Image width={30} height={30} src="/image.png" alt={"logo"} />
               </div>
 
               <label className="block text-gray-900 text-sm font-bold mt-2">
@@ -526,7 +526,7 @@ const Add_Agency = () => {
             <div className="border-dotted border-2 border-gray-500 p-4 rounded-lg mt-2">
               <div className="flex gap-5 w-[50%] ">
                 <div className=" flex justify-center items-center border border-gray-100 bg-gray-100  rounded-full w-20 h-20  ">
-                  <Image width={70} height={70} src="/image.png"  />
+                  <Image width={70} height={70} src="/image.png" alt={"logo"}  />
                 </div>
 
                 <div>
@@ -588,7 +588,7 @@ const Add_Agency = () => {
        {success && (
         <div className="flex gap-2 mb-3 mt-3" >
         <Image  width={5}
-                      height={5} src="/success.png" />
+                      height={5} src="/success.png" alt={"logo"} />
       <p className="text-red-600 text-sm text-start">{success}</p>
       </div>
        )}

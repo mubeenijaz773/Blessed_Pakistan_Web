@@ -785,6 +785,7 @@ const center = {
         src="/price.png"
         width={15}
         height={15}
+        alt={"logo"}
         className=" text-blue-500" />
 </div>        
         <h2 className="text-xl font-semibold">Price and Area</h2>
@@ -898,6 +899,7 @@ const center = {
         <Image src="/price.png"
         width={15}
         height={15}
+        alt={"logo"}
         className=" text-blue-500" />
 </div>        
         <h2 className="text-xl font-semibold">Google Map Location</h2>
@@ -913,8 +915,6 @@ const center = {
         >
          
       
-         
-            // Display a marker for the clicked location
             <MarkerF
               position={{ lat: latitude, lng: longitude }}
             />
@@ -971,6 +971,7 @@ const center = {
         <Image src="/price.png" 
         width={15}
         height={15}
+        alt={"logo"}
         className=" text-blue-500" />
 </div>        
         <h2 className="text-xl font-semibold">Feature and Amenities</h2>
@@ -1054,6 +1055,7 @@ const center = {
         <Image src="/price.png"
         width={15}
         height={15}
+        alt={"logo"}
          className=" text-blue-500" />
 </div>        
         <h2 className="text-xl font-semibold">Add Information</h2>
