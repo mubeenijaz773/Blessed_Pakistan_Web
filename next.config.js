@@ -1,29 +1,20 @@
-// /** @type {import('next').NextConfig} */
-// const nextConfig = {
-  
-//    images: {
-//     domains: ['localhost'],
-//   },
-//   eslint: {
-//     ignoreDuringBuilds: true,
-//   },
-// }
-
-// module.exports = nextConfig
-
-
 /** @type {import('next').NextConfig} */
 
 const nextConfig = {
-  distDir: 'build',
+    distDir: 'build',
+    typescript: {
+        // ignoreBuildErrors: true
+    },
 
-  experimental: {
-      serverActions: true,
-      serverActionsBodySizeLimit: '1gb', // formData itms passing size
-     
-  },
+    experimental: {
+        serverActions: true,
+        serverActionsBodySizeLimit: '1gb', // formData itms passing size
+        serverComponentsExternalPackages: ["pdf-parse"],
+    },
+    
+    // Disable HMR
+    // dev: false, // auto reload page on code change
 
 }
 
 module.exports = nextConfig
-

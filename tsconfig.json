@@ -10,30 +10,31 @@
     "skipLibCheck": true,
     "strict": false,
     "noEmit": true,
-    "incremental": true,
     "esModuleInterop": true,
     "module": "esnext",
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
+    "incremental": true,
     "plugins": [
       {
         "name": "next"
       }
-    ]
+    ],
+    "paths": {
+      "@/*": [
+        "./*"
+      ]
+    }
   },
   "include": [
     "next-env.d.ts",
-    ".next/types/**/*.ts",
     "**/*.ts",
     "**/*.tsx",
-    "src/app/api/Product/route.jsx",
-    "src/app/Loader/page.jsx",
-    "src/app/api/Fetch_Agency/route.js",
-    "src/app/Components/BrowseProperties/page.jsx",
-    "src/app/Components/BrowseProperties/page.js",
-    "build/types/**/*.ts"
+    ".next/types/**/*.ts",
+    "build/types/**/*.ts",
+    "models/StructureCategories.js"
   ],
   "exclude": [
     "node_modules"
