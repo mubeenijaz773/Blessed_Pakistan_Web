@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import SettingsTabs from "./settings_tabs";
 import { ServiceUrl } from '@/app/global';
 import NewProduct from "../Add_Property/page";
-import { DotSpinner, Metronome, Ring } from "@uiball/loaders";
+import {GetPropertyUserId} from "@/app/action/Property";
 import PricingPlan from "./Pricing_Plan";
 import { TbBrandProducthunt } from "react-icons/tb";
 import { FaHome } from "react-icons/fa";
@@ -21,46 +21,24 @@ import { Island_Moments } from "next/font/google";
 import AgentProfile from "./AgentProfile";
 import Image from "next/image";
 
-// const tabData = [
-
-// ];
 
 const ProfilePage = () => {
   const [activeTab, setActiveTab] = useState("My Properties"); // Initialize the active tab state
   const [role, setRole] = useState('')
-
-  const [postlisting, setPostListing] = useState([]);
-  const [favoritepostlisting, setFavoritePostListing] = useState([]);
-  const router = useRouter();
-  const [isLoading, setIsLoading] = useState(true);
-  const [isloading1, setIsLoading1] = useState(false);
+ const [postlisting, setPostListing] = useState([]);
+ const [favoritepostlisting, setFavoritePostListing] = useState([]);
+const [isLoading, setIsLoading] = useState(true);
+const [isloading1, setIsLoading1] = useState(false);
 
   useEffect(() => {
     let userRole = localStorage.getItem("role") || "";
     setRole(userRole);
     GetData();
-    CheckUserRole();
+   
     GetpropertyByuserId();
   }, []);
   
-  function CheckUserRole() {
-    // let userRole = localStorage.getItem("role") || "";
-    // let updatedTabData = [...tabData];
   
-    // if (userRole === 'user' && !tabData.some(tab => tab.name === "User Profile")) {
-    //   updatedTabData.push({
-    //     name: "User Profile",
-    //     icon: <CgProfile />,
-    //   });
-    // } else if (userRole === 'agent' && !tabData.some(tab => tab.name === "Agent Profile")) {
-    //   updatedTabData.push({
-    //     name: "Agent Profile",
-    //     icon: <CgProfile />,
-    //   });
-    // }
-  
-    // setTabData(updatedTabData);
-  }
   
 
 
@@ -69,20 +47,10 @@ const ProfilePage = () => {
     try {
       setIsLoading1(true)
       var userid = localStorage.getItem("_id");
-      const response = await fetch(`${ServiceUrl}/PropertyByuserid/${userid}`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await GetPropertyUserId(userid)
 
-      if (!response.ok) {
-        throw new Error("Failed to fetch data");
-      }
-
-      const data = await response.json();
-
-      setPostListing(data["obj"]);
+  
+      setPostListing(response["Get"]);
       setIsLoading1(false);
     } catch (error) {
 
@@ -99,7 +67,7 @@ const ProfilePage = () => {
       var userid = localStorage.getItem("_id");
 
       const data = await GetFavoritePropertyByUserId(userid);
-      console.log(data, "favorite list");
+      // console.log(data, "favorite list");
       setFavoritePostListing(data["Get"]);
       setIsLoading(false);
     } catch (error) {
@@ -111,11 +79,9 @@ const ProfilePage = () => {
   //////////////////////// Side Bar Tabs Click ///////////////////////////////////
 
   const handleTabClick = (tabName) => {
-    var userid = localStorage.getItem("_id");
+   
     setActiveTab(tabName); // Update the active tab state when a tab is clicked
-    // if (tabName == "Agent Profile") {
-    //   router.push(`/Components/AgentProfile/${userid}/?Agent=profile`);
-    // }
+   
   };
 
 
@@ -235,7 +201,7 @@ const ProfilePage = () => {
           </button>
         </li>
       
-      { role === "agent" && (
+      {role === "agent" && (
         <li className="flex justify-center items-center">
           <button
             onClick={() => handleTabClick("Agent Profile")}
@@ -271,6 +237,12 @@ const ProfilePage = () => {
    
 
       {/* Main Content */}
+
+
+
+
+
+
       <div className="flex-1 min-h-screen p-4 overflow-y-auto overflow-hidden ">
 
       <div className="bg-white w-full h-auto rounded-lg p-6 shadow-md">
@@ -287,80 +259,28 @@ const ProfilePage = () => {
       
           <div className="space-y-4">
             {/* Render content based on activeTab */}
-            {activeTab == "My Properties" && (
-<>
-            {isloading1 ? (
-              <div className="mb-2  p-4 rounded-lg flex flex-col animate-pulse w-full  ">
-                {[...Array(3)].map((_,index) => (
-                  <div
-                  key={index}
-                    className="bg-white shadow-lg mb-2 hover:shadow-xl p-4 rounded-lg flex w-full"
-                  >
-                    <div
-                      className="flex flex-row w-1/3 ml-5 gap-2  mb-2 rounded-lg cursor-pointer "
-                    >
-                      <div className="mb-1 h-[200px] w-[300px] rounded-lg bg-slate-200 text-lg"></div>
-                    </div>
-
-                    <div className="w-2/3 p-4 px-5">
-
-                      <div className="flex flex-row">
-                        <div className="flex justify-start gap-2 w-full ">
-                          <div className="h-5 w-5 rounded-full bg-slate-200"></div>
-                          <div className="mb-1 h-6 w-[35%] rounded-lg bg-slate-200 text-lg"></div>
-                        </div>
-
-                        <div className="flex justify-start gap-2 w-full ">
-                          <div className="h-5 w-5 rounded-full bg-slate-200"></div>
-                          <div className="mb-1 h-6 w-[35%] rounded-lg bg-slate-200 text-lg"></div>
-                        </div>
-
-                      </div>
-
-
-                      <div className="flex flex-row mt-5" >
-                        <div className="flex justify-start gap-2 w-full ">
-                          <div className="h-5 w-5 rounded-full bg-slate-200"></div>
-                          <div className="mb-1 h-6 w-[35%] rounded-lg bg-slate-200 text-lg"></div>
-                        </div>
-
-                        <div className="flex justify-start gap-2 w-full ">
-                          <div className="h-5 w-5 rounded-full bg-slate-200"></div>
-                          <div className="mb-1 h-6 w-[35%] rounded-lg bg-slate-200 text-lg"></div>
-                        </div>
-                      </div>
-
-                      <div className="flex justify-start gap-2 w-full mt-5">
-                        <div className="h-5 w-5 rounded-full bg-slate-200"></div>
-                        <div className="mb-1 h-6 w-[35%] rounded-lg bg-slate-200 text-lg"></div>
-                      </div>
-                      <div className="flex justify-start gap-2 w-full mt-5 ">
-                        <div className="h-5 w-5 rounded-full bg-slate-200"></div>
-                        <div className="mb-1 h-6 w-[35%] rounded-lg bg-slate-200 text-lg"></div>
-                      </div>
-
-
-                    </div>
-
-                  </div>
-                ))}
-              </div>
-
-            ) : (
-              <>
-                {postlisting.map((item, index) => (
-                  <MyProperties
-                  key={item._id}
-                    listing={item}
-                    onDeleteProperty={handleDeleteMyProperty}
-                    GetpropertyByuserId={GetpropertyByuserId}
-                  />
-                ))}
-              </>
-            )}
-</>
-
-            )}
+            {activeTab === "My Properties" && (
+  <>
+    {isloading1 ? (
+      <MyPropertiesLoadings />
+    ) : (
+      <>
+        {postlisting.length === 0 ? (
+          <p className="text-center" >No properties found.</p>
+        ) : (
+          postlisting.map((item, index) => (
+            <MyProperties
+              key={item._id}
+              listing={item}
+              onDeleteProperty={handleDeleteMyProperty}
+              GetpropertyByuserId={GetpropertyByuserId}
+            />
+          ))
+        )}
+      </>
+    )}
+  </>
+)}
 
             {activeTab == "Favorites" && (
               <div>
@@ -425,7 +345,7 @@ function MyProperties({ listing, onDeleteProperty,GetpropertyByuserId }) {
 
 
   function handleEditProperty(id) {
-    router.push(`/Components/Edit_property/${id}`)
+    router.push(`/Edit_property/${id}`)
   }
 
   const handleDeleteMyProperty = async () => {
@@ -687,4 +607,70 @@ function MyFavoritesProperties({ listing, isLoading, onRemoveFavorite }) {
 
     </div>
   );
+}
+
+
+
+
+// My Properties Loading
+
+
+const MyPropertiesLoadings = () =>{
+  return(
+    <div className="mb-2  p-4 rounded-lg flex flex-col animate-pulse w-full  ">
+                {[...Array(3)].map((_,index) => (
+                  <div
+                  key={index}
+                    className="bg-white shadow-lg mb-2 hover:shadow-xl p-4 rounded-lg flex w-full"
+                  >
+                    <div
+                      className="flex flex-row w-1/3 ml-5 gap-2  mb-2 rounded-lg cursor-pointer "
+                    >
+                      <div className="mb-1 h-[200px] w-[300px] rounded-lg bg-slate-200 text-lg"></div>
+                    </div>
+
+                    <div className="w-2/3 p-4 px-5">
+
+                      <div className="flex flex-row">
+                        <div className="flex justify-start gap-2 w-full ">
+                          <div className="h-5 w-5 rounded-full bg-slate-200"></div>
+                          <div className="mb-1 h-6 w-[35%] rounded-lg bg-slate-200 text-lg"></div>
+                        </div>
+
+                        <div className="flex justify-start gap-2 w-full ">
+                          <div className="h-5 w-5 rounded-full bg-slate-200"></div>
+                          <div className="mb-1 h-6 w-[35%] rounded-lg bg-slate-200 text-lg"></div>
+                        </div>
+
+                      </div>
+
+
+                      <div className="flex flex-row mt-5" >
+                        <div className="flex justify-start gap-2 w-full ">
+                          <div className="h-5 w-5 rounded-full bg-slate-200"></div>
+                          <div className="mb-1 h-6 w-[35%] rounded-lg bg-slate-200 text-lg"></div>
+                        </div>
+
+                        <div className="flex justify-start gap-2 w-full ">
+                          <div className="h-5 w-5 rounded-full bg-slate-200"></div>
+                          <div className="mb-1 h-6 w-[35%] rounded-lg bg-slate-200 text-lg"></div>
+                        </div>
+                      </div>
+
+                      <div className="flex justify-start gap-2 w-full mt-5">
+                        <div className="h-5 w-5 rounded-full bg-slate-200"></div>
+                        <div className="mb-1 h-6 w-[35%] rounded-lg bg-slate-200 text-lg"></div>
+                      </div>
+                      <div className="flex justify-start gap-2 w-full mt-5 ">
+                        <div className="h-5 w-5 rounded-full bg-slate-200"></div>
+                        <div className="mb-1 h-6 w-[35%] rounded-lg bg-slate-200 text-lg"></div>
+                      </div>
+
+
+                    </div>
+
+                  </div>
+                ))}
+              </div>
+  )
 }

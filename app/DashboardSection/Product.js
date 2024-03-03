@@ -1,18 +1,15 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
-// import { GiHouse } from "react-icons/gi";
+
 import { BiCategoryAlt } from "react-icons/bi";
 import { ServiceUrl } from '@/app/global';
 import { RiPriceTag3Line } from "react-icons/ri";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import {  FaHome } from "react-icons/fa";
-import { MdOutlineDeleteOutline } from "react-icons/md";
-import { MdOutlineModeEdit } from "react-icons/md";
-import { HiDotsVertical } from "react-icons/hi";
-import { GiSelfLove } from "react-icons/gi";
+
 import { HiLocationMarker } from "react-icons/hi";
-import LoadingSpinner from "../Loader/page";
+
 import { BsArrowLeft, BsArrowRight } from "react-icons/bs";
 import { useRouter } from "next/navigation";
 import { formatDistanceToNow } from "date-fns";
@@ -23,41 +20,16 @@ import Image from "next/image";
 
 
 const DisplayProduct = () => {
-  const [images, setImages] = useState([]);
-  const [filteredImages, setFilteredImages] = useState([]);
+  const [properties, setProperties] = useState([]);
+  // const [filteredImages, setFilteredImages] = useState([]);
   const [showAllProperties, setShowAllProperties] = useState(false);
   const [userid, setUserid] = useState("");
   const scrollContainerRef = useRef(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [isDeleting, setIsDeleting] = useState(false);
+  // const [isDeleting, setIsDeleting] = useState(false);
 
   const router = useRouter();
 
-  const handleDelete = async (propertyId, filename) => {
-    try {
-      const response = await fetch(`${ServiceUrl}/Product`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          filename,
-        }),
-      });
-
-      if (response.ok) {
-        fetchImages();
-        // File and document deleted successfully
-        // Implement any UI updates, like removing the deleted property from the list
-        console.log("Property deleted successfully!");
-      } else {
-        // Handle error
-        console.error("Delete failed:", response.statusText);
-      }
-    } catch (error) {
-      console.error("Delete failed:", error);
-    }
-  };
 
   useEffect(() => {
     fetchImages();
@@ -73,7 +45,8 @@ const DisplayProduct = () => {
         },
       });
       const data = await response.json();
-      setImages(data["Productdata"]);
+      console.log(data , "properties")
+      setProperties(data["products"]);
       setIsLoading(false);
     } catch (error) {
       console.error("Error fetching images:", error);
@@ -115,6 +88,31 @@ const DisplayProduct = () => {
   };
 
 
+  const handleDelete = async (propertyId, filename) => {
+    try {
+      const response = await fetch(`${ServiceUrl}/Product`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          filename,
+        }),
+      });
+
+      if (response.ok) {
+        // fetchImages();
+        // File and document deleted successfully
+        // Implement any UI updates, like removing the deleted property from the list
+        console.log("Property deleted successfully!");
+      } else {
+        // Handle error
+        console.error("Delete failed:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Delete failed:", error);
+    }
+  };
   return (
     <div className="container mx-auto mt-[50px] mb-[100px] p-4 ">
       <div className="max-w-full border border-slate-300 p-10 rounded-lg relative overflow-hidden">
@@ -122,7 +120,7 @@ const DisplayProduct = () => {
           <h1 className="text-xl text-neutral-900 font-bold mb-4 font-sans">
             Properties
           </h1>
-          {filteredImages.length > 4 && (
+          {properties.length > 4 && (
             <div className="text-center mt-1">
               <button
                 onClick={toggleShowAllProperties}
@@ -179,7 +177,10 @@ const DisplayProduct = () => {
         ))}
       </div>
       
-      ) : (
+      ): (
+        properties.length === 0 ? (
+          <div className="text-center">No properties found.</div>
+        ) : (
           <div>
             <BsArrowLeft
               onClick={scrollLeft}
@@ -197,8 +198,8 @@ const DisplayProduct = () => {
               }}
             >
               {(showAllProperties
-                ? filteredImages
-                : filteredImages.slice(0, 4)
+                ? properties
+                : properties.slice(0, 4)
               ).map((item, index) => (
                 <div
                   key={index}
@@ -218,7 +219,7 @@ const DisplayProduct = () => {
               &gt;
             </BsArrowRight>
           </div>
-        )}
+       ))}
       </div>
    
     </div>
@@ -258,10 +259,10 @@ function Properties({ item , userid }) {
 
   function GotToNextPage(item) {
     if (userid == "" || userid == null) {
-      router.push("/Components/Login");
+      router.push("/Login");
       toast.error("You Have to First Login");
     } else {
-      router.push(`/Components/Properties_Details/${item._id}`);
+      router.push(`/Properties_Details/${item._id}`);
     }
   }
 
@@ -287,16 +288,18 @@ toast.success("Added Success")
   return (<div className="w-full">
   <div className="w-[300px] cursor-pointer rounded-lg transform hover:scale-105 transition duration-300 snap-start">
     <div className="w-[300px] h-[200px] relative">
-      <Image
-        onClick={() => GotToNextPage(item)}
-        className="rounded-lg"
-        src={`${ServiceUrl}/Product/?filename=${item.images[0]["name"]}`}
-        alt={item.images.name}
-        layout="fill"
-      />
+    <Image
+  onClick={() => GotToNextPage(item)}
+  className="rounded-lg"
+  src={`${ServiceUrl}/Product/?filename=${item.images[0]?.name || 'fallback-image-name'}`}
+  alt={item.images[0]?.name || 'fallback-alt-text'}
+  layout="fill"
+/>
+
     </div>
     <div className="p-1 mt-3">
       {/* Three-dot menu */}
+
       {/* ... (unchanged) */}
       <div className="flex gap-2">
         <RiPriceTag3Line className="text-gray-900" />

@@ -32,7 +32,7 @@ export default function DisplayLocations  () {
         },
       });
       const data = await response.json();
-      setLocations(data["Productdata"]);
+      setLocations(data["products"]);
       setIsLoading(false);
     } catch (error) {
       console.error("Error fetching locations:", error);
@@ -69,7 +69,7 @@ export default function DisplayLocations  () {
 
           if(userid == "" || userid == null){
           
-            router.push("/Components/Login")
+            router.push("/Login")
             toast.error("You Have to First Login")
           }else{
           
@@ -220,7 +220,7 @@ export default function DisplayLocations  () {
                           >
                             <div    onClick={GotToNextPage} className="location-card">
                               <Link
-                                href={`/Components/Filter_Locations?purpose=Rent&location=${location}&city=Lahore&subType=Flats`}
+                                href={`/Filter_Locations?purpose=Rent&location=${location}&city=Lahore&subType=Flats`}
                               >
                                
                                     <div className="flex items-center mb-2">
@@ -257,7 +257,7 @@ export default function DisplayLocations  () {
                           >
                             <div  onClick={GotToNextPage} className="location-card">
                             <Link
-                                href={`/Components/Filter_Locations?purpose=Rent&location=${location}&city=Karachi&subType=Flats`}
+                                href={`/Filter_Locations?purpose=Rent&location=${location}&city=Karachi&subType=Flats`}
                               >
                               
                                     <div className="flex items-center mb-2">
@@ -293,7 +293,7 @@ export default function DisplayLocations  () {
                           >
                             <div    onClick={GotToNextPage} className="location-card">
                             <Link
-                                href={`/Components/Filter_Locations?purpose=Rent&location=${location}&city=Islamabad&subType=Flats`}
+                                href={`/Filter_Locations?purpose=Rent&location=${location}&city=Islamabad&subType=Flats`}
                               >
                                
                                     <div className="flex items-center mb-2">
@@ -344,7 +344,7 @@ export default function DisplayLocations  () {
                           >
                             <div    onClick={GotToNextPage} className="location-card">
                             <Link
-                                href={`/Components/Filter_Locations?purpose=Sell&location=${location}&city=Lahore&subType=Plots`}
+                                href={`/Filter_Locations?purpose=Sell&location=${location}&city=Lahore&subType=Plots`}
                               >
                               
                                     <div className="flex items-center mb-2">
@@ -380,7 +380,7 @@ export default function DisplayLocations  () {
                           >
                             <div    onClick={GotToNextPage} className="location-card">
                             <Link
-                                href={`/Components/Filter_Locations?purpose=Sell&location=${location}&city=Karachi&subType=Plots`}
+                                href={`/Filter_Locations?purpose=Sell&location=${location}&city=Karachi&subType=Plots`}
                               >
                              
                                     <div className="flex items-center mb-2">
@@ -415,7 +415,7 @@ export default function DisplayLocations  () {
                           >
                             <div    onClick={GotToNextPage} className="location-card">
                             <Link
-                                href={`/Components/Filter_Locations?purpose=Sell&location=${location}&city=Islamabad&subType=Plots`}
+                                href={`/Filter_Locations?purpose=Sell&location=${location}&city=Islamabad&subType=Plots`}
                               >
                               
                                     <div className="flex items-center mb-2">
@@ -468,7 +468,7 @@ export default function DisplayLocations  () {
                             >
                               <div     onClick={GotToNextPage} className="location-card">
                               <Link
-                                href={`/Components/Filter_Locations?purpose=Sell&location=${location}&city=Lahore&subType=Flats`}
+                                href={`/Filter_Locations?purpose=Sell&location=${location}&city=Lahore&subType=Flats`}
                               >
                                
                                       <div className="flex items-center mb-2">
@@ -504,7 +504,7 @@ export default function DisplayLocations  () {
                             >
                               <div    onClick={GotToNextPage} className="location-card">
                               <Link
-                                href={`/Components/Filter_Locations?purpose=Sell&location=${location}&city=Karachi&subType=Flats`}
+                                href={`/Filter_Locations?purpose=Sell&location=${location}&city=Karachi&subType=Flats`}
                               >
                                
                                       <div className="flex items-center mb-2">
@@ -540,7 +540,7 @@ export default function DisplayLocations  () {
                             >
                               <div    onClick={GotToNextPage} className="location-card">
                               <Link
-                                href={`/Components/Filter_Locations?purpose=Sell&location=${location}&city=Islamabad&subType=Flats`}
+                                href={`/Filter_Locations?purpose=Sell&location=${location}&city=Islamabad&subType=Flats`}
                               >
                                  
                                       <div className="flex items-center mb-2">
@@ -591,7 +591,7 @@ export default function DisplayLocations  () {
                             >
                               <div    onClick={GotToNextPage} className="location-card">
                               <Link
-                                href={`/Components/Filter_Locations?purpose=Sell&location=${location}&city=Lahore&subType=House`}
+                                href={`/Filter_Locations?purpose=Sell&location=${location}&city=Lahore&subType=House`}
                               >
                                
                                       <div className="flex items-center mb-2">
@@ -627,7 +627,7 @@ export default function DisplayLocations  () {
                             >
                               <div    onClick={GotToNextPage} className="location-card">
                               <Link
-                                href={`/Components/Filter_Locations?purpose=Sell&location=${location}&city=Karachi&subType=House`}
+                                href={`/Filter_Locations?purpose=Sell&location=${location}&city=Karachi&subType=House`}
                               >
                                   
                                       <div className="flex items-center mb-2">
@@ -664,7 +664,7 @@ export default function DisplayLocations  () {
                             >
                               <div    onClick={GotToNextPage} className="location-card">
                               <Link
-                                href={`/Components/Filter_Locations?purpose=Sell&location=${location}&city=Islamabad&subType=House`}
+                                href={`/Filter_Locations?purpose=Sell&location=${location}&city=Islamabad&subType=House`}
                               >
                               
                                       <div className="flex items-center mb-2">
@@ -719,7 +719,7 @@ export default function DisplayLocations  () {
                           >
                             <div     onClick={GotToNextPage} className="location-card">
                             <Link
-                                href={`/Components/Filter_Locations?purpose=Rent&location=${location}&city=Lahore&subType=House`}
+                                href={`/Filter_Locations?purpose=Rent&location=${location}&city=Lahore&subType=House`}
                               >
                           
                                     <div className="flex items-center mb-2">
@@ -756,7 +756,7 @@ export default function DisplayLocations  () {
                           >
                             <div    onClick={GotToNextPage} className="location-card">
                             <Link
-                                href={`/Components/Filter_Locations?purpose=Rent&location=${location}&city=Karachi&subType=House`}
+                                href={`/Filter_Locations?purpose=Rent&location=${location}&city=Karachi&subType=House`}
                               >
                               
                                     <div className="flex items-center mb-2">
@@ -793,7 +793,7 @@ export default function DisplayLocations  () {
                           >
                             <div    onClick={GotToNextPage} className="location-card">
                             <Link
-                                href={`/Components/Filter_Locations?purpose=Rent&location=${location}&city=Islamabad&subType=House`}
+                                href={`/Filter_Locations?purpose=Rent&location=${location}&city=Islamabad&subType=House`}
                               >
                              
                                     <div className="flex items-center mb-2">

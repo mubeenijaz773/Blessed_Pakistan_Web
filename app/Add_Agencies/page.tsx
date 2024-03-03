@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, Suspense, ReactNode } from "react";
 import axios from "axios"; // You'll need axios or another HTTP library to make API requests
 import { ServiceUrl } from "@/app/global";
 import { useSearchParams } from "next/navigation";
@@ -28,19 +28,31 @@ import { IoSaveOutline } from "react-icons/io5";
 import { BiSolidError } from "react-icons/bi";
 import Image from "next/image";
 
-const Add_Agency = () => {
-  const [logoimages, setLogoImages] = useState([]);
+
+// Define the type for the children prop as ReactNode
+interface SuspenseBoundaryProps {
+  children: ReactNode;
+}
+
+// Use the defined type for the children prop
+const SuspenseBoundary = ({ children }: SuspenseBoundaryProps) => (
+  <Suspense fallback={<div>Loading...</div>}>
+    {children}
+  </Suspense>
+);
+const WrapComponent = () =>{
+  const [logoimages, setLogoImages] :any = useState([]);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const router = useRouter();
   const params = useSearchParams();
-  var email = params.get("email");
+  var email:any = params.get("email");
 
   const [agencyName, setAgencyName] = useState("");
   const [ceoName, setCeoName] = useState("");
   const [address, setAddress] = useState("");
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e:any) => {
     const { name, value } = e.target;
 
     // Update the state based on the input field's name
@@ -73,7 +85,7 @@ const Add_Agency = () => {
   const [latitude, setLatitude] = useState("");
   const [longitude, setLongitude] = useState("");
 
-  const handleMapClick = (e) => {
+  const handleMapClick = (e:any) => {
     const newLatitude = e.latLng.lat();
     const newLongitude = e.latLng.lng();
 
@@ -85,8 +97,8 @@ const Add_Agency = () => {
     { name: "", designation: "", phone: "" },
   ]);
 
-  const handleInputChangee = (index, field, value) => {
-    const newMembers = [...members];
+  const handleInputChangee = (index:any, field:any, value:any) => {
+    const newMembers:any = [...members];
     newMembers[index][field] = value;
     setMembers(newMembers);
     console.log(newMembers);
@@ -103,7 +115,7 @@ const Add_Agency = () => {
     }
   };
 
-  const deleteMember = (index) => {
+  const deleteMember = (index:any) => {
     const updatedMembers = [...members];
     updatedMembers.splice(index, 1);
     setMembers(updatedMembers);
@@ -114,9 +126,9 @@ const Add_Agency = () => {
   const fileInputRef: any = React.createRef();
   const [previewLogoImages, setPreviewLogoImages] = useState([]);
 
-  const handleImageUpload = (e) => {
+  const handleImageUpload = (e:any) => {
     const files = Array.from(e.target.files);
-    const newImages = files.map((file: any) => URL.createObjectURL(file));
+    const newImages:any = files.map((file: any) => URL.createObjectURL(file));
     setPreviewLogoImages(newImages);
     setLogoImages([...logoimages, ...e.target.files]);
   };
@@ -128,13 +140,13 @@ const Add_Agency = () => {
 
   //  Upload Banner images
 
-  const [bannerimages, setBannerImages] = useState([]);
+  const [bannerimages, setBannerImages] :any = useState([]);
   const [previewBannerImages, setPreviewBannerImages] = useState([]);
   const videoInputRef: any = React.createRef();
 
-  const handleVideoUpload = (e) => {
+  const handleVideoUpload = (e:any) => {
     const files = Array.from(e.target.files);
-    const newbanner = files.map((file: any) => URL.createObjectURL(file));
+    const newbanner:any = files.map((file: any) => URL.createObjectURL(file));
     setPreviewBannerImages(newbanner);
     setBannerImages([...bannerimages, ...e.target.files]);
   };
@@ -169,11 +181,11 @@ const Add_Agency = () => {
       // Stringify the members array and append it as a single value
       formData.append("members", JSON.stringify(members));
 
-      logoimages.forEach((logo) => {
+      logoimages.forEach((logo:any) => {
         formData.append("logoimages", logo);
       });
 
-      bannerimages.forEach((banner) => {
+      bannerimages.forEach((banner:any) => {
         formData.append("bannerimages", banner);
       });
 
@@ -190,7 +202,7 @@ const Add_Agency = () => {
             setTimeout(() => {
               setSuccess("");
             }, 3000);
-            router.push("/Components/Login");
+            router.push("/Login");
           } else {
             setError("Error uploading file.");
             setTimeout(() => {
@@ -564,7 +576,32 @@ const Add_Agency = () => {
         </div>
       </div>
     </main>
-  );
+  );  
+}
+
+
+
+
+
+
+
+
+const Add_Agency = () => {
+
+
+
+
+return(
+  <>
+    
+    <SuspenseBoundary>
+  <WrapComponent />
+</SuspenseBoundary>
+  </>
+)
+
+
+
 };
 
 export default Add_Agency;

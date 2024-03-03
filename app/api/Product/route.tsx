@@ -2,7 +2,7 @@ import { writeFile } from "fs/promises";
 import { NextRequest, NextResponse } from "next/server";
 import connectDB from "@/utils/dbconnect";
 import Product from "@/models/product";
-import { extname } from 'path'
+import path from 'path';
 import { readFile } from 'fs/promises'
 import { unlink } from "fs/promises";
 import fs from 'fs/promises';
@@ -27,6 +27,7 @@ import { v4 as uuidv4 } from 'uuid'; // Import the UUID library
 
 
 export async function POST(request: NextRequest) {
+  try {
   const data = await request.formData();
   const property_id = data.get("property_id");
   const userid = data.get("userid");
@@ -48,9 +49,10 @@ export async function POST(request: NextRequest) {
   const image_files: File[] = data.getAll("imagefiles") as unknown as File[];
     const video_files: File[] = data.getAll("videofiles") as unknown as File[];
   
-    if (!image_files && !video_files) {
-      return NextResponse.json({ status:400 });
+    if (!image_files.length && !video_files.length) {
+      return NextResponse.json({ status: 400, body: { error: 'No image or video files provided.' } });
     }
+
   
   //  for images List 
   
@@ -60,6 +62,18 @@ export async function POST(request: NextRequest) {
   const uniqueImageFilenames = [];
   const uniqueVideoFilenames = [];
   
+    // Specify the directory where you want to save the files
+    const directory = '../data/propertyimages';
+
+    try {
+      // Check if the directory exists, if not, create it
+      await fs.access(directory);
+    } catch (error) {
+      // Directory doesn't exist, create it
+      await fs.mkdir(directory, { recursive: true });
+    }
+
+
   // Loop through image files
   for (const image of image_files) {
     const bytes = await image.arrayBuffer();
@@ -71,9 +85,11 @@ export async function POST(request: NextRequest) {
     // Add the filename to the uniqueImageFilenames array
     uniqueImageFilenames.push({ name: imageFilename });
   
-    // Save the file to the server with the unique filename
-    const path = `../data/propertyimages/${imageFilename}`;
-    await writeFile(path, buffer);
+    const filePath = path.join(directory, imageFilename);
+    await fs.writeFile(filePath, buffer);
+    // // Save the file to the server with the unique filename
+    // const path = `../data/propertyimages/${imageFilename}`;
+    // await writeFile(path, buffer);
   }
   
   // Loop through video files
@@ -86,16 +102,21 @@ export async function POST(request: NextRequest) {
   
     // Add the filename to the uniqueVideoFilenames array
     uniqueVideoFilenames.push({ name: videoFilename });
-  
+
+
     // Save the file to the server with the unique filename
-    const path = `../data/propertyimages/${videoFilename}`;
-    await writeFile(path, buffer1);
+    const filePath = path.join(directory, videoFilename);
+    await fs.writeFile(filePath, buffer1);
+  
+    // // Save the file to the server with the unique filename
+    // const path = `../data/propertyimages/${videoFilename}`;
+    // await writeFile(path, buffer1);
   }
   
   
-  
-  const property =   new Product({
-    property_id,
+    // Create a new property document
+    const property = new Product({
+      property_id,
       userid,
       purpose,
       propertyType,
@@ -114,45 +135,49 @@ export async function POST(request: NextRequest) {
       Longitude,
       images: uniqueImageFilenames,
       videos: uniqueVideoFilenames,
-      Verified: "Not Verified"
+      Verified: 'Not Verified'
+    });
+
+    // Save the property document
+    await property.save();
+
+    // Send email notifications to subscribers
+    const subscribers = await subscribe.find({}, 'email');
+
+    if (subscribers.length > 0) {
+      const emailList = subscribers.map((subscriber:any) => subscriber.email);
+
+      const mailOptions = {
+        from: user,
+        to: emailList.join(', '),
+        subject: 'New Property Listing: Explore the Latest Property!',
+        html: `
+          <html>
+            <head></head>
+            <body>
+              <h1>New Property Listing</h1>
+              <p>Explore the latest property that just became available!</p>
+              <p>Click the link below to view the property details:</p>
+              <a href="${DomainUrl}">View Property</a>
+            </body>
+          </html>
+        `
+      };
+
+      transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+          console.error('Email sending failed:', error);
+        } else {
+          console.log('Email sent:', info.response);
+        }
       });
+    }
 
-
-      
-   await property.save()
-
- // Send an email notification to subscribers
- const subscribers = await subscribe.find({}, 'email'); // Get all subscriber emails
-
- if (subscribers.length > 0) {
-   const emailList = subscribers.map((subscriber) => subscriber.email);
-
-   const mailOptions = {
-     from: user, // Sender's email address
-     to: emailList.join(', '), // List of subscriber email addresses
-     subject: 'New Property Listing: Explore the Latest Property!', // Email subject
-  html: `
-    <html>
-      <head></head>
-      <body>
-        <h1>New Property Listing</h1>
-        <p>Explore the latest property that just became available!</p>
-        <p>Click the link below to view the property details:</p>
-        <a href="${DomainUrl}">View Property</a>
-      </body>
-    </html>
-  `, 
-   };
-
-   transporter.sendMail(mailOptions, (error, info) => {
-     if (error) {
-       console.error('Email sending failed:', error);
-     } else {
-       console.log('Email sent:', info.response);
-     }
-   });
- }
-return NextResponse.json( { status:200 });
+    return NextResponse.json({ status: 200 });
+} catch (error) {
+  console.error('Error:', error);
+  return NextResponse.json({ status: 500, body: { error: 'Internal server error.' } });
+}
 }
 
 
@@ -163,13 +188,62 @@ return NextResponse.json( { status:200 });
 
 
 
-export async function GET(request) {
+// export async function GET(request) {
+//   const url = new URL(request.url);
+//   const filename = url.searchParams.get('filename');
+
+//   if (!filename) {
+//     return new Response(null, { status: 400, statusText: 'Bad Request' });
+//   }
+
+//   // Assuming the uploaded files are stored in the "/public/tmp" directory
+//   const path = `../data/propertyimages/${filename}`;
+
+//   try {
+//     // Read the file from the filesystem
+//     const fileData = await readFile(path);
+    
+//     // Get the file extension
+//     const extension = filename.split('.').pop().toLowerCase();
+
+//     // Set the appropriate content type based on the file extension
+//     let contentType = 'application/octet-stream'; // Default content type for unknown file types
+
+//     if (extension === 'png') {
+//       contentType = 'image/png';
+//     } else if (extension === 'jpg' || extension === 'jpeg') {
+//       contentType = 'image/jpeg';
+//     } else if (extension === 'mp4') {
+//       contentType = 'video/mp4';
+//     }
+//     // Add more conditions for other supported file types as needed
+
+//     // Set the appropriate headers for the image or video response
+//     const headers = {
+//       'Content-Type': contentType,
+//       'Content-Length': fileData.length.toString(),
+//     };
+
+//     // Return the file as the response
+//     return new Response(fileData, { headers });
+//   } catch (error) {
+//     console.error(`Error reading file: ${error}`);
+//     return new Response(null, { status: 404, statusText: 'Not Found' });
+//   }
+// }
+
+
+
+
+export async function GET(request:any) {
   const url = new URL(request.url);
-  const filename = url.searchParams.get('filename');
+  const filename:any = url.searchParams.get('filename');
 
   if (!filename) {
     return new Response(null, { status: 400, statusText: 'Bad Request' });
   }
+
+  // console.log(filename, "filename")
 
   // Assuming the uploaded files are stored in the "/public/tmp" directory
   const path = `../data/propertyimages/${filename}`;
@@ -177,7 +251,7 @@ export async function GET(request) {
   try {
     // Read the file from the filesystem
     const fileData = await readFile(path);
-    
+
     // Get the file extension
     const extension = filename.split('.').pop().toLowerCase();
 
@@ -188,10 +262,35 @@ export async function GET(request) {
       contentType = 'image/png';
     } else if (extension === 'jpg' || extension === 'jpeg') {
       contentType = 'image/jpeg';
+    } else if (extension === 'gif') {
+      contentType = 'image/gif';
+    } else if (extension === 'bmp') {
+      contentType = 'image/bmp';
+    } else if (extension === 'webp') {
+      contentType = 'image/webp';
+    } else if (extension === 'svg') {
+      contentType = 'image/svg+xml'; // SVG format
     } else if (extension === 'mp4') {
       contentType = 'video/mp4';
+    } else if (extension === 'webm') {
+      contentType = 'video/webm';
+    } else if (extension === 'avi') {
+      contentType = 'video/x-msvideo';
+    } else if (extension === 'mov') {
+      contentType = 'video/quicktime';
+    } else if (extension === 'mkv') {
+      contentType = 'video/x-matroska';
+    } else if (extension === 'mp4') {
+      contentType = 'video/mp4';
+    } else if (extension === 'pdf') {
+      contentType = 'application/pdf'; // Set content type for PDF files
+    } else if (extension === 'doc' || extension === 'docx') {
+      contentType = 'application/msword'; // Set content type for Word files
+    } else if (extension === 'txt') {
+      contentType = 'text/plain'; // Set content type for text files
     }
-    // Add more conditions for other supported file types as needed
+
+
 
     // Set the appropriate headers for the image or video response
     const headers = {
@@ -206,6 +305,7 @@ export async function GET(request) {
     return new Response(null, { status: 404, statusText: 'Not Found' });
   }
 }
+
 
 // Delete API also delete from Folder
 

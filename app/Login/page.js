@@ -119,7 +119,7 @@ const Login = () => {
               )}
               <span>Show Password</span>
             </span>
-            <Link className="text-indigo-600 text-xs font-sans hover:text-indigo-800" href={'/Components/Forgetpassword'}>
+            <Link className="text-indigo-600 text-xs font-sans hover:text-indigo-800" href={'/Forgetpassword'}>
               Forgot Password?
             </Link>
           </div> 
@@ -150,7 +150,7 @@ const Login = () => {
         {/* Sign up link */}
         <div className="flex gap-2 mt-4 justify-center">
           <p className="text-center  text-xs text-gray-600">{`Don't have an account?`}</p>
-          <Link className="text-indigo-600 text-xs hover:text-indigo-800" href={"/Components/Sign_Up"}>
+          <Link className="text-indigo-600 text-xs hover:text-indigo-800" href={"/Sign_Up"}>
             Sign Up 
           </Link>
         </div>

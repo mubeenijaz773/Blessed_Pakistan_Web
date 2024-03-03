@@ -5,7 +5,7 @@ import Product from "@/models/product"
 
 
 
-export async function GET(  content) {
+export async function GET(content) {
 
     const userid = content.params.userid
   

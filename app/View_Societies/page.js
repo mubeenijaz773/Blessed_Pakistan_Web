@@ -82,8 +82,8 @@ export  default function SocietiesPage() {
         },
       });
       const data = await response.json();
-      setImages(data["Productdata"]);
-      console.log(images, data["Productdata"], "data in agency");
+      setImages(data["societies"]);
+    
       setIsLoading(false);
     } catch (error) {
       console.error("Error fetching images:", error);

@@ -1,44 +1,18 @@
 "use client";
-import React, { useState, useEffect, useRef } from "react";
+import React, {  useRef } from "react";
 
 import { ServiceUrl } from '@/app/global';
 
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import { useRouter } from "next/navigation";
-import LoadingSpinner from "../Loader/page";
+
+
 import { BsArrowLeft, BsArrowRight } from "react-icons/bs";
 import Image from "next/image";
 
-export default function DisplayAgencies() {
-  const [images, setImages] = useState([]);
- 
-  const [userid, setUserid] = useState("");
-  const scrollContainerRef = useRef(null);
-  const [isLoading, setIsLoading] = useState(true);
-const router = useRouter()
+export default function DisplayAgencies({Loading ,  Agencies , openAgencyDialog}) {
 
-  useEffect(() => {
-    fetchImages();
-    setUserid(localStorage.getItem("_id"));
-  }, []);
+const scrollContainerRef = useRef(null);
 
-  const fetchImages = async () => {
-    try {
-      const response = await fetch(`${ServiceUrl}/Fetch_Agency`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      const data = await response.json();
-      setImages(data["Productdata"]);
-      console.log(images, data["Productdata"], "data in agency");
-      setIsLoading(false);
-    } catch (error) {
-      console.error("Error fetching images:", error);
-    }
-  };
+
 
   const scrollLeft = () => {
     if (scrollContainerRef.current) {
@@ -58,13 +32,11 @@ const router = useRouter()
     }
   };
 
-
-function GotoAgentProfile(item) {
-  
-  router.push(`/Components/AgentProfile/${item._id}`)
-}
   
   return (
+
+
+   
     <div className="container mx-auto mt-[50px] mb-[100px] px-3 ">
           <div className="max-w-full border border-slate-300 p-10 rounded-lg relative overflow-hidden">
   
@@ -74,36 +46,11 @@ function GotoAgentProfile(item) {
       <div className="rounded-lg relative overflow-hidden">
        
 
-        <ToastContainer />
 
-        {isLoading ? (
-        <div className="loading-indicator flex flex-row flex-wrap gap-10 mt-10">
-        {[...Array(4)].map((_, index) => (
-          <div
-            key={index}
-            className=" flex flex-row w-64 gap-2   p-4 mb-2 rounded-lg cursor-pointer   animate-pulse"     
-          >
-            <li className="flex flex-col items-center gap-2 w-[200px]">
-           
-           <div className="flex flex-row gap-5 w-full">
-
-            <div className=" h-[70px] w-[90px] rounded-lg bg-slate-200 text-lg"></div>
-           
-           <div className="w-full h-full flex-col justify-center items-center  ">
-                 
-                 <div className="mb-1 h-5 w-full rounded-lg bg-slate-200 text-lg mt-2"></div>
-           
-                 <div className="flex justify-start gap-2 w-full mt-2">  
-               <div className="h-4 w-4 rounded-full bg-slate-200"></div>
-                <div className="mb-1 h-5 w-[100px] rounded-lg bg-slate-200 text-lg"></div>
-           </div>
-           </div>
-     
-     </div>
-            </li>
-          </div>
-        ))}
-      </div>
+        {Loading ? (
+       <>
+       <AgencyLoading />
+       </>
        ) : (
           <div>
             <BsArrowLeft
@@ -121,12 +68,12 @@ function GotoAgentProfile(item) {
                 "-ms-overflow-style": "none", // IE and Edge
               }}
             >
-          {images.map((item) => (
+          {Agencies?.map((item) => (
 
 item.status === "Active" && (
 
   <div key={item._id} className="p-2 scroll-snap-align: start;">
-    <div onClick={() => GotoAgentProfile(item)} className="flex flex-row mt-10  gap-4 rounded-lg cursor-pointer transform hover:scale-105 transition duration-300 snap-start bg-white shadow-md p-4 ">
+    <div onClick={() => { openAgencyDialog(item); }} className="flex flex-row mt-10  gap-4 rounded-lg cursor-pointer transform hover:scale-105 transition duration-300 snap-start bg-white shadow-md p-4 ">
      <div className="h-[70px] w-[70px] relative" >
       <Image
         className="rounded-lg "
@@ -167,6 +114,45 @@ item.status === "Active" && (
         )}
       </div>
  </div>
+ 
     </div>
+
+
   );
 }
+
+
+
+const AgencyLoading = () =>{
+  return(
+    <div className="loading-indicator flex flex-row flex-wrap gap-10 mt-10">
+    {[...Array(4)].map((_, index) => (
+      <div
+        key={index}
+        className=" flex flex-row w-64 gap-2   p-4 mb-2 rounded-lg cursor-pointer   animate-pulse"     
+      >
+        <li className="flex flex-col items-center gap-2 w-[200px]">
+       
+       <div className="flex flex-row gap-5 w-full">
+
+        <div className=" h-[70px] w-[90px] rounded-lg bg-slate-200 text-lg"></div>
+       
+       <div className="w-full h-full flex-col justify-center items-center  ">
+             
+             <div className="mb-1 h-5 w-full rounded-lg bg-slate-200 text-lg mt-2"></div>
+       
+             <div className="flex justify-start gap-2 w-full mt-2">  
+           <div className="h-4 w-4 rounded-full bg-slate-200"></div>
+            <div className="mb-1 h-5 w-[100px] rounded-lg bg-slate-200 text-lg"></div>
+       </div>
+       </div>
+ 
+ </div>
+        </li>
+      </div>
+    ))}
+  </div>
+  )
+}
+
+

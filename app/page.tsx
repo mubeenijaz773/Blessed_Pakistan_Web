@@ -1,18 +1,21 @@
 
+'use client'
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Dashboard from "./Dashboard/page";
 import BottomSheetCard from "./Bottomsheet_forEmail/page";
-import NavbarUnique from "./Navbar/page";
-
+import Navbarunique from "./Navbar/page";
+import { Suspense } from "react";
 export default function Home() {
   return (
-    <div>
-      <NavbarUnique />
+    <main >
+      <Suspense>
+      <Navbarunique />
+</Suspense>
       <Dashboard />
-      {/* Render the bottom sheet card */}
+
       <BottomSheetCard />
       <ToastContainer position="top-center" />
-    </div>
+    </main>
   );
 }

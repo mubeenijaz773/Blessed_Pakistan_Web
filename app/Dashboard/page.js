@@ -3,8 +3,6 @@
 import React from "react";
 
 import Navbar from "../DashboardSection/page";
-import NavbarUnique from '@/app/DashboardSection/page'
-
 
 
 const Dashboard = () => {
@@ -20,7 +18,7 @@ const Dashboard = () => {
         />
         <div className="w-full h-full bg-black opacity-50 absolute top-0 left-0"></div>
         <div className="w-full h-[1000px] absolute top-0 left-0">
-         {/* <NavbarUnique /> */}
+      
           <Navbar />
         </div>
       </div>

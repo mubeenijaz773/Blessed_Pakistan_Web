@@ -1,7 +1,7 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef , Suspense } from "react";
 import LoadingSpinner from "../Loader/page";
 // import { useRouter } from 'next/navigation';
 import { ServiceUrl } from '@/app/global';
@@ -39,7 +39,16 @@ import Image from "next/image";
 
 
 
-export default function ALLproperties() {
+// Use the defined type for the children prop
+const SuspenseBoundary = ({ children }) => (
+  <Suspense fallback={<div>Loading...</div>}>
+    {children}
+  </Suspense>
+);
+
+
+
+const WrapALLproperties = () =>{
 
   const [images, setImages] = useState([]);
 
@@ -184,8 +193,8 @@ export default function ALLproperties() {
         }
       );
       const data = await response.json();
-      console.log(data, data["Productdata"]);
-      setImages(data["Productdata"]);
+ 
+      setImages(data["products"]);
 
       setIsLoading(false);
     } catch (error) {
@@ -1104,6 +1113,25 @@ export default function ALLproperties() {
     </main>
 
   );
+
+}
+
+
+export default function ALLproperties() {
+
+
+
+return(
+  <>
+
+<SuspenseBoundary>
+  <WrapALLproperties />
+</SuspenseBoundary>
+
+  </>
+)
+
+
 }
 
 
@@ -1231,10 +1259,10 @@ const GetAllList = ({ images, isLoading }) => {
 
 
     if (userid == "" || userid == null) {
-      routerr.push("/Components/Login");
+      routerr.push("/Login");
       toast.error("You Have to First Login");
     } else {
-      routerr.push(`/Components/Properties_Details/${item._id}`);
+      routerr.push(`/Properties_Details/${item._id}`);
     }
   }
 

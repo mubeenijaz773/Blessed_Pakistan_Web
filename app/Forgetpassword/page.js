@@ -95,42 +95,38 @@ const Forgetpassword = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // Here, you can check if the password and confirm password match
+  
+    // Check if the password and confirm password match
     if (password !== confirmPassword) {
       alert("Passwords do not match.");
     } else {
-      //  SetNewPassword
-
-      const res = await fetch(`${ServiceUrl}/SetNewPassword`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-
-          email: email,
-          password: password
-        }),
-      });
-      const data = await res.json();
-
-      // Set the verificationcode state with the received value
-      setVerificationCode1(data['code']);
-      if (data["status"] == 200) {
-
-        router.push('/Components/Login')
-        toast.success("Password Update successfully");
-
-        setShowVerificationCodeInput(true);
-      } else if (data["status"] == 400) {
-        toast.error("Error to Update password");
+      try {
+        // Update password
+        const res = await fetch(`${ServiceUrl}/SetNewPassword`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            email: email,
+            password: password
+          }),
+        });
+        const data = await res.json();
+  // console.log(data.status)
+        if (data.status === 200) {
+          router.push('/Login');
+          toast.success("Password updated successfully");
+        } else {
+          toast.error("Failed to update password");
+        }
+      } catch (error) {
+        console.error("Error updating password:", error);
+        toast.error("Failed to update password");
       }
-
-
     }
   };
-
+  
 
 
 
@@ -299,7 +295,7 @@ const Forgetpassword = () => {
 
           <Link
             className="text-indigo-600 text-xs hover:text-indigo-800"
-            href={"/Components/Sign_Up"}
+            href={"/Sign_Up"}
           >
             Sign Up
           </Link>

@@ -1,13 +1,25 @@
 'use client'
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
-import React, { useState } from 'react';
+import React, { useState , Suspense } from 'react';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { ServiceUrl } from '@/app/global';
 import { useRouter } from "next/navigation";
 import { Ring } from "@uiball/loaders";
-const SetPassword = () => {
+
+
+
+// Use the defined type for the children prop
+const SuspenseBoundary = ({ children }) => (
+  <Suspense fallback={<div>Loading...</div>}>
+    {children}
+  </Suspense>
+);
+
+
+
+const WrapSetPassword = () =>{
 
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -55,9 +67,9 @@ const SetPassword = () => {
         toast.success('Account Created successfully');
   
         if (data.obj['role'] === 'agent') {
-          route.push('/Components/Add_Agencies');
+          route.push('/Add_Agencies');
         } else if (data.obj['role'] === 'user') {
-          route.push('/Components/Login');
+          route.push('/Login');
         }
       } catch (error) {
         toast.error('Error signing up:', error);
@@ -143,7 +155,7 @@ const SetPassword = () => {
             Already have an account?
 
           </p>
-          <Link className="text-indigo-600 text-xs hover:text-indigo-800" href={'/Components/Login'}>
+          <Link className="text-indigo-600 text-xs hover:text-indigo-800" href={'/Login'}>
             Sign In
           </Link>
         </div>
@@ -155,6 +167,23 @@ const SetPassword = () => {
 
   )
 
+}
+
+
+
+
+const SetPassword = () => {
+
+
+
+return(
+  <>
+    
+    <SuspenseBoundary>
+  <WrapSetPassword />
+</SuspenseBoundary>
+  </>
+)
 }
 
 export default SetPassword;

@@ -69,7 +69,7 @@ export default function Projects() {
     try {
       const response = await GetAllProjects();
       setProjects(response["data"]);
-      console.log(response["data"], "data in agency");
+      // console.log(response["data"], "data in agency");
       setIsLoading(false);
     } catch (error) {
       console.error("Error fetching Projects:", error);
@@ -145,9 +145,10 @@ export default function Projects() {
               <div className="relative">
               <div className="w-full h-[400px] relative" >
       <Image
-       className=" object-cover transition transform scale-100 hover:scale-105"
+       className="object-cover transition transform scale-100 hover:scale-105"
                   src={`${ServiceUrl}/Add_Project/?filename=${Project.images[0]["name"]}`}
-                  alt={Project.name}
+                  alt={Project.images.name}
+                  layout="fill"
                 />
                 </div>
                 <h1 className="absolute text-white top-0 font-bold p-4 text-3xl">

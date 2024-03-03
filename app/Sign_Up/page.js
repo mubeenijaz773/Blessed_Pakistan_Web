@@ -71,7 +71,7 @@ const router =  useRouter()
           console.log(data); // Check the response from the API
           // if (data["status"] === 200) {
           //   if(selectedRole === "agent"){
-          //     router.push(`/Components/Add_Agencies?email=${email}`)
+          //     router.push(`/Add_Agencies?email=${email}`)
           //     toast.success("Email Sent First make your Profile")
           //   }else{
           //     toast.success("Email Sent successfully");
@@ -196,7 +196,7 @@ return(
       Already have an account?
        
       </p>
-      <Link className="text-indigo-600 text-xs hover:text-indigo-800" href={"/Components/Login"}>
+      <Link className="text-indigo-600 text-xs hover:text-indigo-800" href={"/Login"}>
       Sign In
         </Link>
         </div>

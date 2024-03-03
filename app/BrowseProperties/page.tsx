@@ -86,25 +86,9 @@ const BrowseProperties = ({purpose}: {purpose? :string}) => {
     moveIndicator3();
   }, [activeTab3]);
 
-  // const fetchImages = async () => {
-  //   try {
-  //     const response = await fetch(`${ServiceUrl}/FetchProduct`, {
-  //       method: 'GET',
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //       },
-  //     });
-  //     const data = await response.json();
-  //     setImages(data['Productdata']);
-  //     setIsLoading(false)
-  //   } catch (error) {
-  //     console.error('Error fetching images:', error);
-  //   }
-  // };
-
   function GotToNextPage() {
     if (userid == "" || userid == null) {
-      router.push("/Components/Login");
+      router.push("/Login");
       toast.error("You Have to First Login");
     } else {
     }
@@ -170,7 +154,7 @@ const BrowseProperties = ({purpose}: {purpose? :string}) => {
                   className="text-xs border flex justify-center  border-gray-200 text-gray-500 rounded text-center items-center transform transition-transform hover:scale-105 cursor-pointer hover:bg-gray-100 hover:shadow-md hover:text-blue-500 hover:border-blue-500"
                 >
                   <Link
-                    href={`/Components/Property_Filter?purpose=${purpose}&propertyType=Home&subType=${item.text}`}
+                    href={`/Property_Filter?purpose=${purpose}&propertyType=Home&subType=${item.text}`}
                   >
                     <div className="flex flex-col py-2 space-x-2">
                       <text className="mt-1 font-bold text-black ">
@@ -194,7 +178,7 @@ const BrowseProperties = ({purpose}: {purpose? :string}) => {
                   className="text-xs border flex justify-center  border-gray-200 text-gray-500 rounded text-center items-center transform transition-transform hover:scale-105 cursor-pointer hover:bg-gray-100 hover:shadow-md hover:text-blue-500 hover:border-blue-500"
                 >
                   <Link
-                    href={`/Components/Property_Filter?purpose=${purpose}&propertyType=Home&Area_size=${item.name}`}
+                    href={`/Property_Filter?purpose=${purpose}&propertyType=Home&Area_size=${item.name}`}
                   >
                     <div className="flex flex-col py-2 space-x-2">
                       <text className="mt-1 font-bold text-black ">
@@ -269,7 +253,7 @@ const BrowseProperties = ({purpose}: {purpose? :string}) => {
                   className="text-xs border flex justify-center  border-gray-200 text-gray-500 rounded text-center items-center transform transition-transform hover:scale-105 cursor-pointer hover:bg-gray-100 hover:shadow-md hover:text-blue-500 hover:border-blue-500"
                 >
                   <Link
-                    href={`/Components/Property_Filter?purpose=${purpose}&propertyType=Plots&subType=${item.text}`}
+                    href={`/Property_Filter?purpose=${purpose}&propertyType=Plots&subType=${item.text}`}
                   >
                     <div className="flex flex-col py-2 space-x-2">
                       <text className="mt-1 font-bold text-black ">
@@ -291,7 +275,7 @@ const BrowseProperties = ({purpose}: {purpose? :string}) => {
                   className="text-xs border flex justify-center  border-gray-200 text-gray-500 rounded text-center items-center transform transition-transform hover:scale-105 cursor-pointer hover:bg-gray-100 hover:shadow-md hover:text-blue-500 hover:border-blue-500"
                 >
                   <Link
-                    href={`/Components/Property_Filter?purpose=${purpose}&propertyType=Plots&Area_size=${item.name}`}
+                    href={`/Property_Filter?purpose=${purpose}&propertyType=Plots&Area_size=${item.name}`}
                   >
                     <div className="flex flex-col py-2 space-x-2">
                       <text className="mt-1 font-bold text-black ">
@@ -359,7 +343,7 @@ const BrowseProperties = ({purpose}: {purpose? :string}) => {
                   className="text-xs border flex justify-center  border-gray-200 text-gray-500 rounded text-center items-center transform transition-transform hover:scale-105 cursor-pointer hover:bg-gray-100 hover:shadow-md hover:text-blue-500 hover:border-blue-500"
                 >
                   <Link
-                    href={`/Components/Property_Filter?purpose=${purpose}&propertyType=Commercials&subType=${item.text}`}
+                    href={`/Property_Filter?purpose=${purpose}&propertyType=Commercials&subType=${item.text}`}
                   >
                     <div className="flex flex-col py-2 space-x-2">
                       <text className="mt-1 font-bold text-black ">
@@ -381,7 +365,7 @@ const BrowseProperties = ({purpose}: {purpose? :string}) => {
                   className="text-xs border flex justify-center  border-gray-200 text-gray-500 rounded text-center items-center transform transition-transform hover:scale-105 cursor-pointer hover:bg-gray-100 hover:shadow-md hover:text-blue-500 hover:border-blue-500"
                 >
                   <Link
-                    href={`/Components/Property_Filter?purpose=${purpose}&propertyType=Commercials&Area_size=${item.name}`}
+                    href={`/Property_Filter?purpose=${purpose}&propertyType=Commercials&Area_size=${item.name}`}
                   >
                     <div className="flex flex-col py-2 space-x-2">
                       <text className="mt-1 font-bold text-black ">

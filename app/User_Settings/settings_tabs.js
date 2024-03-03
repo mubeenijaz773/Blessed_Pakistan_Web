@@ -1,13 +1,9 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { FaCameraRetro } from "react-icons/fa";
+
 import { GetUser, UpdateUserById } from "@/app/action/user";
 import { useRouter } from "next/navigation";
-// import {
-//   UpdateData,
-//   UpdatePassword,
-//   UserById,
-// } from "@/app/api/changepassowrd/passchange";
+
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { UserChangePassword } from "@/app/action/user";
@@ -356,7 +352,7 @@ const ChangePassword = () => {
           localStorage.removeItem("current_user");
           localStorage.removeItem("_id");
           localStorage.removeItem("role");
-          router.push("/Components/Login");
+          router.push("/Login");
         } else if (changeUser["status"] == 400) {
           toast.error(changeUser["message"]);
           setIsLoading(false);

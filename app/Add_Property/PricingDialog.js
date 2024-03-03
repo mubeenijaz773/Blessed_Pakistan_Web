@@ -171,20 +171,6 @@ function PaymentMethods({ SelectedPlan, onClose }) {
   ];
 
 
-  // const handleCheckout = async () => {
-  //   const stripe = await getStipePromise();
-  //   const response = await fetch("/api/stripe-session/", {
-  //     method: "POST",
-  //     headers: { "Content-Type": "application/json" },
-  //     cache: "no-cache",
-  //     body: JSON.stringify(products),
-  //   });
-
-  //   const data = await response.json();
-  //   if (data.session) {
-  //     stripe?.redirectToCheckout({ sessionId: data.session.id });
-  //   }
-  // };
 
 
 

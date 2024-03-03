@@ -2,7 +2,7 @@
 import React, { useState , useEffect , useRef } from "react";
 
 import {  FiChevronsUp } from "react-icons/fi";
-import { useTypewriter, Cursor } from "react-simple-typewriter";
+import AgencyDialog from "@/Components/Dailogs/Agency_Dailog"
 import BrowseProperties from "../BrowseProperties/page"
 import { useRouter } from "next/navigation";
 import DisplayLocations from "../Popular_Locations/page"
@@ -18,10 +18,17 @@ import Link from "next/link";
 
 
 const Navbar = () => {
+  const [isVisible, setIsVisible] = useState(false);
+  const [selectedItem, setSelectedItem] = useState(null);
 
+  const [isLoading, setIsLoading] = useState(true);
+  const [isAgencyLoading, setIsAgencyLoading] = useState(true);
 
+  const [recentSearches, setRecentSearches] = useState([]);
+  const [agency, setAgency] = useState([]);
+ 
   const [selectedOption, setSelectedOption] = useState('Sell');
-  const [userid, setUserid] = useState("");
+  // const [userid, setUserid] = useState("");
   const router = useRouter();
 
 
@@ -44,19 +51,14 @@ const Navbar = () => {
 
  
 
-  const [recentSearches, setRecentSearches] = useState([]);
- 
 
   useEffect(() => {
-    const id = localStorage.getItem("_id");
-    setUserid(id);
-    // const userRole = localStorage.getItem("role");
-    // setRole(userRole)
+
     
-    fetchData(); // Call the async function to fetch data
+    fetchRecentSearches(); // Call the async function to fetch data
+    fetchAgencies()
   }, []);
 
-  const [isVisible, setIsVisible] = useState(false);
 
   // Show the button when the user scrolls down
   useEffect(() => {
@@ -75,18 +77,10 @@ const Navbar = () => {
     };
   }, []);
 
-  // Scroll to the top when the button is clicked
-  const scrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth", // Optional smooth scrolling
-    });
-  };
+
 
  
-  const [isLoading, setIsLoading] = useState(true);
-
-  const fetchData = async () => {
+  const fetchRecentSearches = async () => {
     try {
       const id = localStorage.getItem("_id");
       const response = await fetch(`${ServiceUrl}/Search/${id}`, {
@@ -114,7 +108,37 @@ const Navbar = () => {
   };
 
 
+// Get Agencies //////////////////
 
+
+const fetchAgencies = async () => {
+  try {
+    const response = await fetch(`${ServiceUrl}/Fetch_Agency`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const data = await response.json();
+    setAgency(data["agencies"]);
+
+    setIsAgencyLoading(false);
+  } catch (error) {
+    console.error("Error fetching images:", error);
+  }
+};
+
+
+
+
+
+  // Scroll to the top when the button is clicked
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth", // Optional smooth scrolling
+    });
+  };
   const toggleButtonColor = (option) => {
     setSelectedOption(option);
   };
@@ -122,8 +146,21 @@ const Navbar = () => {
 
 function  GotoProjects(option){
   setSelectedOption(option);
-  router.push("/Components/ViewProjects");
+  router.push("/ViewProjects");
 }
+
+
+
+const openAgencyDialog = (item) => {
+  setSelectedItem(item);
+};
+
+const closeAgencyDialog = () => {
+  setSelectedItem(null);
+};
+
+
+
 
 
   return (
@@ -205,7 +242,12 @@ function  GotoProjects(option){
 {/*   Agencies */}
 
 
-<DisplayAgencies />
+<DisplayAgencies Loading={isAgencyLoading} Agencies={agency} openAgencyDialog={openAgencyDialog}  />
+
+{selectedItem && (
+<AgencyDialog onClose={closeAgencyDialog} item={selectedItem} />
+)}
+
 
  {/* popular locations */}
 
@@ -306,7 +348,7 @@ function RecentSearches({ recentSearches ,isLoading }) {
            className="flex flex-row overflow-x-auto  gap-4 w-[100%] "
          >
              {recentSearches.map((search, index) => (
-                 <Link  key={index} href={`/Components/ViewAllProperties/?city=${search.city}&propertyType=${search.propertyType}&minPrice=${search.min_price}&maxPrice=${search.max_price}&minAreaSize=${search.min_area}&maxAreaSize=${search.max_area}`} >
+                 <Link  key={index} href={`/ViewAllProperties/?city=${search.city}&propertyType=${search.propertyType}&minPrice=${search.min_price}&maxPrice=${search.max_price}&minAreaSize=${search.min_area}&maxAreaSize=${search.max_area}`} >
               
                <div
               

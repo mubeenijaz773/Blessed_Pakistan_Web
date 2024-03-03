@@ -46,6 +46,33 @@ export async function GetProductByPropertyid(property_id){
 
 
 
+
+
+
+
+
+
+export async function GetPropertyUserId(userid:any){
+  try{
+  const getdata = await Product.find({userid : userid}).lean();
+  if(getdata){
+  return({ status : 200 , message: "Product Get Sucessfully ",  Get:getdata })
+  }else{
+      return({ status : 400})
+  }
+}catch(error){
+   return ({ error:error , message: "user not Found Error !" })
+  }
+
+
+}
+
+
+
+
+
+
+
 export async function UpdatePropertyById(_id, updatedData) {
     try {
       // console.log(fs.readdir('../../../'))

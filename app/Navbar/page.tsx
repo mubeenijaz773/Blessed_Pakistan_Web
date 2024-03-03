@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { FiMenu } from "react-icons/fi";
-import { useTypewriter, Cursor } from "react-simple-typewriter";
+
 import { useRouter, useSearchParams } from "next/navigation";
 import UserDropdown from "../UserMenu/page";
 import { Ring } from "@uiball/loaders";
@@ -14,22 +14,22 @@ import Image from "next/image";
 
 
 
-const NavbarUnique = () => {
+const Navbarunique = () => {
 
   const [userid, setUserid] = useState("");
-  const [user, setUser] = useState("");
-  const router = useRouter();
-  const router1 = useSearchParams();
-  const userparams = router1.get('data')
+  const [user, setUser] :any = useState("");
+
  
   const [selectedTab, setSelectedTab] = useState("PROPERTIES"); // Initialize with the default selected tab
   const [searchQuery, setSearchQuery] = useState('');
   const [showMenu, setShowMenu] = useState(false);
-  
+  const router = useRouter();
+  // const router1 = useSearchParams();
+  // const userparams = router1.get('data')
   const options = [
-    { label: 'ADMIN', value: 'ADMIN', route: '/Components/Admin' },
-    { label: 'Add Society', value: 'Add Society', route: '/Components/Add_Society' },
-    { label: 'Add Project', value: 'Add Project', route: '/Components/Add_Project' },
+    { label: 'ADMIN', value: 'ADMIN', route: '/Admin' },
+    { label: 'Add Society', value: 'Add Society', route: '/Add_Society' },
+    { label: 'Add Project', value: 'Add Project', route: '/Add_Project' },
   ];
   // Add_Project
 
@@ -37,7 +37,7 @@ const NavbarUnique = () => {
     setShowMenu(!showMenu);
   };
 
-  const handleOptionClick = (option , move) => {
+  const handleOptionClick = (move:any) => {
     setShowMenu(false);
     console.log(move)
       // Navigate to the selected route if it's defined
@@ -45,75 +45,30 @@ const NavbarUnique = () => {
     
   };
 
-  const userdata = JSON.parse(userparams);
+  // const userdata = JSON.parse(userparams);
 
-  const [text] = useTypewriter({
-    words: [
-      "Your trusted Buying home Platform.",
-      "Providing best home for customers.",
-      "Delivery on time in demand.",
-    ],
-    loop: true,
-    typeSpeed: 30,
-    deleteSpeed: 10,
-    delaySpeed: 2000,
-  });
 
   
-  const handleTabClick = (tab) => {
+  const handleTabClick = (tab:any) => {
     console.log(tab);
     setSelectedTab(tab);
   };
 
   const login = () => {
-    router.push("/Components/Login");
+    router.push("/Login");
   };
 
   const SignUp = () => {
-    router.push("/Components/Sign_Up");
+    router.push("/Sign_Up");
   };
 
-  // Show the button when the user scrolls down
-  // useEffect(() => {
-  //   const handleScroll = () => {
-  //     if (window.scrollY > 100) {
-  //       setIsVisible(true);
-  //     } else {
-  //       setIsVisible(false);
-  //     }
-  //   };
-
-  //   window.addEventListener("scroll", handleScroll);
-
-  //   return () => {
-  //     window.removeEventListener("scroll", handleScroll);
-  //   };
-  // }, []);
-
   useEffect(() => {
-    const id = localStorage.getItem("_id");
+    const id:any = localStorage.getItem("_id");
     setUserid(id);
-    var userobj = localStorage.getItem("current_user");
+    var userobj:any = localStorage.getItem("current_user");
     setUser(JSON.parse(userobj));
   }, []);
 
-
-  // Show the button when the user scrolls down
-  // useEffect(() => {
-  //   const handleScroll = () => {
-  //     if (window.scrollY > 100) {
-  //       setIsVisible(true);
-  //     } else {
-  //       setIsVisible(false);
-  //     }
-  //   };
-
-  //   window.addEventListener("scroll", handleScroll);
-
-  //   return () => {
-  //     window.removeEventListener("scroll", handleScroll);
-  //   };
-  // }, []);
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -127,20 +82,20 @@ const NavbarUnique = () => {
 
   const handleSearch = () => {
     if(searchQuery){
-      router.push(`/Components/SearchById/${searchQuery}`);
+      router.push(`/SearchById/${searchQuery}`);
     }
   };
 
 function gotoprojects() {
   
 
-  router.push("/Components/ViewProjects");
+  router.push("/ViewProjects");
 }
 
 // Agents
 
 function gotoAgents() {
-  router.push("/Components/Agents");
+  router.push("/Agents");
 }
 
 
@@ -174,7 +129,7 @@ function gotoAgents() {
                 </Link>
               </li>
               <li className="mr-2" role="presentation">
-                <Link href={"/Components/Land_Records"} prefetch={false}>
+                <Link href={"/Land_Records"} prefetch={false}>
                   <button
                     className={`inline-block hover:rounded-md  py-2 px-3 text-xs font-medium text-center 
                      ${selectedTab === "LAND_RECORDS"
@@ -189,7 +144,7 @@ function gotoAgents() {
                 </Link>
               </li>
               <li className="mr-2" role="presentation">
-                <Link href={"/Components/View_Societies"} prefetch={false}>
+                <Link href={"/View_Societies"} prefetch={false}>
                   <button
                     className={`inline-block  hover:rounded-md rounded-t-lg py-2 px-3  text-xs font-medium text-center  ${selectedTab === "SOCIETY_VIEW"
                         ? "bg-white text-blue-600 text-center w-[150px] font-semibold rounded-md"
@@ -217,7 +172,7 @@ function gotoAgents() {
                 </Link>
               </li>
 
-{user?.role == "Admin" ? (
+{user['role'] == "Admin" ? (
   <div>
       <button
         onClick={handleopenMenu}
@@ -247,13 +202,13 @@ function gotoAgents() {
           className="z-50 absolute mt-2 bg-white  shadow-lg dark:bg-gray-700 w-48"
         >
           <ul className=" text-sm text-gray-700  dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
-            {options.map((option) => (
+            {options.map((option:any) => (
               <>
               <li role="presentation" key={option.value}>
                 <button
                   className={`flex gap-2 w-full py-3 text-xs font-medium hover:bg-slate-200 px-5 text-blue-600 text-start`}
                   id="profile-tab"
-                  onClick={() => handleOptionClick(option , option.route)}
+                  onClick={() => handleOptionClick(option)}
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -301,7 +256,7 @@ function gotoAgents() {
       </button>
     </div>
         <div>
-          <Link href="/Components/Add_Property" prefetch={false}>
+          <Link href="/Add_Property" prefetch={false}>
             <button
               className="w-[116px]  h-8 relative transform transition-transform motion-ease-in-out motion-duration-300 hover:scale-105 active:scale-95 text-xs flex justify-center font-sans font-medium items-center cursor-pointer bg-white text-blue-600 m-2 rounded  hover:shadow-xl "
               onClick={handleButtonClick}
@@ -313,7 +268,7 @@ function gotoAgents() {
                     size={15}
                     lineWeight={5}
                     speed={2}
-                    className="mt-1"
+                    className={`mt-1`}
                     color="blue"
                   />
                 </div>
@@ -338,7 +293,7 @@ function gotoAgents() {
         <div className="hidden lg:inline-flex font-sans gap-8 items-center">
           {userid ? (
             <>
-              <UserDropdown user={user} userdata={userdata} />
+              <UserDropdown user={user} userdata={''} />
             </>
           ) : (
             <>
@@ -365,7 +320,7 @@ function gotoAgents() {
     </div>
 
 
-{/* ///////////////////////////////// bottom navbar //////////////////////////////////////////////// */}
+{/* ///////////////////////////////// bottom  //////////////////////////////////////////////// */}
 
     <div className="w-full h-[50px] mx-auto border bg-white flex items-center gap-6">
     <div className="flex items-center ml-9">
@@ -412,4 +367,4 @@ function gotoAgents() {
   );
 };
 
-export default NavbarUnique;
+export default Navbarunique;

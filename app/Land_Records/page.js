@@ -61,7 +61,7 @@ const handlemove1=()=>{
             </p>
            
             <div className="px-10">
-            <Link href={"/Components/Land_Records/Punjab"} >
+            <Link href={"/Land_Records/Punjab"} >
               <button onClick={handlemove} className="mt-5 justify-center items-center w-full flex gap-2 text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 shadow-lg shadow-purple-500/50 dark:shadow-lg dark:shadow-purple-800/80 font-medium rounded-lg text-sm px-5 py-4 text-center mr-2 mb-5">
                 Punjab Land Record
                 {isLoading1 ? (
@@ -101,7 +101,7 @@ const handlemove1=()=>{
               Revenue (BoR)
             </p>
             <div className="px-10">
-            <Link href={"/Components/Land_Records/Sindh"} >
+            <Link href={"/Land_Records/Sindh"} >
             
               <button onClick={handlemove1}  className="mt-5 justify-center items-center w-full flex gap-2 text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 shadow-lg shadow-purple-500/50 dark:shadow-lg dark:shadow-purple-800/80 font-medium rounded-lg text-sm px-5 py-4 text-center mr-2 mb-5">
                 Sindh Land Record

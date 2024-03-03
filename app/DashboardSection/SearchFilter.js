@@ -279,7 +279,7 @@ const SearchFilter = ({Purpose}) => {
                   />
                 </div>
               </div>
-              <Link href={`/Components/ViewAllProperties/?purpose=${Purpose}&city=${selectedCity}&location=${searchTerm}&propertyType=${activeTab}&subType=${subType}&minPrice=${input1}&maxPrice=${input2}&minAreaSize=${areaMin}&maxAreaSize=${areaMax}&bedrooms=${selectedBed}`} >
+              <Link href={`/ViewAllProperties/?purpose=${Purpose}&city=${selectedCity}&location=${searchTerm}&propertyType=${activeTab}&subType=${subType}&minPrice=${input1}&maxPrice=${input2}&minAreaSize=${areaMin}&maxAreaSize=${areaMax}&bedrooms=${selectedBed}`} >
               <button
                 onClick={handleSearch}
                 type="submit"

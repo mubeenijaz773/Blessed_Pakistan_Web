@@ -46,10 +46,10 @@ const FindPropertyById = ({params}:{params?:any} ) => {
 
   function GotToNextPage(item) {
     if (userid == "" || userid == null) {
-      router.push("/Components/Login");
+      router.push("/Login");
       toast.error("You Have to First Login");
     } else {
-      router.push(`/Components/Properties_Details/${item._id}`);
+      router.push(`/Properties_Details/${item._id}`);
     }
   }
 

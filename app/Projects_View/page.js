@@ -39,8 +39,8 @@ export default function ProjectView() {
         },
       });
       const data = await response.json();
-      console.log(data, "project");
-      setProject(data["Projectdata"]);
+      // console.log(data, "project");
+      setProject(data["projects"]);
       setIsLoading(false);
     } catch (error) {
       console.error("Error fetching Project:", error);
@@ -67,11 +67,11 @@ export default function ProjectView() {
 
   function GotToNextPage(item) {
     if (userid == "" || userid == null) {
-      router.push("/Components/Login");
+      router.push("/Login");
       toast.error("You Have to First Login");
     } else {
     
-      router.push(`/Components/ViewprojectsByid/${item._id}`);
+      router.push(`/ViewprojectsByid/${item._id}`);
     }
   }
 

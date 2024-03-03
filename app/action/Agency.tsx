@@ -38,7 +38,7 @@ export async function GetAllAgenciesByUserId(userid){
     return Getdata
   
 }catch(error){
-     return ({ error:error , message: "user not Deleted !" })
+     return ({ error:error , message: "Agent not Found !" })
     }
 }
 

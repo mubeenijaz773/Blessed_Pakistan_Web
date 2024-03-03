@@ -1,9 +1,9 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { ReactNode, Suspense, useEffect, useState } from "react";
 import { ServiceUrl } from '@/app/global';
-import Link from "next/link";
+
 import { useRouter } from "next/navigation";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -17,7 +17,20 @@ import { IoMdCall } from "react-icons/io";
 import Image from "next/image";
 
 
-function PropertyFilter() {
+
+// Define the type for the children prop as ReactNode
+interface SuspenseBoundaryProps {
+  children: ReactNode;
+}
+
+// Use the defined type for the children prop
+const SuspenseBoundary = ({ children }: SuspenseBoundaryProps) => (
+  <Suspense fallback={<div>Loading...</div>}>
+    {children}
+  </Suspense>
+);
+
+const WrapPropertyFilter = () =>{
   const [details, setDetails] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [isLoading, setIsLoading] = useState(true);
@@ -52,10 +65,10 @@ function PropertyFilter() {
 
   useEffect(() => {
     fetchProperty();
-    setUserid(localStorage.getItem("_id"));
+    setUserid(localStorage.getItem("_id") || '');
   }, []);
 
-  const handleSearchChange = (event) => {
+  const handleSearchChange = (event:any) => {
     setSearchQuery(event.target.value);
   };
 
@@ -86,15 +99,15 @@ function PropertyFilter() {
   
   useEffect(() => {
     // Assuming that images is an array of objects and each object has a 'createdAt' property
-      details.map((item,index) => {
+      details.map((item:any,index) => {
       if (item && item.createdAt) {
         const insertionDate = new Date(item.createdAt);
-        const timeAgo = formatDistanceToNow(insertionDate, { addSuffix: true });
+        const timeAgo:any = formatDistanceToNow(insertionDate, { addSuffix: true });
         setTimeSinceInsertion(timeAgo);
     
         // Update time every minute (you can adjust the interval based on your needs)
         const intervalId = setInterval(() => {
-          const updatedTimeAgo = formatDistanceToNow(insertionDate, {
+          const updatedTimeAgo:any = formatDistanceToNow(insertionDate, {
             addSuffix: true,
           });
           setTimeSinceInsertion(updatedTimeAgo);
@@ -108,33 +121,6 @@ function PropertyFilter() {
   }, [details]);
 
 
-  // const handleDropdownChange = (event) => {
-  //   setSelectedOption(event.target.value);
-  // };
-
-  // const filteredDetails = details.filter((property) => {
-  //   const searchTextLower = searchText.toLowerCase();
-  //   const locationMatch = property.location
-  //     .toLowerCase()
-  //     .includes(searchTextLower);
-  //   const priceValue = parseFloat(property.price.replace(/\D/g, ""));
-
-  //   if (selectedOption === "all") {
-  //     // No specific filter selected, return true for all properties
-  //     return locationMatch || priceMatch || cityMatch;
-  //   } else if (selectedOption === "500000") {
-  //     return priceValue < 500000 && (locationMatch || cityMatch);
-  //   } else if (selectedOption === "1000000") {
-  //     return priceValue < 1000000 && (locationMatch || cityMatch);
-  //   } else if (selectedOption === "2000000") {
-  //     return priceValue < 2000000 && (locationMatch || cityMatch);
-  //   } else if (selectedOption === "3500000") {
-  //     return priceValue < 3500000 && (locationMatch || cityMatch);
-  //   }
-
-  //   // If none of the conditions match, return false
-  //   return false;
-  // });
   const openEmailDialog = () => {
     setEmailDialogOpen(true);
   };
@@ -142,16 +128,16 @@ function PropertyFilter() {
     setEmailDialogOpen(false);
   };
   
-  function GotToNextPage(item) {
+  function GotToNextPage(item:any) {
     if (userid == "" || userid == null) {
-      routerr.push("/Components/Login");
+      routerr.push("/Login");
       toast.error("You Have to First Login");
     } else {
-      routerr.push(`/Components/Properties_Details/${item._id}`);
+      routerr.push(`/Properties_Details/${item._id}`);
     }
   }
 
-  const filteredData = details.filter((item) =>
+  const filteredData = details.filter((item:any) =>
     item.title.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
@@ -208,10 +194,10 @@ function PropertyFilter() {
                           type="text"
                           value={searchQuery}
                           onChange={handleSearchChange}
-                          id="search"
+                       
                           className="block w-full h-[64px] rounded-full  font-sans p-5 pl-10 text-sm text-gray-900 border border-gray-300    focus:ring-blue-500 focus:border-blue-500 dark:bg-blue-700 dark:border-blue-600 bg-white dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                           placeholder="Search by city, location, property type, price, bedrooms, bathrooms..."
-                          required
+                  
                         />
                       </div>
                     </div>
@@ -301,7 +287,7 @@ function PropertyFilter() {
               <div className="h-auto mb-9 mt-4 bg-gray-100">
                 <div className="w-full max-w-screen-xl p-8 bg-white rounded-lg border border-gray-400 transition-transform transform ">
                   <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 ">
-                    {filteredData.map((location, index) => (
+                    {filteredData.map((location:any, index) => (
                       <div
                         key={index}
                         className="flex flex-grow gap-3 items-center p-4 border bg-white cursor-pointer shadow-lg rounded-lg hover:bg-gray-200 transition-all"
@@ -328,7 +314,7 @@ function PropertyFilter() {
       </div>
             )}                
          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 ">       
-        {filteredData.map((property, index) => (
+        {filteredData.map((property:any, index) => (
                 <div key={index} className="bg-white border mb-10 border-gray-300 w-[400px] rounded-[30px] overflow-hidden shadow-lg">
     
               <div className="cursor-pointer p-3" onClick={() => GotToNextPage(property)} >
@@ -344,7 +330,7 @@ function PropertyFilter() {
               <div className="p-4">
                 <div className="flex flex-row justify-between" >
                   <text className="text-gray-400 text-xs font-sans" >{`Added: ${timeSinceInsertion}` || 0 }</text>
-                  <Image src="/verification.png" width={15} height={15} />
+                  <Image src="/verification.png" width={15} height={15} alt={""} />
                 </div>
                 <p className="text-xs text-gray-700 mb-2">Pkr
                   <span className="text-sm text-black font-medium font-sans" >{property.price}</span></p>
@@ -411,83 +397,26 @@ function PropertyFilter() {
   </div>       
       </main>
   );
+
+}
+
+
+function PropertyFilter() {
+ 
+
+
+return(
+  <>
+    
+    <SuspenseBoundary>
+  <WrapPropertyFilter />
+</SuspenseBoundary>
+  </>
+)
+
+
 }
 
 export default PropertyFilter;     
 
 
-
- {/* Property Cards */}
-
-{/* 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4 justify-center">
-              {filteredData.length > 0 ? (
-                filteredData.map((property, index) => (
-                  // <Link
-                  //   href={`/Components/Properties_Details?data=${JSON.stringify(property)}`}
-                  // >
-                  <div
-                    key={index}
-                  
-                    className="bg-white shadow-lg p-4 rounded-lg mb-4 flex "
-                  >
-                  
-                    <div className="w-1/2 pr-4 cursor-pointer"   onClick={() => GotToNextPage(property)}>
-                      <img
-                        src={`${ServiceUrl}/Product/?filename=${property.images[0]["name"]}`}
-                        alt={property.subType}
-                        className="w-[300px] h-[370px] rounded-lg"
-                      />
-                    </div>
-
-                    <div className="w-1/2 flex flex-col justify-center items-center">
-                      <div className="text-xl font-semibold mb-2">
-                        {property.subType}
-                      </div>
-                      <div className="text-gray-500 mb-2">
-                        {property.propertyType} - {property.subType}
-                      </div>
-                      <div className="text-gray-600 mb-2">
-                        {property.city}, {property.location}
-                      </div>
-                      <div className="text-gray-600 mb-2">
-                        Area: {property.Area_size} 
-                      </div>
-                      <div className="text-indigo-600 font-bold text-lg mb-2">
-                        Price: {property.price}
-                      </div>
-                      <div className="text-gray-600">
-                        {property.bedrooms} Bedrooms | {property.bathrooms}{" "}
-                        Bathrooms
-                      </div>
-                      <div className="mt-4">
-                        <button        onClick={openEmailDialog} className="bg-indigo-500 cursor-pointer text-white font-semibold py-2 px-4 rounded-lg">
-                          Contact Seller
-                        </button>
-                        <EmailDailogBox item={property}  isOpen={isEmailDialogOpen} onClose={closeEmailDialog}  />
-                      </div>
-                    </div>
-                  </div>
-                  // </Link>
-                ))
-              ) : (
-                <>
-                  <div className="flex flex-col w-full ml-[450px] ">
-                    <img
-                      src="/not.jpg" // Replace with your image path
-                      alt="Search Not Found"
-                      className="w-40 h-40 mb-6 rounded-full border-4 border-indigo-500 shadow-lg"
-                    />
-                    <p className="text-2xl font-semibold text-indigo-600">
-                      Oops! Search Not Found
-                    </p>
-                    <p className="text-gray-500 mt-2">
-                      Try refining your search criteria.
-                    </p>
-                  </div>
-                </>
-              )}
-            </div>
-          </>
-        )} */}
-      

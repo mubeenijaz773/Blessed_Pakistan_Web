@@ -59,7 +59,7 @@ const router  =  useRouter()
 
 function GoToProperty(id) {
   
-router.push(`/Components/Add_Property/?id=${id}`)
+router.push(`/Add_Property/?id=${id}`)
 
 }
 

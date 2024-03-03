@@ -50,7 +50,7 @@ export default function UserDropdown({user ,userdata}:{user?:any, userdata?:any}
 
   const logout = () => {
    setIsLoading1(true);
-    router.push("/Components/Login");
+    router.push("/Login");
     localStorage.removeItem("_id");
     localStorage.removeItem("email");
     localStorage.removeItem("role");
@@ -134,7 +134,7 @@ setIsLoading(false)
                 </div>
               ) : (
                 <div className="flex" >
-             <Link href={`/Components/User_Settings`} >
+             <Link href={`/User_Settings`} >
                 <p className="text-blue-700 font-semibold text-sm">
                   Manage Your Account
                 </p>

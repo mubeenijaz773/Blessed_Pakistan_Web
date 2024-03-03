@@ -93,7 +93,7 @@ const BottomSheetCard = () => {
           <p className="justify-center items-center text-center text-xl flex gap-3 text-white">
             <Image src="/bellalert.png" width={50} height={50} alt="Bell Alert" />
             {`Don"t miss out on your dream property! Sign in to get notified via email.`}
-            <a className="text-blue-700 decoration-blue-600 text-sm underline" href={"/Components/Login"}>Go to Login Page &rsquo;</a>
+            <a className="text-blue-700 decoration-blue-600 text-sm underline" href={"/Login"}>Go to Login Page &rsquo;</a>
           </p>
         )}
       </div>

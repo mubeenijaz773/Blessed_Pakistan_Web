@@ -1,60 +1,16 @@
-"use client"
-import React,{ useState , useEffect } from 'react';
-import EmailDialog from './EmailDialog'; 
-import {GetAgenciesById , GetAllAgenciesByUserId} from "@/app/action/Agency";
-import { MdClose } from 'react-icons/md';
-import { TbListDetails } from 'react-icons/tb';
-import { IoCopyOutline } from 'react-icons/io5';
-import { TiTickOutline } from 'react-icons/ti';
+import React, { useState } from "react";
 import { ServiceUrl } from '@/app/global';
-import { DotSpinner,  } from "@uiball/loaders";
-import  Image from "next/image";
+import Image from "next/image";
+import { MdOutlineCancel } from "react-icons/md";
+import EmailDialog from "./Email_Dailog";
+import CallDialog from "./Call_Dailog";
 
 
-const AgentProfile = ({params}) => {
+
+const AgencyDialog = ({ onClose, item }) => {
+
   const [showCallDialog, setShowCallDialog] = useState(false);
   const [showEmailDialog, setShowEmailDialog] = useState(false);
-  const [images, setImages] = useState([]);
-  const [userid, setUserid] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
-
-
-
-const fetchAgencyProfile = async () => {
-  try {
-    setIsLoading(true);
-
-    if(pro){
-      const data = await GetAllAgenciesByUserId(userid);
-      setImages(data);
-      setIsLoading(false);
-  
-    }else{
-      const data = await GetAgenciesById(params.id);
-      setImages(data);
-      setIsLoading(false);
-    }
-  } catch (error) {
-    console.error("Error fetching images:", error);
-    setIsLoading(false);
-  }
-};
-
-
-  useEffect(() => {
-    const getUserData = async () => {
-      const storedUserId = localStorage.getItem('_id');
-      if (storedUserId) {
-        setUserid(storedUserId);
-      }
-    };
-
-    getUserData();
-    fetchAgencyProfile();
-  }, []);
-
-
-
 
   const phoneNumber = '+1234567890'; // Replace with the actual phone number
 
@@ -66,25 +22,30 @@ const fetchAgencyProfile = async () => {
     setShowEmailDialog(true);
   };
 
-  const handleEmailSubmit = (formData) => {
-    console.log('Email form submitted:', formData);
+  const handleEmailSubmit = (formData:any) => {
+    // console.log('Email form submitted:', formData);
     setShowEmailDialog(false);
   };
 
-return(
 
-  <main className="min-h-screen bg-white text-gray-800">
-  
-  {isLoading ? (
-     <div className="flex justify-center mt-[60px] mb-[60px] items-center">
-     {isLoading && (
-       <DotSpinner size={40} speed={0.9} color="blue" />
-     )}
-   </div>
-  ) : (
- <>
-    {images.map((item, index) => (
-        <div key={index} className='bg-white' >
+
+
+
+
+
+  return (
+    <div className="fixed inset-0 flex items-center justify-center z-50">
+
+      <div className="w-full h-full overflow-y-auto bg-white text-black p-8 relative z-10">
+        {/* Dialog content */}
+      
+        <div
+            onClick={() =>onClose()}
+            className=" relative p-2  mb-5 flex justify-end cursor-pointer"
+          >
+           <MdOutlineCancel className="w-6 h-6" />
+          </div>
+        <div  className='bg-white' >
 <div className='w-full bg-white'>
 
 <div className='w-full h-[400px] bg-white relative'>
@@ -215,11 +176,13 @@ return(
   
     </div>
     <div className='flex flex-row gap-2 w-[350px] mt-2' > 
-<button onClick={handleEmailButtonClick} 
+<button
+ onClick={handleEmailButtonClick} 
   className="px-7 py-3   bg-white text-blue-600    cursor-pointer relative  transform transition-transform motion-ease-in-out motion-duration-300 hover:scale-105 active:scale-95  border border-blue-600   m-2 font-sans font-medium text-sm rounded shadow-lg hover:shadow-xl ">
   Email
   </button>
-<button onClick={handleCallButtonClick}
+<button 
+onClick={handleCallButtonClick}
   className="px-24 py-3  bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800  shadow-purple-500/50 dark:shadow-lg dark:shadow-purple-800/80   cursor-pointer relative  transform transition-transform motion-ease-in-out motion-duration-300 hover:scale-105 active:scale-95  text-white m-2 font-sans font-medium text-sm rounded shadow-lg hover:shadow-xl "
   >Call
 </button>
@@ -241,79 +204,11 @@ return(
             <EmailDialog onClose={() => setShowEmailDialog(false)} onSubmit={handleEmailSubmit} />
           )}
         </div>
-      ))}
-    </>
-  )}
-
-</main>
-)
-};
-
-
-export default AgentProfile;
-
-
-
-
-
-
-const CallDialog = ({ phoneNumber, onClose }) => {
-
-  const [showTickIcon, setShowTickIcon] = useState(false);
-
-  const handleCopyClick = () => {
-    setShowTickIcon(true);
-
-    navigator.clipboard.writeText(phoneNumber);
-    
-    // Hide the tick icon after 2 seconds
-    setTimeout(() => {
-      setShowTickIcon(false);
-    }, 2000);
-  };
   
 
-  return (
-    <div className="fixed inset-0 z-50 overflow-auto bg-gray-800 bg-opacity-50 flex items-center justify-center">
-      <div className="bg-white w-[400px] h-[300px] rounded-md">
-      <div className="flex bg-gray-100 shadow-md px-10 rounded-br-full py-4 justify-between items-center mb-4">
-           <TbListDetails className="w-6 h-6" />
-            <h2 className="text-xl text-gray-700 font-bold">Contact Agencies</h2>
-            <button onClick={onClose} className="bg-white p-2 rounded-full shadow-md hover:bg-slate-50 ">
-              <MdClose className='text-black w-4 h-4'/>
-            </button>
-          </div>
-        <div className="flex items-center mb-4 p-6">
-          <div className="text-4xl mr-4">📱</div>
-          <div>
-            <div className="font-semibold text-sm">MOBILE NUMBER*</div>
-            
-            <p className='bg-gray-100 flex gap-2 px-3 py-2 shadow-md rounded-full text-xs mt-2' >
-              <IoCopyOutline className='w-4 h-4' />
-              {phoneNumber}</p>
-          </div>
-        </div>
-        <div className='w-full  flex justify-center items-center' >
-        <button
-          onClick={handleCopyClick}
-          className="px-24 h-[50px] flex gap-2 justify-center items-center bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800  shadow-purple-500/50 dark:shadow-lg dark:shadow-purple-800/80   cursor-pointer relative  transform transition-transform motion-ease-in-out motion-duration-300 hover:scale-105 active:scale-95  text-white m-2 font-sans font-medium text-sm rounded shadow-lg hover:shadow-xl "
-            >
-
-        {showTickIcon ? (
-<TiTickOutline className="w-5 h-5 text-white" /> 
-        ):(
-          <>
-
-<IoCopyOutline className='w-4 h-4 text-white' />
-          COPY
-           
-          </>
-        )}
-   
-             
-        </button>
-        </div>
       </div>
     </div>
   );
 };
+
+export default AgencyDialog;
