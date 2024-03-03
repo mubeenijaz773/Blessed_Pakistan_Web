@@ -16,6 +16,9 @@ var AgencySchema = new mongoose.Schema({
     address:{
         type: String
     },
+    city:{
+        type: String
+    },
     email:{
         type:String
     },

@@ -24,12 +24,12 @@ const Navbarunique = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [showMenu, setShowMenu] = useState(false);
   const router = useRouter();
-  // const router1 = useSearchParams();
-  // const userparams = router1.get('data')
+
   const options = [
     { label: 'ADMIN', value: 'ADMIN', route: '/Admin' },
     { label: 'Add Society', value: 'Add Society', route: '/Add_Society' },
     { label: 'Add Project', value: 'Add Project', route: '/Add_Project' },
+    { label: 'Add Agency', value: 'Add Agency', route: '/Add_Agencies' },
   ];
   // Add_Project
 
@@ -39,13 +39,10 @@ const Navbarunique = () => {
 
   const handleOptionClick = (move:any) => {
     setShowMenu(false);
-    console.log(move)
-      // Navigate to the selected route if it's defined
-      router.push(move);
+  
+    router.push(move.route);
     
   };
-
-  // const userdata = JSON.parse(userparams);
 
 
   
@@ -188,9 +185,9 @@ function gotoAgents() {
         >
           <path
             stroke="currentColor"
-            stroke-linecap="round"
+            // stroke-linecap="round"
             stroke-linejoin="round"
-            stroke-width="2"
+        
             d="m1 1 4 4 4-4"
           />
         </svg>

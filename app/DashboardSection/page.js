@@ -293,7 +293,7 @@ function RecentSearches({ recentSearches ,isLoading }) {
    };
  
    return (
-     <div className="relative  px-5">
+     <div className="relative  px-5 mt-10">
      <div className="max-w-full border border-slate-300 p-10 rounded-lg relative overflow-hidden">
   
      <h2 className="text-black font-bold font-sans text-2xl mb-10">Recent Searches</h2>

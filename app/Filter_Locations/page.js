@@ -34,6 +34,7 @@ const WrapFilterLocations = () =>{
   const router = useSearchParams()
   const [details, setDetails] = useState([]);
   const [searchText, setSearchText] = useState("");
+
   const [userid, setUserid] = useState('');
   var purpose  =  router.get('purpose');
   var location =  router.get('location');
@@ -44,7 +45,7 @@ const WrapFilterLocations = () =>{
   const [isDialogOpen, setDialogOpen] = useState(false);
   const [isEmailDialogOpen, setEmailDialogOpen] = useState(false);
   const [title, setTitle] = useState('');
-  
+    const [isLoading, setIsLoading] = useState(false);
   
   const toggleDialog = () => {
     const header_title ="Contact Number"
@@ -73,6 +74,7 @@ const WrapFilterLocations = () =>{
   
     const fetchProperty = async () => {
       try {
+        setIsLoading(true)
         const response = await fetch(
           `${ServiceUrl}/Find_PopularLocations/?purpose=${purpose}&city=${city}&location=${location}&subType=${subType}`,
           {
@@ -85,8 +87,9 @@ const WrapFilterLocations = () =>{
         const data = await response.json();
   
         setDetails(data["filteredProducts"]);
-        console.log(data["filteredProducts"], 'data')
+        setIsLoading(false)
       } catch (error) {
+        setIsLoading(false)
         console.error("Error fetching images:", error);
       }
     };
@@ -186,9 +189,9 @@ const WrapFilterLocations = () =>{
                             >
                               <path
                                 stroke="currentColor"
-                                stroke-linecap="round"
+                                // stroke-linecap="round"
                                 stroke-linejoin="round"
-                                stroke-width="2"
+                          
                                 d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
                               />
                             </svg>
@@ -197,10 +200,10 @@ const WrapFilterLocations = () =>{
                             type="text"
                             value={searchText}
                             onChange={(e) => setSearchText(e.target.value)}
-                            id="search"
+                       
                             className="block w-full h-[64px] rounded-full  font-sans p-5 pl-10 text-sm text-gray-900 border border-gray-300    focus:ring-blue-500 focus:border-blue-500 dark:bg-blue-700 dark:border-blue-600 bg-white dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             placeholder="Search by city, location, property type, price, bedrooms, bathrooms..."
-                            required
+                          
                           />
                         </div>
                       </div>
@@ -217,56 +220,13 @@ const WrapFilterLocations = () =>{
         
   
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 p-10">
-          {details.length === 0 ? (
+          {isLoading ? (
         
-         [...Array(3)].map((_,index) => (
-          <div key={index} className="bg-white border mb-10 border-gray-300 w-[400px] rounded-[30px] overflow-hidden shadow-lg animate-pulse ">
-  
-        <div className="cursor-pointer p-3" >
-  <div className="w-full h-[180px] object-cover object-center rounded-[30px] bg-gray-200"/>
-        </div>
-  
-        <div className="p-4">
-          <div className="flex flex-row justify-between mb-2" >
-            <div className="text-gray-400 bg-gray-200 text-xs w-[43%] h-5 rounded-full font-sans" />
-            <div  className="w-5 h-5 bg-gray-200 rounded-full" />
-          </div>
-          
-          <div className="text-gray-400 bg-gray-200 mb-2 text-xs w-[43%] h-5 rounded-full font-sans" />
-          <div className="text-gray-400 bg-gray-200 mb-2  text-xs w-[43%] h-5 rounded-full font-sans" />
-        
-          
-          <div className="flex justify-start gap-2 w-full mb-2 ">  
-                 <div className="h-5 w-5 rounded-full bg-slate-200"></div>
-                  <div className="mb-1 h-5 w-[35%] rounded-lg bg-slate-200 text-lg"></div>
-                  </div>
-                  
-                  <div className="flex justify-start gap-2 w-full mb-2 ">  
-                 <div className="h-5 w-5 rounded-full bg-slate-200"></div>
-                  <div className="mb-1 h-5 w-[35%] rounded-lg bg-slate-200 text-lg"></div>
-                  </div>
-        
-        <div className=" flex items-center justify-center px-4 mb-5">
-          <button
-            className="flex justify-center items-center gap-2 text-white bg-gray-200  font-medium rounded-full text-xs px-5 w-full py-3.5 text-center mr-2 mb-2"
-          >
-          </button>
-  
-  
-          <button
-            className="flex justify-center items-center gap-2 text-white bg-gray-200 rounded-full  text-xs px-5 w-full py-3.5  mr-2 mb-2"
-          >
-          </button>
-  
-        </div>
-  
-      </div>
-  </div>
-  
-  ))
-         
-         
+         <FilterLocationsLoading />
          ) : (
+         filteredProperties.length === 0 ? (
+              <p>No properties found.</p>
+            ) : (
     
             filteredProperties.map((item) => (
                   <div key={item._id} className="bg-white border p-3 mb-10 border-gray-300 w-[400px] rounded-[30px] overflow-hidden shadow-lg">
@@ -332,8 +292,8 @@ const WrapFilterLocations = () =>{
   
               </div>
   
-  )))}
-          <ToastContainer />
+  ))))}
+       
         </div>
         <Footer/>
       </div>
@@ -354,4 +314,59 @@ return(
   </>
 )
 
+}
+
+
+
+
+const FilterLocationsLoading = () =>{
+  return(
+    
+    [...Array(3)].map((_,index) => (
+      <div key={index} className="bg-white border mb-10 border-gray-300 w-[400px] rounded-[30px] overflow-hidden shadow-lg animate-pulse ">
+
+    <div className="cursor-pointer p-3" >
+<div className="w-full h-[180px] object-cover object-center rounded-[30px] bg-gray-200"/>
+    </div>
+
+    <div className="p-4">
+      <div className="flex flex-row justify-between mb-2" >
+        <div className="text-gray-400 bg-gray-200 text-xs w-[43%] h-5 rounded-full font-sans" />
+        <div  className="w-5 h-5 bg-gray-200 rounded-full" />
+      </div>
+      
+      <div className="text-gray-400 bg-gray-200 mb-2 text-xs w-[43%] h-5 rounded-full font-sans" />
+      <div className="text-gray-400 bg-gray-200 mb-2  text-xs w-[43%] h-5 rounded-full font-sans" />
+    
+      
+      <div className="flex justify-start gap-2 w-full mb-2 ">  
+             <div className="h-5 w-5 rounded-full bg-slate-200"></div>
+              <div className="mb-1 h-5 w-[35%] rounded-lg bg-slate-200 text-lg"></div>
+              </div>
+              
+              <div className="flex justify-start gap-2 w-full mb-2 ">  
+             <div className="h-5 w-5 rounded-full bg-slate-200"></div>
+              <div className="mb-1 h-5 w-[35%] rounded-lg bg-slate-200 text-lg"></div>
+              </div>
+    
+    <div className=" flex items-center justify-center px-4 mb-5">
+      <button
+        className="flex justify-center items-center gap-2 text-white bg-gray-200  font-medium rounded-full text-xs px-5 w-full py-3.5 text-center mr-2 mb-2"
+      >
+      </button>
+
+
+      <button
+        className="flex justify-center items-center gap-2 text-white bg-gray-200 rounded-full  text-xs px-5 w-full py-3.5  mr-2 mb-2"
+      >
+      </button>
+
+    </div>
+
+  </div>
+</div>
+
+))
+     
+  )
 }

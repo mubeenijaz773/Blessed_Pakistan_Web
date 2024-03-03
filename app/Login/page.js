@@ -16,15 +16,24 @@ const Login = () => {
   const router  = useRouter();
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isEmailValid, setIsEmailValid] = useState(false);
 
-  function handleVisibility() {
+  const handleEmailChange = (e) => {
+    const newEmail = e.target.value;
+    setEmail(newEmail);
+
+    // Check if the email contains "@gmail.com"
+    setIsEmailValid(newEmail.toLowerCase().includes('@gmail.com'));
+  };
+  
+  function handlevisibility(){
     setShowPassword(!showPassword);
   }
 
   const handleLogin = async () => {
     if (email !== '' && password !== '') {
       try {
-        setIsLoading(true); 
+        setIsLoading(true); // Set isLoading to true when login button is clicked
 
         const response = await fetch(`${ServiceUrl}/Login`, {
           method: 'POST',
@@ -38,15 +47,15 @@ const Login = () => {
         });
 
         const data = await response.json();
-      
+      // Check the response from the API
         if (data['status'] === 200) {
           router.push('/');
           setIsLoading(false);
           toast.success('Login Successfully'); 
-          localStorage.setItem('current_user', JSON.stringify(data['user']));
-          localStorage.setItem('_id', data['user']['_id']);
-          localStorage.setItem('role', data['user']['role']);
-          localStorage.setItem('email', data['user']['email']);
+          localStorage.setItem('current_user', JSON.stringify(data['user']))
+          localStorage.setItem('_id', data['user']['_id'])
+          localStorage.setItem('role', data['user']['role'])
+          localStorage.setItem('email', data['user']['email'])
         } else if (data.status === 400) {
           toast.error('Incorrect Password');
           setIsLoading(false);
@@ -55,7 +64,7 @@ const Login = () => {
           setIsLoading(false);
         }
       } catch (error) {
-        toast.error(`Error logging in: ${error}`); // Escape single quotes
+        toast.error('Error logging in:', error);
         setIsLoading(false);
       }
     } else {
@@ -64,100 +73,137 @@ const Login = () => {
     }
   };
 
-  return (
-    <div className="flex justify-center min-h-screen bg-gray-100 ">
-      <ToastContainer />
-      <div className="bg-white p-8 rounded-lg shadow-lg w-96 h-[450px] mt-[30px]">
-        <div className="flex justify-center items-center">
-          <Image src="/logo_app.jpg" width={120} height={120} alt="Logo" /> {/* Add alt prop */}
+
+
+  return(
+    <main className="flex min-h-screen  bg-slate-100 ">
+          <ToastContainer/>
+          {/* Background Image */}
+          <div
+            className="flex-shrink-0 w-1/2 bg-cover bg-no-repeat relative items-center"
+            style={{
+              backgroundImage: 'url("/bg.png")',
+              backgroundSize: 'cover',
+              // Add other background properties as needed
+            }}
+          >
+            {/* <div className="absolute bg-black opacity-60 inset-0 z-0"></div> */}
+          </div>
+    
+          {/* Login Card */}
+          <div className="flex-shrink-0 w-1/2 flex justify-center items-center bg-slate-100 py-10 ">
+            <div className="max-w-md w-full  p-10 bg-white rounded-xl z-10 ">
+              <div className="text-center">
+                <h2 className="mt-6 text-3xl font-bold text-gray-900">
+                 Welcom Back!
+          </h2>
+          <p className="mt-2 text-sm text-gray-600">Please sign in to your account</p>
         </div>
-        <h2 className="text-3xl font-semibold mb-4 font-sans text-center text-purple-700">Sign In</h2>
-        <form>
-          {/* Email input */}
-          <div className="relative flex flex-col">
-            <span className="absolute right-2 top-2">
-              <BiMailSend className="w-4 h-4 text-blue-500" />
-            </span>
+        <div className="flex flex-row justify-center items-center ">
+        <div className="w-[200px] h-[120px] relative" >
+        <Image layout="fill" src="/logo_app.jpg"  alt="Logo" />
+        </div>
+        </div>
+    
+        <form className="mt-8 space-y-6" action="#" method="POST">
+          <input type="hidden" name="remember" value="true"/>
+          
+          <div className="relative">
+            
+            <div className="absolute right-0 mt-8">
+            {isEmailValid ? (
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6 text-green-500"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+            ):(
+              <BiMailSend className="h-5 w-5 text-green-500" />
+            )}
+           
+                    </div>
+    
+    
+            <label className="text-sm font-bold text-gray-700 tracking-wide">Email</label>
             <input
-              id="email"
-              type="email"
-              placeholder="Enter email"
-              autoFocus
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="relative z-10  border-0 border-b-2 text-xs border-blue-500 h-10 bg-transparent text-gray-900 outline-none px-2 peer"
-            />
-            <label className="absolute text-xs font-sans transition-transform duration-300 translate-y-0 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100  peer-focus:translate-y-[-1rem] peer-focus:scale-75 peer-placeholder-shown:text-gray-500 peer-focus:text-blue-500">
-              Enter Email
-            </label>
-          </div>
-          {/* Password input */}
-          <div className="mt-5 relative flex flex-col">
-            <div className="absolute right-2 top-2 ">
-              <BiLock className="w-4 h-4 text-blue-500" />
-            </div>
-            <input
-              id="password"
-              type={showPassword ? "text" : "password"}
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="Enter password"
-              autoFocus
-              className="relative z-10  border-0 border-b-2 border-blue-500 text-xs h-10 bg-transparent text-gray-900 outline-none px-2 peer"
-            />
-            <label className="absolute font-sans text-xs transition-transform duration-300 translate-y-0 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100  peer-focus:translate-y-[-1rem] peer-focus:scale-75 peer-placeholder-shown:text-gray-500 peer-focus:text-blue-500">
-              Enter Password
-            </label>
-          </div>
-          {/* Show password toggle */}
-          <div className="flex justify-between mt-1">
-            <span className="flex text-xs font-sans gap-2">
-              {showPassword ? (
-                <BsEye onClick={handleVisibility} className="w-4 h-4 text-blue-500" />
-              ) : (
-                <BsEyeSlash onClick={handleVisibility} className="w-4 h-4 text-blue-500" />    
-              )}
-              <span>Show Password</span>
-            </span>
-            <Link className="text-indigo-600 text-xs font-sans hover:text-indigo-800" href={'/Forgetpassword'}>
-              Forgot Password?
-            </Link>
-          </div> 
-          {/* Sign in button */}
-          <div>
-            <button
-              disabled={isLoading}
-              onClick={handleLogin}
-              type="button"
-              className="mt-10 w-full text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 shadow-lg shadow-purple-500/50 dark:shadow-lg dark:shadow-purple-800/80 font-medium rounded-lg text-sm py-3.5 text-center mr-2 mb-2"
-            >
-              {isLoading ? (
-                <div className="flex gap-1 justify-center items-center text-blue-600 text-xs">
-                  <Ring
-                    size={15}
-                    lineWeight={5}
-                    speed={2}
-                    className="mt-1"
-                    color="white"
-                  />
+             id="email"
+             type="email"
+             placeholder="Enter email"
+             autoFocus
+             value={email}
+             onChange={handleEmailChange}
+             className=" w-full text-base py-2 border-b border-gray-300 focus:outline-none focus:border-indigo-500"
+              />
+    
                 </div>
-              ) : (
-                <div className="flex justify-center items-center">Sign In</div>
-              )}
-            </button>
+          <div className="mt-8 content-center relative ">
+            <div className="absolute right-0 mt-8">
+        
+          {showPassword ? (
+                      <BsEye onClick={handlevisibility} className="w-4 h-4 text-green-500" />
+                    ) : (
+                      <BsEyeSlash onClick={handlevisibility} className="w-4 h-4 text-green-500" />
+                    )}
+                    </div>
+            <label className="text-sm font-bold text-gray-700 tracking-wide">
+              Password
+            </label>
+            <input 
+             id="password"
+             type={showPassword ? "text" : "password"}
+             value={password}
+             onChange={(e) => setPassword(e.target.value)}
+             placeholder="Enter password..."     
+             className="w-full content-center text-base py-2 border-b border-gray-300 focus:outline-none focus:border-indigo-500"
+             />
+                </div>
+          <div className="flex items-center justify-end">
+            
+            <div className="text-sm">
+              <Link href={'/Forgetpassword'} className="font-medium text-indigo-500 hover:text-indigo-500">
+                    Forgot your password?
+              </Link>
+            </div>
           </div>
-        </form>
-        {/* Sign up link */}
-        <div className="flex gap-2 mt-4 justify-center">
-          <p className="text-center  text-xs text-gray-600">{`Don't have an account?`}</p>
-          <Link className="text-indigo-600 text-xs hover:text-indigo-800" href={"/Sign_Up"}>
-            Sign Up 
-          </Link>
+          <div>
+                  <button
+                    disabled={isLoading}
+                    onClick={handleLogin}
+                    type="button"
+                    className="w-full flex justify-center bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4  focus:ring-purple-300 dark:focus:ring-purple-800 text-gray-100 p-4  rounded-full tracking-wide
+                    font-semibold  focus:outline-none focus:shadow-outline hover:bg-indigo-600 shadow-lg cursor-pointer transition ease-in duration-300"
+                  >
+                    {isLoading ? (
+                      <div className="flex gap-1 justify-center items-center text-blue-600 text-xs">
+                        <Ring size={15} lineWeight={5} speed={2} className="mt-1" color="white" />
+                      </div>
+                    ) : (
+                      <div className="flex justify-center items-center">Sign In</div>
+                    )}
+                  </button>
+                </div>
+              </form>
+              
+        <div className="flex items-center justify-center space-x-2 mt-10">
+          <span className="h-px w-16 bg-gray-300"></span>
+          <span className="text-gray-500 font-normal">OR</span>
+          <span className="h-px w-16 bg-gray-300"></span>
         </div>
-      </div>
-    </div>
-  );
-};
+              <p className="flex flex-col items-center justify-center mt-5 text-center text-md text-gray-500">
+            <span>{`Don't have an account?`}</span>
+            <Link href="/Sign_Up" className="text-indigo-500 hover:text-indigo-500no-underline hover:underline cursor-pointer transition ease-in duration-300">Sign up</Link>
+          </p>
+              
+            </div>
+          </div>
+        </main>
+    
+  )
+}
 
 export default Login;
 

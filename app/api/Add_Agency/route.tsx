@@ -2,7 +2,9 @@ import { writeFile } from "fs/promises";
 import { NextRequest, NextResponse } from "next/server";
 import Agencies from "@/models/Agency";
 import { v4 as uuidv4 } from 'uuid'; // Import the UUID library
+import path from 'path';
 
+import fs from 'fs/promises';
 
 import { readFile } from 'fs/promises'
 
@@ -14,6 +16,7 @@ const data:any = await request.formData();
 const Agencyname = data.get("Agencyname");
 const CEO_Name = data.get("ceo");
   const address = data.get("address");
+  const city = data.get("city");
   const email = data.get("email");
   const Latitude = data.get("lat");
   const Longitude = data.get("lng");
@@ -34,6 +37,16 @@ const uniqueId = uuidv4();
 const Logoimages = [];
 const Bannerimages = [];
 
+   // Specify the directory where you want to save the files
+   const directory = '../data/Agencyimages';
+
+   try {
+     // Check if the directory exists, if not, create it
+     await fs.access(directory);
+   } catch (error) {
+     // Directory doesn't exist, create it
+     await fs.mkdir(directory, { recursive: true });
+   }
 
 // Loop through image files
 for (const image of logoimages) {
@@ -45,10 +58,12 @@ for (const image of logoimages) {
 
   // Add the filename to the uniqueImageFilenames array
   Logoimages.push({ name: imageFilename });
-
+ 
+  const filePath = path.join(directory, imageFilename);
+  await fs.writeFile(filePath, buffer);
   // Save the file to the server with the unique filename
-  const path = `../data/Agencyimages/${imageFilename}`;
-  await writeFile(path, buffer);
+  // const path = `../data/Agencyimages/${imageFilename}`;
+  // await writeFile(path, buffer);
 }
 
 // Banner image
@@ -63,10 +78,11 @@ for (const image of bannerimages) {
   
     // Add the filename to the uniqueImageFilenames array
     Bannerimages.push({ name: imageFilename });
-  
+    const filePath = path.join(directory, imageFilename);
+    await fs.writeFile(filePath, buffer);
     // Save the file to the server with the unique filename
-    const path = `../data/Agencyimages/${imageFilename}`;
-    await writeFile(path, buffer);
+    // const path = `../data/Agencyimages/${imageFilename}`;
+    // await writeFile(path, buffer);
   }
 
 let status = "InActive"
@@ -76,6 +92,7 @@ const Agencydata = new Agencies({
     Agencyname,
     CEO_Name,
     address,
+    city ,
     email,
     Latitude,
     Longitude,

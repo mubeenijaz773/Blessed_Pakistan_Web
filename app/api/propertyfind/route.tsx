@@ -41,7 +41,7 @@ export async function GET(request: NextRequest) {
 
     // If no products found, return 404 Not Found
     if (!filteredProducts || filteredProducts.length === 0) {
-      return NextResponse.json("No products found", { status: 404 });
+      return NextResponse.json({filteredProducts : []}, { status: 404 });
     }
 
     // Return filtered products with status 200 OK

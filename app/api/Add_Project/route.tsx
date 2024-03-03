@@ -1,8 +1,10 @@
-import { writeFile } from "fs/promises";
+// import { writeFile } from "fs/promises";
 import { NextRequest, NextResponse } from "next/server";
 import Project from "@/models/Project";
 import { v4 as uuidv4 } from 'uuid'; // Import the UUID library
+import path from 'path';
 
+import fs from 'fs/promises';
 
 import { readFile } from 'fs/promises'
 
@@ -33,6 +35,16 @@ const uniqueId = uuidv4();
 // Define arrays to store the unique filenames for images and videos
 const Societiesimages = [];
 const uniqueVideoFilenames = [];
+   // Specify the directory where you want to save the files
+   const directory = '../data/projectimages';
+
+   try {
+     // Check if the directory exists, if not, create it
+     await fs.access(directory);
+   } catch (error) {
+     // Directory doesn't exist, create it
+     await fs.mkdir(directory, { recursive: true });
+   }
 
 // Loop through image files
 for (const image of Societyimages) {
@@ -45,9 +57,11 @@ for (const image of Societyimages) {
   // Add the filename to the uniqueImageFilenames array
   Societiesimages.push({ name: imageFilename });
 
+  const filePath = path.join(directory, imageFilename);
+  await fs.writeFile(filePath, buffer);
   // Save the file to the server with the unique filename
-  const path = `../data/projectimages/${imageFilename}`;
-  await writeFile(path, buffer);
+  // const path = `../data/projectimages/${imageFilename}`;
+  // await writeFile(path, buffer);
 }
 
   // Loop through video files
@@ -60,10 +74,11 @@ for (const image of Societyimages) {
   
     // Add the filename to the uniqueVideoFilenames array
     uniqueVideoFilenames.push({ name: videoFilename });
-  
+    const filePath = path.join(directory, videoFilename);
+  await fs.writeFile(filePath, buffer1);
     // Save the file to the server with the unique filename
-    const path = `../data/projectimages/${videoFilename}`;
-    await writeFile(path, buffer1);
+    // const path = `../data/projectimages/${videoFilename}`;
+    // await writeFile(path, buffer1);
   }
   
 

@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useRef, useEffect, Suspense, ReactNode } from "react";
+import React, { useState,  Suspense, ReactNode } from "react";
 import axios from "axios"; // You'll need axios or another HTTP library to make API requests
 import { ServiceUrl } from "@/app/global";
 import { useSearchParams } from "next/navigation";
@@ -7,7 +7,7 @@ import {
   GoogleMap,
   LoadScript,
   MarkerF,
-  OverlayView,
+
 } from "@react-google-maps/api";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -16,7 +16,7 @@ import {
   MdDeleteOutline,
   MdOutlinePersonAddAlt1,
   MdOutlineSubtitles,
-  MdSlowMotionVideo,
+
 } from "react-icons/md";
 import { FaImages, FaMagento, FaVideo } from "react-icons/fa";
 import { IoMdPhonePortrait } from "react-icons/io";
@@ -27,7 +27,9 @@ import { SiGooglemaps } from "react-icons/si";
 import { IoSaveOutline } from "react-icons/io5";
 import { BiSolidError } from "react-icons/bi";
 import Image from "next/image";
-
+import { cities } from "../GetList";
+import Select from 'react-select';
+import Navbarunique from "../Navbar/page";
 
 // Define the type for the children prop as ReactNode
 interface SuspenseBoundaryProps {
@@ -47,7 +49,7 @@ const WrapComponent = () =>{
   const router = useRouter();
   const params = useSearchParams();
   var email:any = params.get("email");
-
+  const [selectedCity, setSelectedCity] = useState(null);
   const [agencyName, setAgencyName] = useState("");
   const [ceoName, setCeoName] = useState("");
   const [address, setAddress] = useState("");
@@ -103,6 +105,19 @@ const WrapComponent = () =>{
     setMembers(newMembers);
     console.log(newMembers);
   };
+
+ 
+  const handleCityChange = (city:any) => {
+ 
+    setSelectedCity(city)
+ 
+  };
+
+
+
+
+
+
 
   const addMember = () => {
     if (members.length < 5) {
@@ -163,6 +178,7 @@ const WrapComponent = () =>{
     if (
       agencyName &&
       address &&
+      selectedCity &&
       ceoName &&
       longitude &&
       latitude &&
@@ -175,6 +191,7 @@ const WrapComponent = () =>{
       formData.append("Agencyname", agencyName);
       formData.append("ceo", ceoName);
       formData.append("address", address);
+      formData.append("city", selectedCity);
       formData.append("email", email);
       formData.append("lat", latitude);
       formData.append("lng", longitude);
@@ -226,6 +243,7 @@ const WrapComponent = () =>{
 
   return (
     <main className="min-h-screen w-full bg-white">
+      <Navbarunique />
       <div className="bg-white border p-10">
         <ToastContainer />
         <div className="flex flex-row gap-12 justify-center w-[100%]">
@@ -387,9 +405,29 @@ const WrapComponent = () =>{
               onChange={handleInputChange}
               className="border border-gray-300 rounded p-2 w-full py-3 mb-4 mt-5 text-xs focus:outline-none focus:border-blue-500"
             />
+        
+        <div className="flex flex-row gap-3 mt-5">
+              <div className="border border-gray-100 bg-gray-100 p-2 rounded-full  ">
+                <TbAddressBook className="w-4 h-4 text-blue-600" />
+              </div>
+              <label className="block text-gray-900 text-sm mt-2 font-bold">
+               City
+              </label>
+            </div>
+
+          <CityDropdown selectedCity={selectedCity} onChange={handleCityChange}  />
+        
           </div>
+        
         </div>
       </div>
+
+
+
+
+
+
+
 
       <div className="bg-white border p-10">
         <div className="flex flex-row gap-12 justify-center  w-[100%] ">
@@ -400,7 +438,7 @@ const WrapComponent = () =>{
             <h2 className="text-xl font-semibold">Google Map Location</h2>
           </div>
 
-          {/* <LoadScript googleMapsApiKey="AIzaSyAq-OloyVfWl2PTCxFlXQ0OGW_VvBmhCoQ">
+          <LoadScript googleMapsApiKey="AIzaSyAq-OloyVfWl2PTCxFlXQ0OGW_VvBmhCoQ">
             <GoogleMap
               mapContainerStyle={containerStyle}
               center={center}
@@ -409,7 +447,7 @@ const WrapComponent = () =>{
             >
               <MarkerF position={{ lat: latitude, lng: longitude }} />
             </GoogleMap>
-          </LoadScript> */}
+          </LoadScript>
         </div>
       </div>
 
@@ -553,7 +591,7 @@ const WrapComponent = () =>{
             </div>
           </div>
         </div>
-        <div className="flex flex-col items-center justify-center mt-10">
+        <div className="flex flex-col items-center justify-end mt-10">
           {error && (
             <div className="flex gap-2 mb-3 mt-3">
               <BiSolidError className="w-5 h-5 text-red-600" />
@@ -568,7 +606,7 @@ const WrapComponent = () =>{
           )}
           <button
             onClick={handleUpload}
-            className="flex gap-2 text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 shadow-lg shadow-purple-500/50 dark:shadow-lg dark:shadow-purple-800/80 font-medium rounded-lg text-xs px-10 py-3.5 text-center mr-2 mb-2"
+            className="flex justify-end gap-2 text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 shadow-lg shadow-purple-500/50 dark:shadow-lg dark:shadow-purple-800/80 font-medium rounded-lg text-xs px-10 py-3.5 text-center mr-2 mb-2"
           >
             <IoSaveOutline className="w-4 h-4" />
             Submit
@@ -605,3 +643,38 @@ return(
 };
 
 export default Add_Agency;
+
+
+
+
+
+
+
+// City dropdown
+
+const CityDropdown = ( {selectedCity , onChange  }) => {
+  const options = cities.map((city) => ({ value: city, label: city }));
+
+  return (
+    <div>
+
+   
+    <Select
+      options={options}
+      value={{ value: selectedCity, label: selectedCity }}
+      onChange={(selectedOption) => onChange(selectedOption.value)}
+      placeholder="Select a city..."
+      isSearchable
+      className={`text-xs hover:bg-gray-100 text-gray-700`}
+    />
+  
+     </div>
+  );
+};
+
+
+
+
+
+
+

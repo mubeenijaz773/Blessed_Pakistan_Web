@@ -11,7 +11,7 @@ import EmailDailogBox from "../Email_Dailog/page";
 import { GrMapLocation } from "react-icons/gr";
 import CallDialog from "../Call_Dailogbox/page";
 import { formatDistanceToNow } from "date-fns";
-import { MdLocationOn, MdOutlineShareLocation } from "react-icons/md";
+import { MdLocationOff, MdLocationOn, MdOutlineShareLocation } from "react-icons/md";
 import { TbArrowAutofitHeight, TbMailFilled } from "react-icons/tb";
 import { IoMdCall } from "react-icons/io";
 import Image from "next/image";
@@ -56,9 +56,6 @@ const WrapPropertyFilter = () =>{
     subType = "";
   }
 
-  console.log(propertyType, subType, Area_size);
-
-
 
 
 
@@ -87,7 +84,7 @@ const WrapPropertyFilter = () =>{
       const data = await response.json();
 
       setDetails(data["filteredProducts"]);
-      console.log(data, details, "data ?");
+
       setIsLoading(false);
     } catch (error) {
       setIsLoading(false);
@@ -99,7 +96,7 @@ const WrapPropertyFilter = () =>{
   
   useEffect(() => {
     // Assuming that images is an array of objects and each object has a 'createdAt' property
-      details.map((item:any,index) => {
+      details?.map((item:any,index) => {
       if (item && item.createdAt) {
         const insertionDate = new Date(item.createdAt);
         const timeAgo:any = formatDistanceToNow(insertionDate, { addSuffix: true });
@@ -137,7 +134,7 @@ const WrapPropertyFilter = () =>{
     }
   }
 
-  const filteredData = details.filter((item:any) =>
+  const filteredData = details?.filter((item:any) =>
     item.title.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
@@ -183,9 +180,9 @@ const WrapPropertyFilter = () =>{
                           >
                             <path
                               stroke="currentColor"
-                              stroke-linecap="round"
+                              // stroke-linecap="round"
                               stroke-linejoin="round"
-                              stroke-width="2"
+                           
                               d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
                             />
                           </svg>
@@ -217,77 +214,25 @@ const WrapPropertyFilter = () =>{
         <h1 className="text-2xl font-extrabold ">Locations of {propertyType} For {purpose}
          </h1>
 </div>
-        {isLoading ? (   
-          <>    
-          <div className="w-full max-w-screen-xl p-8 bg-white rounded-lg border  border-gray-400 ">
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 ">
-            {  [...Array(4)].map((_,index) => (
-                <div
-                key={index}
-                  className="animate-pulse flex flex-grow gap-3 items-center p-4 border bg-white rounded-lg shadow-lg "
-                >
-                  <div className="w-5 h-5 bg-gray-200 rounded-full"/>
-                  <div className="h-5 bg-gray-200 w-[100%] rounded-full"/>
-                </div>
-            ))}
-              </div>
-                </div>
-          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 mt-10">       
-        {  [...Array(3)].map((_,index) => (
-        <div key={index} className="bg-white border mb-10 border-gray-300 w-[400px] rounded-[30px] overflow-hidden shadow-lg animate-pulse ">
-
-      <div className="cursor-pointer p-3" >
-<div className="w-full h-[180px] object-cover object-center rounded-[30px] bg-gray-200"/>
-      </div>
-
-      <div className="p-4">
-        <div className="flex flex-row justify-between mb-2" >
-          <div className="text-gray-400 bg-gray-200 text-xs w-[43%] h-5 rounded-full font-sans" />
-          <div  className="w-5 h-5 bg-gray-200 rounded-full" />
+{isLoading ? (
+        <>
+          <LoadingLocations />
+        </>
+      ) : filteredData?.length === 0 ? (
+        <div className="flex items-center justify-center h-96 text-gray-500">
+          <div className="flex gap-2 text-center">
+            <MdLocationOff className="w-7 h-7" />
+            <h1 className="text-3xl font-semibold">No Properties Found</h1>
+          </div>
         </div>
-        
-        <div className="text-gray-400 bg-gray-200 mb-2 text-xs w-[43%] h-5 rounded-full font-sans" />
-        <div className="text-gray-400 bg-gray-200 mb-2  text-xs w-[43%] h-5 rounded-full font-sans" />
-      
-        
-        <div className="flex justify-start gap-2 w-full mb-2 ">  
-               <div className="h-5 w-5 rounded-full bg-slate-200"></div>
-                <div className="mb-1 h-5 w-[35%] rounded-lg bg-slate-200 text-lg"></div>
-                </div>
-                
-                <div className="flex justify-start gap-2 w-full mb-2 ">  
-               <div className="h-5 w-5 rounded-full bg-slate-200"></div>
-                <div className="mb-1 h-5 w-[35%] rounded-lg bg-slate-200 text-lg"></div>
-                </div>
-      
-      <div className=" flex items-center justify-center px-4 mb-5 mt-5">
-        <button
-          className="flex justify-center items-center gap-2 text-white bg-gray-200  font-medium rounded-full text-xs px-5 w-full py-4 text-center mr-2 mb-2"
-        >
-        </button>
-
-
-        <button
-          className="flex justify-center items-center gap-2 text-white bg-gray-200 rounded-full  text-xs px-5 w-full py-4  mr-2 mb-2"
-        >
-        </button>
-
-      </div>
-
-    </div>
-</div>
-
-))}
- </div>     
- </>          
-        ) : (
-          <>
+      ) : (
+        <>
             {/* Show Locations */}
-            {filteredData.length > 0 && (
+         
               <div className="h-auto mb-9 mt-4 bg-gray-100">
                 <div className="w-full max-w-screen-xl p-8 bg-white rounded-lg border border-gray-400 transition-transform transform ">
                   <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 ">
-                    {filteredData.map((location:any, index) => (
+                    {filteredData?.map((location:any, index) => (
                       <div
                         key={index}
                         className="flex flex-grow gap-3 items-center p-4 border bg-white cursor-pointer shadow-lg rounded-lg hover:bg-gray-200 transition-all"
@@ -312,9 +257,11 @@ const WrapPropertyFilter = () =>{
                   </div>
       </div>
       </div>
-            )}                
+
+               {/* Cards */}
+
          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 ">       
-        {filteredData.map((property:any, index) => (
+        {filteredData?.map((property:any, index) => (
                 <div key={index} className="bg-white border mb-10 border-gray-300 w-[400px] rounded-[30px] overflow-hidden shadow-lg">
     
               <div className="cursor-pointer p-3" onClick={() => GotToNextPage(property)} >
@@ -387,8 +334,7 @@ const WrapPropertyFilter = () =>{
               </div>
             </div>
 
-)
-)}
+))}
 </div>
 </>
 )}
@@ -420,3 +366,70 @@ return(
 export default PropertyFilter;     
 
 
+const LoadingLocations = () =>{
+  return(
+    <>
+  
+    <div className="w-full max-w-screen-xl p-8 bg-white rounded-lg border  border-gray-400 ">
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 ">
+    {  [...Array(4)].map((_,index) => (
+        <div
+        key={index}
+          className="animate-pulse flex flex-grow gap-3 items-center p-4 border bg-white rounded-lg shadow-lg "
+        >
+          <div className="w-5 h-5 bg-gray-200 rounded-full"/>
+          <div className="h-5 bg-gray-200 w-[100%] rounded-full"/>
+        </div>
+    ))}
+      </div>
+        </div>
+  <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 mt-10">       
+{  [...Array(3)].map((_,index) => (
+<div key={index} className="bg-white border mb-10 border-gray-300 w-[400px] rounded-[30px] overflow-hidden shadow-lg animate-pulse ">
+
+<div className="cursor-pointer p-3" >
+<div className="w-full h-[180px] object-cover object-center rounded-[30px] bg-gray-200"/>
+</div>
+
+<div className="p-4">
+<div className="flex flex-row justify-between mb-2" >
+  <div className="text-gray-400 bg-gray-200 text-xs w-[43%] h-5 rounded-full font-sans" />
+  <div  className="w-5 h-5 bg-gray-200 rounded-full" />
+</div>
+
+<div className="text-gray-400 bg-gray-200 mb-2 text-xs w-[43%] h-5 rounded-full font-sans" />
+<div className="text-gray-400 bg-gray-200 mb-2  text-xs w-[43%] h-5 rounded-full font-sans" />
+
+
+<div className="flex justify-start gap-2 w-full mb-2 ">  
+       <div className="h-5 w-5 rounded-full bg-slate-200"></div>
+        <div className="mb-1 h-5 w-[35%] rounded-lg bg-slate-200 text-lg"></div>
+        </div>
+        
+        <div className="flex justify-start gap-2 w-full mb-2 ">  
+       <div className="h-5 w-5 rounded-full bg-slate-200"></div>
+        <div className="mb-1 h-5 w-[35%] rounded-lg bg-slate-200 text-lg"></div>
+        </div>
+
+<div className=" flex items-center justify-center px-4 mb-5 mt-5">
+<button
+  className="flex justify-center items-center gap-2 text-white bg-gray-200  font-medium rounded-full text-xs px-5 w-full py-4 text-center mr-2 mb-2"
+>
+</button>
+
+
+<button
+  className="flex justify-center items-center gap-2 text-white bg-gray-200 rounded-full  text-xs px-5 w-full py-4  mr-2 mb-2"
+>
+</button>
+
+</div>
+
+</div>
+</div>
+
+))}
+</div>   
+</>
+  )
+}

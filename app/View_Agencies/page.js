@@ -51,7 +51,14 @@ const scrollContainerRef = useRef(null);
        <>
        <AgencyLoading />
        </>
-       ) : (
+            ) : (
+              <>
+                Agencies.length === 0 ? (
+                  <div className="text-center text-gray-500">No Agencies Found</div>
+                ) : (
+                 
+   
+ 
           <div>
             <BsArrowLeft
               onClick={scrollLeft}
@@ -111,7 +118,9 @@ item.status === "Active" && (
               &gt;
             </BsArrowRight>
           </div>
+          </>
         )}
+        
       </div>
  </div>
  

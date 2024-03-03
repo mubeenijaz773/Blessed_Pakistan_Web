@@ -9,6 +9,10 @@ import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useRouter } from "next/navigation";
 import { Ring } from "@uiball/loaders";
+import Image from "next/image";
+import { DiCode } from "react-icons/di";
+
+
 
 const Forgetpassword = () => {
   const router = useRouter();
@@ -16,20 +20,43 @@ const Forgetpassword = () => {
   const [isloading, setIsLoading] = useState(false);
   const [isloading1, setIsLoading1] = useState(false);
   const [showPasswordFeild, setShowPasswordFeild] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showconfirmPassword, setShowConfirmPassword] = useState(false);
   const [verificationCode, setVerificationCode] = useState("");
   const [showVerificationCodeInput, setShowVerificationCodeInput] = useState(false);
-
   const [verificationcode1, setVerificationCode1] = useState("");
 
+  const [password, setPassword] = useState(""); // State for the password input
+  const [confirmPassword, setConfirmPassword] = useState(""); // State for the confirm password input
 
-  const isEmailValid = (email) => {
+
+  const EmailValid = (email) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   };
 
+  function handlevisibility(){
+    setShowPassword(!showPassword);
+  }
+
+  function handleConfirmvisibility(){
+    setShowConfirmPassword(!showconfirmPassword);
+  }
+
+  const [isEmailValid, setIsEmailValid] = useState(false);
+
+  const handleEmailChange = (e) => {
+    const newEmail = e.target.value;
+    setEmail(newEmail);
+
+    // Check if the email contains "@gmail.com"
+    setIsEmailValid(newEmail.toLowerCase().includes('@gmail.com'));
+  };
+  
+
   const SendEmail = async () => {
     setIsLoading(true)
-    if (!isEmailValid(email)) {
+    if (!EmailValid(email)) {
       toast.error("Invalid email format");
       console.log("email error");
       setIsLoading(false)
@@ -70,27 +97,13 @@ const Forgetpassword = () => {
     setIsLoading1(true)
     if (verificationcode1 == verificationCode) {
       setShowPasswordFeild(true);
+      // setShowVerificationCodeInput(false);
       setIsLoading1(false)
     } else {
       toast.error('Not Match')
       setIsLoading1(false)
     }
     setIsLoading1(false)
-  };
-
-
-  // set password api 
-
-
-  const [password, setPassword] = useState(""); // State for the password input
-  const [confirmPassword, setConfirmPassword] = useState(""); // State for the confirm password input
-
-  const handlePasswordChange = (e) => {
-    setPassword(e.target.value);
-  };
-
-  const handleConfirmPasswordChange = (e) => {
-    setConfirmPassword(e.target.value);
   };
 
   const handleSubmit = async (e) => {
@@ -134,113 +147,177 @@ const Forgetpassword = () => {
 
 
   return (
-    <div className="flex justify-center items-center mt-[70px]">
-      <ToastContainer />
-      <div className=" bg-white p-8 rounded-lg shadow-lg w-96">
-        <h2 className="text-3xl font-semibold mb-4 font-sans text-center text-purple-700">
-          {showVerificationCodeInput ? "Verification code" : "Forgot Password"}
-        </h2>
-        <form>
+    <main className="flex min-h-screen  bg-slate-100 ">
+    <ToastContainer/>
+    {/* Background Image */}
+    <div
+      className="flex-shrink-0 w-1/2 bg-cover bg-no-repeat relative items-center"
+      style={{
+        backgroundImage: 'url("/bg.png")',
+        backgroundSize: 'cover',
+        // Add other background properties as needed
+      }}
+    >
+      {/* <div className="absolute bg-black opacity-60 inset-0 z-0"></div> */}
+    </div>
+
+    {/* Login Card */}
+    <div className="flex-shrink-0 w-1/2 flex justify-center items-center bg-slate-100 py-10 ">
+      <div className="max-w-md w-full  p-10 bg-white rounded-xl z-10 ">
+        <div className="text-center">
+          <h2 className="mt-6 text-3xl font-bold text-gray-900">
           {showPasswordFeild ? (
-            <>
-              <div className="relative flex flex-col mt-7">
+      "Set Passowrd"
+    ) : showVerificationCodeInput ? "Verification code" : "Forgot Password"}
+ 
+ </h2>
+    <p className="mt-2 text-sm text-gray-600">
+    {showPasswordFeild ? (
+      "Set your passowrd to continue"
+    ) : showVerificationCodeInput ? "Enter Verification code to continue" : "Enter your email for verification"}
+  
+  </p>
+  </div>
+  <div className="flex flex-row justify-center items-center ">
+  <div className="w-[200px] h-[120px] relative" >
+  <Image layout="fill" src="/logo_app.jpg"  alt="Logo" />
+  </div>
+  </div>
 
-                <div
-                  className="absolute right-2 top-2 "
-                >
-                  <BiLock className="w-4 h-4 text-blue-500" />
-                </div>
-                <input
-                  type="text"
-                  placeholder=" "
-                  autoFocus
-                  value={password}
-                  onChange={handlePasswordChange}
-                  className="relative z-10 border-0 border-b-2 text-xs border-blue-500 h-10 bg-transparent text-gray-900 outline-none px-2 peer"
-                />
-                <label className="absolute text-xs font-sans transition-transform duration-300 translate-y-0 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:translate-y-[-1rem] peer-focus:scale-75 peer-placeholder-shown:text-gray-500 peer-focus:text-blue-500">
-                  Enter Password
-                </label>
-              </div>
-              <div className="relative flex flex-col mt-7">
+  <form className="mt-8 space-y-6" action="#" method="POST">
+    <input type="hidden" name="remember" value="true"/>
+    
+    
+    {showPasswordFeild ? (
+        <>
 
-                <div
-                  className="absolute right-2 top-2 "
-                >
-                  <BiLock className="w-4 h-4 text-blue-500" />
-                </div>
-                <input
-                  type="text"
-                  placeholder=" "
-                  autoFocus
-                  value={confirmPassword}
-                  onChange={handleConfirmPasswordChange}
-                  className="relative z-10 border-0 border-b-2 text-xs border-blue-500 h-10 bg-transparent text-gray-900 outline-none px-2 peer"
-                />
-                <label className="absolute text-xs font-sans transition-transform duration-300 translate-y-0 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:translate-y-[-1rem] peer-focus:scale-75 peer-placeholder-shown:text-gray-500 peer-focus:text-blue-500">
-                  Enter Confirm Password
-                </label>
-              </div>
-
-              <button
-                onClick={handleSubmit}
-                type="button"
-                className="mt-10 w-full text-white bg-gradient-to-r from-red-400 via-red-500
-     to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800
-      font-medium rounded-lg text-sm py-2.5 text-center mr-2 mb-2"
-              >
-                Submit
-              </button>
-            </>
-          ) : (
-            <>
-              {showVerificationCodeInput ? (
-                <div className="relative flex flex-col">
-                  <span className="absolute right-2 top-2">
-                    <BiLock className="w-4 h-4 text-blue-500" />
-                  </span>
-                  <input
-                    id="verificationCode"
-                    type="text"
-                    placeholder=" "
-                    autoFocus
-                    value={verificationCode}
-                    onChange={(e) => setVerificationCode(e.target.value)}
-                    className="relative z-10 border-0 border-b-2 text-xs border-blue-500 h-10 bg-transparent text-gray-900 outline-none px-2 peer"
-                  />
-                  <label className="absolute text-xs font-sans transition-transform duration-300 translate-y-0 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:translate-y-[-1rem] peer-focus:scale-75 peer-placeholder-shown:text-gray-500 peer-focus:text-blue-500">
-                    Enter Verification Code
-                  </label>
-                </div>
+    <div className="mt-8 content-center relative ">
+      <div className="absolute right-0 mt-8">
+  
+    {showPassword ? (
+                <BsEye onClick={handlevisibility} className="w-4 h-4 text-green-500" />
               ) : (
-                <div className="relative flex flex-col mt-7">
-                  <span className="absolute right-2 top-2">
-                    <BiMailSend className="w-4 h-4 text-blue-500" />
-                  </span>
-                  <input
-                    id="email"
-                    type="email"
-                    placeholder=" "
-                    autoFocus
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    className="relative z-10 border-0 border-b-2 text-xs border-blue-500 h-10 bg-transparent text-gray-900 outline-none px-2 peer"
-                  />
-                  <label className="absolute text-xs font-sans transition-transform duration-300 translate-y-0 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:translate-y-[-1rem] peer-focus:scale-75 peer-placeholder-shown:text-gray-500 peer-focus:text-blue-500">
-                    Enter Email
-                  </label>
-                </div>
+                <BsEyeSlash onClick={handlevisibility} className="w-4 h-4 text-green-500" />
               )}
+              </div>
+      <label className="text-sm font-bold text-gray-700 tracking-wide">
+        Password
+      </label>
+      <input 
+       id="password"
+       type={showPassword ? "text" : "password"}
+       value={password}
+       onChange={(e) => setPassword(e.target.value)}
+       placeholder="Enter password..."     
+       className="w-full content-center text-base py-2 border-b border-gray-300 focus:outline-none focus:border-indigo-500"
+       />
+          </div>
+   
+    
+    
+    <div className="mt-8 content-center relative ">
+      <div className="absolute right-0 mt-8">
+  
+    {showconfirmPassword ? (
+                <BsEye onClick={handleConfirmvisibility} className="w-4 h-4 text-green-500" />
+              ) : (
+                <BsEyeSlash onClick={handleConfirmvisibility} className="w-4 h-4 text-green-500" />
+              )}
+              </div>
+      <label className="text-sm font-bold text-gray-700 tracking-wide">
+       Confirm Password
+      </label>
+      <input 
+       id="confirmpassword"
+       type={showconfirmPassword ? "text" : "password"}
+       value={confirmPassword}
+       onChange={(e) => setConfirmPassword(e.target.value)}
+       placeholder="Enter Confirm password.."     
+       className="w-full content-center text-base py-2 border-b border-gray-300 focus:outline-none focus:border-indigo-500"
+       />
+          </div>
+        
+        
+        </>
+    ):(
+      <>
+      {showVerificationCodeInput ? (
+        <div className="mt-8 content-center relative ">
+        <div className="absolute right-0 mt-8">
+                  <DiCode  className="w-6 h-6 text-green-500" />            
+                </div>
 
-              <div>
-                {showVerificationCodeInput ? (
-                  <button
+        <label className="text-sm font-bold text-gray-700 tracking-wide">
+         Verification Code
+        </label>
+        <input 
+         id="verificationcode"
+         type="text"
+         value={verificationCode}
+         onChange={(e) => setVerificationCode(e.target.value)}
+         placeholder="Enter verification code.."     
+         className="w-full content-center text-base py-2 border-b border-gray-300 focus:outline-none focus:border-indigo-500"
+         />
+            </div>
+        ):(
+          <div className="relative">
+      
+          <div className="absolute right-0 mt-8">
+          {isEmailValid ? (
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-6 w-6 text-green-500"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+          ):(
+            <BiMailSend className="h-5 w-5 text-green-500" />
+          )}
+         
+                  </div>
+    
+    
+          <label className="text-sm font-bold text-gray-700 tracking-wide">Email</label>
+          <input
+           id="email"
+           type="email"
+           placeholder="Enter email"
+           autoFocus
+           value={email}
+           onChange={handleEmailChange}
+           className=" w-full text-base py-2 border-b border-gray-300 focus:outline-none focus:border-indigo-500"
+            />
+    
+              </div>
+        
+      )}
+</>
+    )}
+      
+      {showPasswordFeild ? (
+     
+     <button
+     onClick={handleSubmit}
+     type="button"
+     className="w-full flex justify-center bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4  focus:ring-purple-300 dark:focus:ring-purple-800 text-gray-100 p-4  rounded-full tracking-wide
+     font-semibold  focus:outline-none focus:shadow-outline hover:bg-indigo-600 shadow-lg cursor-pointer transition ease-in duration-300"
+   >
+   
+       <div className="flex justify-center items-center">Submite</div>
+   
+   </button>
+   
+   ): showVerificationCodeInput ? (
+                    <button
                     onClick={handleLogin}
                     type="button"
-                    className="mt-10 w-full text-white 
-                    bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 shadow-lg shadow-purple-500/50 dark:shadow-lg dark:shadow-purple-800/80
-      font-medium rounded-lg text-sm py-3.5 text-center mr-2 mb-2"
-                  >
+                    className="w-full flex justify-center bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4  focus:ring-purple-300 dark:focus:ring-purple-800 text-gray-100 p-4  rounded-full tracking-wide
+                    font-semibold  focus:outline-none focus:shadow-outline hover:bg-indigo-600 shadow-lg cursor-pointer transition ease-in duration-300"
+                  >             
+                  
                     {isloading1 ? (
                       <div className="flex gap-1 justify-center items-center text-blue-600 text-xs " >
                         <Ring
@@ -259,12 +336,12 @@ const Forgetpassword = () => {
                   </button>
                 ) : (
                   <button
-                    onClick={SendEmail}
-                    type="button"
-                    className="mt-10 w-full text-white 
-                    bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 shadow-lg shadow-purple-500/50 dark:shadow-lg dark:shadow-purple-800/80
-      font-medium rounded-lg text-sm py-3.5 text-center mr-2 mb-2"
-                  >
+              onClick={SendEmail}
+              type="button"
+              className="w-full flex justify-center bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4  focus:ring-purple-300 dark:focus:ring-purple-800 text-gray-100 p-4  rounded-full tracking-wide
+              font-semibold  focus:outline-none focus:shadow-outline hover:bg-indigo-600 shadow-lg cursor-pointer transition ease-in duration-300"
+            >
+            
                     {isloading ? (
                       <div className="flex gap-1 justify-center items-center text-blue-600 text-xs " >
                         <Ring
@@ -284,24 +361,23 @@ const Forgetpassword = () => {
 
                   </button>
                 )}
-              </div>
-            </>
-          )}
-        </form>
-        <div className="flex gap-2 mt-4 justify-center">
-        <p className="text-center text-xs text-gray-600">
-  Don&apos;t have an account?
-</p>
 
-          <Link
-            className="text-indigo-600 text-xs hover:text-indigo-800"
-            href={"/Sign_Up"}
-          >
-            Sign Up
-          </Link>
-        </div>
+
+        </form>
+        
+  <div className="flex items-center justify-center space-x-2 mt-10">
+    <span className="h-px w-16 bg-gray-300"></span>
+    <span className="text-gray-500 font-normal">OR</span>
+    <span className="h-px w-16 bg-gray-300"></span>
+  </div>
+        <p className="flex flex-col items-center justify-center mt-5 text-center text-md text-gray-500">
+      <span>Already have an account?</span>
+      <Link href="/Login" className="text-indigo-500 hover:text-indigo-500no-underline hover:underline cursor-pointer transition ease-in duration-300">Login</Link>
+    </p>
+        
       </div>
     </div>
+  </main>
   );
 };
 

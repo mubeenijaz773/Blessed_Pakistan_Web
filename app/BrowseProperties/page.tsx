@@ -24,7 +24,7 @@ const BrowseProperties = ({purpose}: {purpose? :string}) => {
   const router = useRouter();
 
   useEffect(() => {
-    setUserid(localStorage.getItem("_id"));
+    setUserid(localStorage.getItem("_id") || '');
   }, []);
 
   const tabRefs:any = {
@@ -95,7 +95,7 @@ const BrowseProperties = ({purpose}: {purpose? :string}) => {
   }
 
   return (
-    <main className="min-h-screen w-full ">
+    <main className="w-full">
       <ToastContainer />
       <h1 className=" text-black text-2xl font-semibold  font-sans h-full ml-[40px]  ">
         Browse Property

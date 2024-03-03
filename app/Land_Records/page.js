@@ -5,7 +5,8 @@ import Link from "next/link";
 import React, { useState } from "react";
 import { PiArrowUpRightBold } from "react-icons/pi";
 import Footer from "../Footer/page";
-
+import Navbarunique from "../Navbar/page";
+import { Suspense } from "react";
 
 
 const Landrecode = () => {
@@ -29,6 +30,9 @@ const handlemove1=()=>{
 }
   return (
     <main className="bg-white" >
+       <Suspense>
+      <Navbarunique />
+</Suspense>
 <div className="bg-white  min-h-screen  relative" >
       <div className="w-full relative h-[400px] shadow-lg bg-white">
         <Image
@@ -136,6 +140,7 @@ const handlemove1=()=>{
       </div>
       </div>
  <Content/>
+ <Footer/>
  </main>
   );
 };
@@ -193,7 +198,7 @@ Save yourself from the hassle of traditional methods. Book an appointment and ge
 
 
 </div>
-<Footer/>
+
 </main>
   );
 }

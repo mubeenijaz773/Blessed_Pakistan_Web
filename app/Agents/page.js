@@ -3,7 +3,8 @@
 import React, { useState, useEffect } from "react";
 import Select from "react-select";
 import { ServiceUrl } from "@/app/global";
-
+import Navbarunique from "../Navbar/page";
+import { Suspense } from "react";
 import { cities } from "@/app/GetList";
 import { GetAllAgencies } from "@/app/action/Agency";
 import Footer from "../Footer/page";
@@ -26,25 +27,25 @@ const customStyles = {
 
 
 export default function Agents() {
-  const [Projects, setProjects] = useState([]);
+
   const [agencylist, setAgencyList] = useState([]);
   const [selectedCity, setSelectedCity] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    fetchProjects();
+    fetchAgents();
   }, []);
 
-  const fetchProjects = async () => {
+  const fetchAgents = async () => {
     try {
       setIsLoading(true);
       const response = await GetAllAgencies();
-      setProjects(response["GET"]);
+    
       setAgencyList(response["GET"]); // Set the initial list
       setIsLoading(false);
     } catch (error) {
-      console.error("Error fetching Projects:", error);
+      console.error("Error fetching Agents:", error);
       setIsLoading(false);
     }
   };
@@ -63,7 +64,7 @@ export default function Agents() {
   };
 
   const filterResults = (searchTerm, selectedCity) => {
-    const filteredResults = Projects.filter((agency) => {
+    const filteredResults = agencylist.filter((agency) => {
       const byName = agency.Agencyname.toLowerCase().includes(searchTerm);
       const byCity =
         selectedCity === null || selectedCity === undefined
@@ -80,6 +81,9 @@ export default function Agents() {
 
   return (
     <div className="bg-gray-100 min-h-screen">
+        <Suspense>
+      <Navbarunique />
+</Suspense>
       <div
         className="flex flex-col items-center justify-center h-[400px] bg-blue-500"
         // style={{ backgroundImage: 'url("/project.jpg")' }}
@@ -114,32 +118,38 @@ export default function Agents() {
           </div>
         </div>
       </div>
+      <h1 className="p-4 font-semibold py-10 text-2xl">Agencies</h1>
 
-<h1 className="p-4 font-semibold py-10 text-2xl">Agencies</h1>
-      <div className="p-4 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 mb-12">
-        {agencylist.map((agency, index) => (
-            <div
-              key={index}
-              className="bg-white shadow-lg rounded-lg overflow-hidden transform hover:scale-105 duration-300">
-              <div className="relative">
-                <Image
-                  className=" object-cover transition transform scale-100 hover:scale-105"
-                  src={`${ServiceUrl}/Add_Agency/?filename=${agency.Logoimages[0]['name']}`}
-                  alt={agency.name}
-                  width={800}
-                  height={600}
-                />
-                <div className="absolute inset-0 flex flex-col justify-center p-4 bg-black bg-opacity-50 hover:bg-opacity-0 transition duration-300">
-                  <h1 className="text-white text-xl font-bold mb-2">{agency.Agencyname}</h1>
-                  <p className="text-white text-sm">{agency.CEO_Name}</p>
-                  <p className="text-white text-xs mt-2">{agency.address}</p>
-                </div>
-              </div>
-            </div>
-          ))}
+<div className="p-4 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 mb-12">
+  {isLoading ? (
+    <div className="text-center text-gray-500 w-full flex justify-center items-center">Loading...</div>
+  ) : agencylist.length === 0 ? (
+    <div className="text-center text-gray-500">No Agents Found</div>
+  ) : (
+    agencylist.map((agency, index) => (
+      <div key={index} className="bg-white shadow-lg rounded-lg overflow-hidden transform hover:scale-105 duration-300">
+        <div className="relative">
+          <Image
+            className="object-cover transition transform scale-100 hover:scale-105"
+            src={`${ServiceUrl}/Add_Agency/?filename=${agency.Logoimages[0]['name']}`}
+            alt={agency.name}
+            width={800}
+            height={600}
+          />
+          <div className="absolute inset-0 flex flex-col justify-center p-4 bg-black bg-opacity-50 hover:bg-opacity-0 transition duration-300">
+            <h1 className="text-white text-xl font-bold mb-2">{agency.Agencyname}</h1>
+            <p className="text-white text-sm">{agency.CEO_Name}</p>
+            <p className="text-white text-xs mt-2">{agency.address}</p>
+          </div>
+        </div>
       </div>
-      {/* Footer */}
-      <Footer />
-    </div>
-  );
+    ))
+  )}
+</div>
+
+{/* Footer */}
+<Footer />
+</div>
+);
 };
+

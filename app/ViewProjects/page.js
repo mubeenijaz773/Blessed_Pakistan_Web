@@ -3,7 +3,8 @@
 import React, { useState, useEffect } from "react";
 import Select from "react-select";
 import { ServiceUrl } from '@/app/global';
-import LoadingSpinner from "../Loader/page";
+// import LoadingSpinner from "../Loader/page";
+import Navbarunique from "../Navbar/page";
 import { cities } from "@/app/GetList";
 import { GetAllProjects } from "@/app/action/projects";
 import Footer from "../Footer/page";
@@ -69,7 +70,7 @@ export default function Projects() {
     try {
       const response = await GetAllProjects();
       setProjects(response["data"]);
-      // console.log(response["data"], "data in agency");
+   
       setIsLoading(false);
     } catch (error) {
       console.error("Error fetching Projects:", error);
@@ -90,6 +91,7 @@ export default function Projects() {
 
   return (
     <div className="bg-gray-100 min-h-screen w-full">
+       <Navbarunique />
       <div
         className="flex flex-col items-center justify-center min-h-screen bg-cover bg-center "
         style={{ backgroundImage: 'url("/project.jpg")' }}
@@ -133,15 +135,18 @@ export default function Projects() {
       </div>
 
       <div className=" p-4 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 mb-[100px] mt-[100px]">
-        {filteredProjects
-          .filter(
-            (Project) => !selectedCity || Project.city === selectedCity.value
-          )
-          .map((Project, index) => (
-            <div
-              key={index}
-              className="bg-white shadow-lg rounded-lg overflow-hidden transform hover:scale-105 duration-300"
-            >
+      {isLoading ? (
+  <div className="text-center text-gray-500">Loading...</div>
+) : filteredProjects.length === 0 ? (
+  <div className="text-center text-gray-500">No Projects Found</div>
+) : (
+  filteredProjects
+    .filter((Project) => !selectedCity || Project.city === selectedCity.value)
+    .map((Project, index) => (
+      <div
+        key={index}
+        className="bg-white shadow-lg rounded-lg overflow-hidden transform hover:scale-105 duration-300"
+      >
               <div className="relative">
               <div className="w-full h-[400px] relative" >
       <Image
@@ -164,7 +169,7 @@ export default function Projects() {
                 </div>
               </div>
             </div>
-          ))}
+          )))}
       </div>
 
       {/* Footer */}
