@@ -1,4 +1,5 @@
 
+
 import { NextResponse } from "next/server";
 import Search from "@/models/recent_searches"
 

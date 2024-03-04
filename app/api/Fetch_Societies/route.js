@@ -1,10 +1,11 @@
+
 import Society from "@/models/Society";
 import { NextResponse } from "next/server";
 
 export async function GET() {
   try {
     // Fetch societies from the database
-    const societies = await Society.find().lean();
+    const societies = await Society.find().lean().maxTimeMS(30000);
 
     // If no societies found, return 404 Not Found
     if (!societies || societies.length === 0) {
