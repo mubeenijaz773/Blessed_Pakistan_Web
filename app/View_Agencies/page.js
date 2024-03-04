@@ -1,12 +1,10 @@
 "use client";
 import React, {  useRef } from "react";
 
-import { ServiceUrl } from '@/app/global';
-
 
 
 import { BsArrowLeft, BsArrowRight } from "react-icons/bs";
-import Image from "next/image";
+
 
 export default function DisplayAgencies({Loading ,  Agencies , openAgencyDialog}) {
 
@@ -47,19 +45,13 @@ const scrollContainerRef = useRef(null);
        
 
 
-        {Loading ? (
-       <>
-       <AgencyLoading />
-       </>
-            ) : (
-              <>
-                Agencies.length === 0 ? (
-                  <div className="text-center text-gray-500">No Agencies Found</div>
-                ) : (
-                 
-   
- 
-          <div>
+      {Loading ? (
+  <>
+    <AgencyLoading />
+  </>
+) : Agencies && Agencies.length > 0 ? (
+  <>
+  <div>
             <BsArrowLeft
               onClick={scrollLeft}
               className="absolute z-50 -left-0 top-1/2 text-blue-500 border h-[40px] w-[40px] font-bold bg-white shadow-lg rounded-full p-3 hover:bg-gray-200"
@@ -81,14 +73,16 @@ item.status === "Active" && (
 
   <div key={item._id} className="p-2 scroll-snap-align: start;">
     <div onClick={() => { openAgencyDialog(item); }} className="flex flex-row mt-10  gap-4 rounded-lg cursor-pointer transform hover:scale-105 transition duration-300 snap-start bg-white shadow-md p-4 ">
-     <div className="h-[70px] w-[70px] relative" >
-      <Image
-        className="rounded-lg "
-        src={`${ServiceUrl}/Add_Agency/?filename=${item.Logoimages[0]["name"]}`}
-        alt={item.Logoimages.name}
-        layout="fill"
-      />
-      </div>
+    
+     
+      <img
+
+  className="rounded-lg w-[60px] h-[60px] "
+  src={item.Logoimages[0]?.name}
+  alt={item.Logoimages[0]?.name || 'fallback-alt-text'}
+/>
+
+      
       <div className="flex flex-col">
         <h5 className="mb-2 text-xs text-neutral-900 font-bold font-sans relative ml-4 mt-2">
           {item.Agencyname}
@@ -119,8 +113,10 @@ item.status === "Active" && (
             </BsArrowRight>
           </div>
           </>
-        )}
-        
+    ) : (
+      <div className="text-center text-gray-500">No Agencies Found</div>
+    )}
+
       </div>
  </div>
  

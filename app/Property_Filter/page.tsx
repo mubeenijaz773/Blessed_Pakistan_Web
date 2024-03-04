@@ -265,14 +265,13 @@ const WrapPropertyFilter = () =>{
                 <div key={index} className="bg-white border mb-10 border-gray-300 w-[400px] rounded-[30px] overflow-hidden shadow-lg">
     
               <div className="cursor-pointer p-3" onClick={() => GotToNextPage(property)} >
-               <div className="w-full h-[180px] relative">
-                <Image
-                  className="object-cover object-center rounded-[30px]"
-                  src={`${ServiceUrl}/Product/?filename=${property.images[0]["name"]}`}
-                  alt={property.subType}
-                  layout="fill"
-                />
-                </div>
+            
+                <img
+
+className="object-cover object-center rounded-[30px] w-full h-[180px]"
+src={property.images[0]?.name}
+alt={property.images[0]?.name || 'fallback-alt-text'}
+/>
               </div>
               <div className="p-4">
                 <div className="flex flex-row justify-between" >

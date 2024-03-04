@@ -48,14 +48,14 @@ const AgencyDialog = ({ onClose, item }) => {
         <div  className='bg-white' >
 <div className='w-full bg-white'>
 
-<div className='w-full h-[400px] bg-white relative'>
-<Image
-  className="object-cover shadow-lg"
-  src={`${ServiceUrl}/Add_Agency/?filename=${item.Bannerimages[0]['name']}`}
-  alt="Banner"
-  layout='fill'
+
+               <img
+
+className="object-cover shadow-lg  w-full h-[400px] "
+src={item.Bannerimages[0]?.name}
+alt={item.Bannerimages[0]?.name || 'fallback-alt-text'}
 />
-</div>
+
 
 
 
@@ -63,14 +63,14 @@ const AgencyDialog = ({ onClose, item }) => {
 {/* Logo Image */}
 <div className="bg-white w-[186px] h-[186px] rounded-full overflow-hidden absolute top-[430px] ml-[40px]   border-4 border-white shadow-md">
 
-<div className='w-[300px] h-[300px] bg-white relative'>
-  <Image
-    src={`${ServiceUrl}/Add_Agency/?filename=${item.Logoimages[0]['name']}`}
-    className="w-full h-full object-cover"
-    alt="Logo"
-    layout='fill'
- />
-</div>
+
+
+<img
+
+className="w-[300px] h-[300px] object-cover"
+src={item.Logoimages[0]?.name}
+alt={item.Logoimages[0]?.name || 'fallback-alt-text'}
+/>
 
 </div>
 

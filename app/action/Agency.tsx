@@ -59,3 +59,58 @@ export async function GetAgenciesById(_id){
      return ({ error:error , message: "user not Deleted !" })
     }
 }
+
+
+
+// Add Agency
+
+
+
+
+  
+export async function Add_Agencies(
+    Agencyname, CEO_Name, address, city,
+    email, Latitude, Longitude, members ,  Logoimages,
+     Bannerimages
+  ) {
+    try {
+
+  
+        await connectDB();
+      var ImagesUrls = [];
+      var VideosUrls = [];
+  
+      for (const image of Logoimages) {
+        ImagesUrls.push({ name: image.name });
+      }
+  
+      for (const banner of Bannerimages) { // Corrected loop variable from VideosUrls to VideosList
+        VideosUrls.push({ name: banner.name });
+      }
+  
+      // Save data
+      await Agencies.create({
+        Agencyname,
+        CEO_Name,
+        address,
+        city ,
+        email,
+        Latitude,
+        Longitude,
+        members :members,
+        Logoimages: ImagesUrls,
+        Bannerimages: VideosUrls,
+        status :"InActive" 
+      });
+  
+  
+      // Return a success response with the created product
+      return ({ status: 200, message: 'Agency added successfully' });
+    } catch (error) {
+      // Return an error response if there's any issue
+      return ({ status: 400, message: 'Failed to add Agency', error: error.message });
+    }
+  }
+  
+
+

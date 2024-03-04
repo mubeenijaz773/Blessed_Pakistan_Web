@@ -211,13 +211,14 @@ toast.success("Added Success")
   return (<div className="w-full">
   <div className="w-[300px] cursor-pointer rounded-lg transform hover:scale-105 transition duration-300 snap-start">
     <div className="w-[300px] h-[200px] relative">
-    <Image
+ 
+      <img
   onClick={() => GotToNextPage(item)}
   className="rounded-lg"
-  src={`${ServiceUrl}/Product/?filename=${item.images[0]?.name || 'fallback-image-name'}`}
+  src={item.images[0]?.name}
   alt={item.images[0]?.name || 'fallback-alt-text'}
-  layout="fill"
 />
+
 
     </div>
     <div className="p-1 mt-3">

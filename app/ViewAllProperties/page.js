@@ -1338,14 +1338,13 @@ const GetAllList = ({ properties, isLoading }) => {
 
                 <div className="cursor-pointer p-3" onClick={() => GotToNextPage(item)} >
                   
-                <div className="w-full h-[180px] relative" >
-      <Image
-        className=" object-cover object-center rounded-[30px]"
-                    src={`${ServiceUrl}/Product/?filename=${item.images[0]["name"]}`}
-                    alt={item.images.name}
-                    layout="fill"
-                  />
-                  </div>
+             
+                     <img
+
+className="object-cover object-center rounded-[30px] w-full h-[180px] "
+src={item.images[0]?.name}
+alt={item.images[0]?.name || 'fallback-alt-text'}
+/>
                 </div>
                 <div className="p-4">
                   <div className="flex flex-row justify-between" >

@@ -231,14 +231,13 @@ const WrapFilterLocations = () =>{
             filteredProperties.map((item) => (
                   <div key={item._id} className="bg-white border p-3 mb-10 border-gray-300 w-[400px] rounded-[30px] overflow-hidden shadow-lg">
       
-                <div className="w-full h-[180px] relative cursor-pointer p-3" onClick={() => GotToNextPage(item)} >
-                  <Image
-                    className="object-cover object-center rounded-[30px]"
-                    src={`${ServiceUrl}/Product/?filename=${item.images[0]["name"]}`}
-                    alt={item.images.name}
-                  layout="fill"
-                  />
-                </div>
+             
+                         <img
+onClick={() => GotToNextPage(item)}
+className="object-cover object-center rounded-[30px] w-full h-[180px]"
+src={item.images[0]?.name}
+alt={item.images[0]?.name || 'fallback-alt-text'}
+/>
                 <div className="p-4">
                   <div className="flex flex-row justify-between" >
                     <text className="text-gray-400 text-xs font-sans" >{`Added: ${timeSinceInsertion}` || 0 }</text>
