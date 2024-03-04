@@ -36,7 +36,7 @@ const uniqueId = uuidv4();
 const Societiesimages = [];
 const uniqueVideoFilenames = [];
    // Specify the directory where you want to save the files
-   const directory = '../data/projectimages';
+   const directory = './data/projectimages';
 
    try {
      // Check if the directory exists, if not, create it
@@ -119,7 +119,7 @@ export async function GET(request) {
   }
 
   // Assuming the uploaded files are stored in the "/public/tmp" directory
-  const path = `../data/projectimages/${filename}`;
+  const path = `./data/projectimages/${filename}`;
 
   try {
     // Read the file from the filesystem

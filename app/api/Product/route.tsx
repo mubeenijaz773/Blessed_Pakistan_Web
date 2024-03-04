@@ -64,7 +64,7 @@ export async function POST(request: NextRequest) {
   const uniqueVideoFilenames = [];
   
     // Specify the directory where you want to save the files
-    const directory = '../data/propertyimages';
+    const directory = './data/propertyimages';
 
     try {
       // Check if the directory exists, if not, create it
@@ -190,70 +190,21 @@ export async function POST(request: NextRequest) {
 
 
 
-// export async function GET(request) {
-//   const url = new URL(request.url);
-//   const filename = url.searchParams.get('filename');
-
-//   if (!filename) {
-//     return new Response(null, { status: 400, statusText: 'Bad Request' });
-//   }
-
-//   // Assuming the uploaded files are stored in the "/public/tmp" directory
-//   const path = `../data/propertyimages/${filename}`;
-
-//   try {
-//     // Read the file from the filesystem
-//     const fileData = await readFile(path);
-    
-//     // Get the file extension
-//     const extension = filename.split('.').pop().toLowerCase();
-
-//     // Set the appropriate content type based on the file extension
-//     let contentType = 'application/octet-stream'; // Default content type for unknown file types
-
-//     if (extension === 'png') {
-//       contentType = 'image/png';
-//     } else if (extension === 'jpg' || extension === 'jpeg') {
-//       contentType = 'image/jpeg';
-//     } else if (extension === 'mp4') {
-//       contentType = 'video/mp4';
-//     }
-//     // Add more conditions for other supported file types as needed
-
-//     // Set the appropriate headers for the image or video response
-//     const headers = {
-//       'Content-Type': contentType,
-//       'Content-Length': fileData.length.toString(),
-//     };
-
-//     // Return the file as the response
-//     return new Response(fileData, { headers });
-//   } catch (error) {
-//     console.error(`Error reading file: ${error}`);
-//     return new Response(null, { status: 404, statusText: 'Not Found' });
-//   }
-// }
-
-
-
-
-export async function GET(request:any) {
+export async function GET(request) {
   const url = new URL(request.url);
-  const filename:any = url.searchParams.get('filename');
+  const filename = url.searchParams.get('filename');
 
   if (!filename) {
     return new Response(null, { status: 400, statusText: 'Bad Request' });
   }
 
-  // console.log(filename, "filename")
-
   // Assuming the uploaded files are stored in the "/public/tmp" directory
-  const path = `../data/propertyimages/${filename}`;
+  const path = `./data/propertyimages/${filename}`;
 
   try {
     // Read the file from the filesystem
     const fileData = await readFile(path);
-
+    
     // Get the file extension
     const extension = filename.split('.').pop().toLowerCase();
 
@@ -264,35 +215,10 @@ export async function GET(request:any) {
       contentType = 'image/png';
     } else if (extension === 'jpg' || extension === 'jpeg') {
       contentType = 'image/jpeg';
-    } else if (extension === 'gif') {
-      contentType = 'image/gif';
-    } else if (extension === 'bmp') {
-      contentType = 'image/bmp';
-    } else if (extension === 'webp') {
-      contentType = 'image/webp';
-    } else if (extension === 'svg') {
-      contentType = 'image/svg+xml'; // SVG format
     } else if (extension === 'mp4') {
       contentType = 'video/mp4';
-    } else if (extension === 'webm') {
-      contentType = 'video/webm';
-    } else if (extension === 'avi') {
-      contentType = 'video/x-msvideo';
-    } else if (extension === 'mov') {
-      contentType = 'video/quicktime';
-    } else if (extension === 'mkv') {
-      contentType = 'video/x-matroska';
-    } else if (extension === 'mp4') {
-      contentType = 'video/mp4';
-    } else if (extension === 'pdf') {
-      contentType = 'application/pdf'; // Set content type for PDF files
-    } else if (extension === 'doc' || extension === 'docx') {
-      contentType = 'application/msword'; // Set content type for Word files
-    } else if (extension === 'txt') {
-      contentType = 'text/plain'; // Set content type for text files
     }
-
-
+    // Add more conditions for other supported file types as needed
 
     // Set the appropriate headers for the image or video response
     const headers = {
@@ -307,6 +233,12 @@ export async function GET(request:any) {
     return new Response(null, { status: 404, statusText: 'Not Found' });
   }
 }
+
+
+
+
+
+
 
 
 // Delete API also delete from Folder
@@ -324,7 +256,7 @@ export async function DELETE(request) {
   }
 
   // Define the path to the file to be deleted
-  const filePath = `../data/propertyimages/${filename}`;
+  const filePath = `./data/propertyimages/${filename}`;
 
   try {
     // Connect to MongoDB

@@ -17,8 +17,7 @@ import Image from "next/image";
 
 export default function ProjectView() {
   const [Project, setProject] = useState([]);
-
-  const [userid, setUserid] = useState("");
+const [userid, setUserid] = useState("");
   const scrollContainerRef = useRef(null);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -85,41 +84,13 @@ export default function ProjectView() {
         </div>
 
         {isLoading ? (
-         <div className="loading-indicator flex flex-row  gap-10 w-full">
-         {[...Array(4)].map((_, index) => (
-           <div
-             key={index}
-             className=" flex flex-row w-[300px] ml-5   gap-2   p-4 mb-2 rounded-lg cursor-pointer   animate-pulse"     
-           >
-             <li className="flex flex-col items-center gap-2 w-[300px]">
-            
-             <div className="mb-1 h-[200px] w-[300px] rounded-lg bg-slate-200 text-lg"></div>
-            
-                <div className="flex justify-start gap-2 w-full ">  
-                <div className="h-5 w-5 rounded-full bg-slate-200"></div>
-                 <div className="mb-1 h-6 w-[90%] rounded-lg bg-slate-200 text-lg"></div>
-                 </div>
-               
-                 <div className="flex justify-start gap-2 w-full ">  
-                <div className="h-5 w-5 rounded-full bg-slate-200"></div>
-                 <div className="mb-1 h-6 w-[90%] rounded-lg bg-slate-200 text-lg"></div>
-                 </div>
-                            
-                  <div className="flex justify-start gap-2 w-full ">  
-                <div className="h-5 w-5 rounded-full bg-slate-200"></div>
-                 <div className="mb-1 h-6 w-[90%] rounded-lg bg-slate-200 text-lg"></div>
-            </div>
-      
-            <div className="flex justify-start gap-2 w-full ">  
-                 <div className="h-5 w-5 rounded-full bg-slate-200"></div>   
-                 <div className="mb-1 h-6 w-[90%] rounded-lg bg-slate-200 text-lg"></div>         
-            </div>
-      
-             </li>
-           </div>
-         ))}
-       </div>
-       ) : (
+     <>
+     <ProjectLoading />
+     </>
+   ) : Project === undefined || Project.length === 0 ? (
+    <div className="text-center text-gray-500">No Project Found</div>
+  ) : (
+           
           <div>
             <BsArrowLeft
               onClick={scrollLeft}
@@ -208,4 +179,48 @@ export default function ProjectView() {
       <ToastContainer />
     </div>
   );
+}
+
+
+
+
+
+
+const ProjectLoading = () =>{
+  return(
+    <div className="loading-indicator flex flex-row  gap-10 w-full">
+    {[...Array(4)].map((_, index) => (
+      <div
+        key={index}
+        className=" flex flex-row w-[300px] ml-5   gap-2   p-4 mb-2 rounded-lg cursor-pointer   animate-pulse"     
+      >
+        <li className="flex flex-col items-center gap-2 w-[300px]">
+       
+        <div className="mb-1 h-[200px] w-[300px] rounded-lg bg-slate-200 text-lg"></div>
+       
+           <div className="flex justify-start gap-2 w-full ">  
+           <div className="h-5 w-5 rounded-full bg-slate-200"></div>
+            <div className="mb-1 h-6 w-[90%] rounded-lg bg-slate-200 text-lg"></div>
+            </div>
+          
+            <div className="flex justify-start gap-2 w-full ">  
+           <div className="h-5 w-5 rounded-full bg-slate-200"></div>
+            <div className="mb-1 h-6 w-[90%] rounded-lg bg-slate-200 text-lg"></div>
+            </div>
+                       
+             <div className="flex justify-start gap-2 w-full ">  
+           <div className="h-5 w-5 rounded-full bg-slate-200"></div>
+            <div className="mb-1 h-6 w-[90%] rounded-lg bg-slate-200 text-lg"></div>
+       </div>
+ 
+       <div className="flex justify-start gap-2 w-full ">  
+            <div className="h-5 w-5 rounded-full bg-slate-200"></div>   
+            <div className="mb-1 h-6 w-[90%] rounded-lg bg-slate-200 text-lg"></div>         
+       </div>
+ 
+        </li>
+      </div>
+    ))}
+  </div>
+  )
 }

@@ -120,8 +120,7 @@ const DisplayProduct = () => {
           <h1 className="text-xl text-neutral-900 font-bold mb-4 font-sans">
             Properties
           </h1>
-          {properties.length > 4 && (
-            <div className="text-center mt-1">
+                <div className="text-center mt-1">
               <button
                 onClick={toggleShowAllProperties}
                 className="text-blue-500 text-sm px-4 font-sans"
@@ -131,56 +130,17 @@ const DisplayProduct = () => {
                   : "View All Properties"}
               </button>
             </div>
-          )}
+          {/* )} */}
         </div>
 
         {isLoading ? (
-        <div className="loading-indicator flex flex-row  gap-10 w-full">
-        {[...Array(4)].map((_, index) => (
-          <div
-            key={index}
-            className=" flex flex-row w-[300px] ml-5   gap-2   p-4 mb-2 rounded-lg cursor-pointer   animate-pulse"     
-          >
-            <li className="flex flex-col items-center gap-2 w-[300px]">
-           
-            <div className="mb-1 h-[200px] w-[300px] rounded-lg bg-slate-200 text-lg"></div>
-           
-           <div className="flex flex-row justify-between w-full ">
-               
-               <div className="flex justify-start gap-2 w-full ">  
-               <div className="h-5 w-5 rounded-full bg-slate-200"></div>
-                <div className="mb-1 h-6 w-[35%] rounded-lg bg-slate-200 text-lg"></div>
-                </div>
-
-                <div className="mb-1 h-6 w-[35%] rounded-lg bg-slate-200 text-lg"></div>
-                
-                </div>
-
-                <div className="flex justify-start gap-2 w-full ">  
-               <div className="h-5 w-5 rounded-full bg-slate-200"></div>
-                <div className="mb-1 h-6 w-[90%] rounded-lg bg-slate-200 text-lg"></div>
-                </div>
-                           
-                
-                 <div className="flex justify-start gap-2 w-full ">  
-               <div className="h-5 w-5 rounded-full bg-slate-200"></div>
-                <div className="mb-1 h-6 w-[90%] rounded-lg bg-slate-200 text-lg"></div>
-           </div>
-     
-           <div className="flex justify-start gap-2 w-full ">  
-                <div className="h-5 w-5 rounded-full bg-slate-200"></div>   
-                <div className="mb-1 h-6 w-[90%] rounded-lg bg-slate-200 text-lg"></div>         
-           </div>
-     
-            </li>
-          </div>
-        ))}
-      </div>
-      
-      ): (
-        properties.length === 0 ? (
-          <div className="text-center">No properties found.</div>
-        ) : (
+       
+      <>
+      <PropertiesLoading />
+      </>
+      ) : properties === undefined || properties.length === 0 ? (
+        <div className="text-center text-gray-500">No Properties Found</div>
+      ) : (
           <div>
             <BsArrowLeft
               onClick={scrollLeft}
@@ -219,7 +179,7 @@ const DisplayProduct = () => {
               &gt;
             </BsArrowRight>
           </div>
-       ))}
+       )}
       </div>
    
     </div>
@@ -335,4 +295,53 @@ toast.success("Added Success")
 </div>
 
   );
+}
+
+
+
+
+const PropertiesLoading = () =>{
+  return(
+    <div className="loading-indicator flex flex-row  gap-10 w-full">
+    {[...Array(4)].map((_, index) => (
+      <div
+        key={index}
+        className=" flex flex-row w-[300px] ml-5   gap-2   p-4 mb-2 rounded-lg cursor-pointer   animate-pulse"     
+      >
+        <li className="flex flex-col items-center gap-2 w-[300px]">
+       
+        <div className="mb-1 h-[200px] w-[300px] rounded-lg bg-slate-200 text-lg"></div>
+       
+       <div className="flex flex-row justify-between w-full ">
+           
+           <div className="flex justify-start gap-2 w-full ">  
+           <div className="h-5 w-5 rounded-full bg-slate-200"></div>
+            <div className="mb-1 h-6 w-[35%] rounded-lg bg-slate-200 text-lg"></div>
+            </div>
+
+            <div className="mb-1 h-6 w-[35%] rounded-lg bg-slate-200 text-lg"></div>
+            
+            </div>
+
+            <div className="flex justify-start gap-2 w-full ">  
+           <div className="h-5 w-5 rounded-full bg-slate-200"></div>
+            <div className="mb-1 h-6 w-[90%] rounded-lg bg-slate-200 text-lg"></div>
+            </div>
+                       
+            
+             <div className="flex justify-start gap-2 w-full ">  
+           <div className="h-5 w-5 rounded-full bg-slate-200"></div>
+            <div className="mb-1 h-6 w-[90%] rounded-lg bg-slate-200 text-lg"></div>
+       </div>
+ 
+       <div className="flex justify-start gap-2 w-full ">  
+            <div className="h-5 w-5 rounded-full bg-slate-200"></div>   
+            <div className="mb-1 h-6 w-[90%] rounded-lg bg-slate-200 text-lg"></div>         
+       </div>
+ 
+        </li>
+      </div>
+    ))}
+  </div>
+  )
 }

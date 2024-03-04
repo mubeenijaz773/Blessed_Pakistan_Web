@@ -22,7 +22,6 @@ export default function DisplayLocations  () {
     fetchLocations();
     setUserid(localStorage.getItem('_id'));
   }, []);
-
   const fetchLocations = async () => {
     try {
       const response = await fetch(`${ServiceUrl}/FetchProduct`, {
@@ -32,12 +31,20 @@ export default function DisplayLocations  () {
         },
       });
       const data = await response.json();
-      setLocations(data["products"]);
+  
+      if (data["products"] && data["products"].length > 0) {
+        setLocations(data["products"]);
+      } else {
+        // If data["products"] is empty or undefined, set locations to an empty array
+        setLocations([]);
+      }
+  
       setIsLoading(false);
     } catch (error) {
       console.error("Error fetching locations:", error);
     }
   };
+  
 
   const toggleTab = (tab) => {
     setActiveTab(tab);

@@ -38,7 +38,7 @@ const Logoimages = [];
 const Bannerimages = [];
 
    // Specify the directory where you want to save the files
-   const directory = '../data/Agencyimages';
+   const directory = './data/Agencyimages';
 
    try {
      // Check if the directory exists, if not, create it
@@ -127,7 +127,7 @@ export async function GET(request) {
   }
 
   // Assuming the uploaded files are stored in the "/public/tmp" directory
-  const path = `../data/Agencyimages/${filename}`;
+  const path = `./data/Agencyimages/${filename}`;
 
   try {
     // Read the file from the filesystem

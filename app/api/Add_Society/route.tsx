@@ -33,7 +33,7 @@ export async function POST(request: NextRequest) {
   const Societiesimages = [];
 
   // Specify the directory where you want to save the files
-  const directory = "../data/Societiesimages";
+  const directory = "./data/Societiesimages";
 
   try {
     // Check if the directory exists, if not, create it
@@ -87,7 +87,7 @@ export async function GET(request) {
   }
 
   // Assuming the uploaded files are stored in the "/public/tmp" directory
-  const path = `../data/Societiesimages/${filename}`;
+  const path = `./data/Societiesimages/${filename}`;
 
   try {
     // Read the file from the filesystem

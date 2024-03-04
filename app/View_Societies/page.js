@@ -6,6 +6,7 @@ import { ServiceUrl } from '@/app/global';
 import LoadingSpinner from "../Loader/page";
 import {cities} from '@/app/GetList'
 import Image from 'next/image';
+import Navbarunique from '../Navbar/page';
 
 // Define custom styles for the Select component
 const customStyles = {
@@ -82,8 +83,14 @@ export  default function SocietiesPage() {
         },
       });
       const data = await response.json();
+      if(data["societies"] && data["societies"].length > 0){
       setImages(data["societies"]);
+      }else{
+        setImages([])
+      }
     
+
+
       setIsLoading(false);
     } catch (error) {
       console.error("Error fetching images:", error);
@@ -105,6 +112,7 @@ export  default function SocietiesPage() {
 
   return (
     <div className="bg-white min-h-screen w-full">
+      <Navbarunique />
     <div className=" mx-auto py-12 w-full bg-slate-900 text-white ">
       <div className="text-center">
         <h1 className="text-4xl font-bold text-white mb-4">
@@ -160,7 +168,9 @@ export  default function SocietiesPage() {
      ))}
    </div>
    
-     ) : (
+   ) : filteredImages === undefined || filteredImages.length === 0 ? (
+    <div className="text-center text-gray-500 mt-[80px]">No Society Found.</div>
+  ) : (
     <div className="mt-8 p-10 flex flex-row justify-start items-center flex-wrap  gap-10  w-full">
     {filteredImages.filter(society => !selectedCity || society.city === selectedCity.value).map((society, index) => (
     <div

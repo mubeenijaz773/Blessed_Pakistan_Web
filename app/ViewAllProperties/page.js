@@ -35,6 +35,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import CallDialog from "../Call_Dailogbox/page"
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import Navbarunique from "../Navbar/page";
 
 
 
@@ -50,7 +51,7 @@ const SuspenseBoundary = ({ children }) => (
 
 const WrapALLproperties = () =>{
 
-  const [images, setImages] = useState([]);
+  const [properties, setProperties] = useState([]);
 
   const [isLoading, setIsLoading] = useState(true);
   const [userid, setUserid] = useState('');
@@ -193,12 +194,17 @@ const WrapALLproperties = () =>{
         }
       );
       const data = await response.json();
- 
-      setImages(data["products"]);
+      if (data["products"] && data["products"].length > 0) {
+        setProperties(data["products"]);
+      } else {
+        // If data["products"] is empty or undefined, set locations to an empty array
+        setProperties([]);
+      }
+      // setProperties(data["products"]);
 
       setIsLoading(false);
     } catch (error) {
-      console.error("Error fetching images:", error);
+      console.error("Error fetching properties:", error);
       setIsLoading(false);
     }
   };
@@ -207,7 +213,7 @@ const WrapALLproperties = () =>{
 
   ///////////////////////////// ALL Filters //////////////////////////////////////
 
-  const filteredItems = images.filter(item => {
+  const filteredItems = properties.filter(item => {
     const isMatchingPurpose = !selectedPurpose || item.purpose === selectedPurpose;
     const isMatchingCity = !selectedCity || item.city === selectedCity;
     const isMatchingProperty = !activeTab || item.propertyType === activeTab;
@@ -350,6 +356,7 @@ const WrapALLproperties = () =>{
 
   return (
     <main className="bg-white min-h-screen w-full">
+      <Navbarunique />
       <div className="flex justify-center items-center  w-full" >
         <div
           className="w-full flex flex-col justify-center items-center opacity-120 bg-black  py-5">
@@ -1108,7 +1115,7 @@ const WrapALLproperties = () =>{
       </div>
       {/* Fetch all data */}
 
-      <GetAllList images={filteredItems} isLoading={isLoading} />
+      <GetAllList properties={filteredItems} isLoading={isLoading} />
 
     </main>
 
@@ -1236,7 +1243,7 @@ function TabsContent(props) {
 
 
 
-const GetAllList = ({ images, isLoading }) => {
+const GetAllList = ({ properties, isLoading }) => {
   const [isEmailDialogOpen, setEmailDialogOpen] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const routerr = useRouter()
@@ -1284,8 +1291,8 @@ const GetAllList = ({ images, isLoading }) => {
   const [timeSinceInsertion, setTimeSinceInsertion] = useState(false);
 
   useEffect(() => {
-    // Assuming that images is an array of objects and each object has a 'createdAt' property
-      images.map((item,index) => {
+    // Assuming that properties is an array of objects and each object has a 'createdAt' property
+      properties.map((item,index) => {
       if (item && item.createdAt) {
         const insertionDate = new Date(item.createdAt);
         const timeAgo = formatDistanceToNow(insertionDate, { addSuffix: true });
@@ -1304,7 +1311,7 @@ const GetAllList = ({ images, isLoading }) => {
     });
   
     
-  }, [images]);
+  }, [properties]);
 
 
 
@@ -1327,7 +1334,7 @@ const GetAllList = ({ images, isLoading }) => {
     <LoadingSpinner />
   ) : (
 <>
-    {images.length === 0 ? (
+    {properties.length === 0 ? (
       <div className="w-full h-full">
         <div className="flex flex-col justify-center items-center ">
           <p className="text-4xl font-extrabold text-indigo-600">Oops! Search Not Found</p>
@@ -1338,7 +1345,7 @@ const GetAllList = ({ images, isLoading }) => {
   <>
       <h1 className="text-3xl font-extrabold mb-10" >All Properties</h1>
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 w-full h-auto">
-            {images.map((item) => (
+            {properties.map((item) => (
               <div key={item._id} className="bg-white border border-gray-300 w-[400px] rounded-[30px] overflow-hidden shadow-lg">
 
                 <div className="cursor-pointer p-3" onClick={() => GotToNextPage(item)} >
