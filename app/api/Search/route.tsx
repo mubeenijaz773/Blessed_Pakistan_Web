@@ -1,6 +1,7 @@
 
 import { NextResponse } from "next/server";
 import Search from "@/models/recent_searches"
+import connectDB from "@/utils/dbconnect";
 
 
 
@@ -19,7 +20,7 @@ export async function POST(request) {
       
     
     });
-
+    await connectDB();
     await search.save()
 
     return NextResponse.json(

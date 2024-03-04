@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 import Project from "@/models/Project";
 import { v4 as uuidv4 } from 'uuid'; // Import the UUID library
 import path from 'path';
-
+import connectDB from "@/utils/dbconnect";
 import fs from 'fs/promises';
 
 import { readFile } from 'fs/promises'
@@ -93,7 +93,7 @@ images: Societiesimages,
 videos: uniqueVideoFilenames,
 
     });
-
+    await connectDB();
    await Projectdata.save()
 
 

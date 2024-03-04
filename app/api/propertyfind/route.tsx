@@ -1,5 +1,6 @@
 
 import Product from "@/models/product";
+import connectDB from "@/utils/dbconnect";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
@@ -37,6 +38,7 @@ export async function GET(request: NextRequest) {
       };
     }
 
+    await connectDB();
     // Use the conditions object to find matching products
     const filteredProducts = await Product.find(conditions).lean();
 

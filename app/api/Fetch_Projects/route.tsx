@@ -2,9 +2,10 @@
 
 import Project from "@/models/Project";
 import { NextResponse } from "next/server";
-
+import connectDB from "@/utils/dbconnect";
 export async function GET() {
   try {
+    await connectDB();
     // Fetch projects from the database
     const projects = await Project.find().lean();
 

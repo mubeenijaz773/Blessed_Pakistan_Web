@@ -139,6 +139,7 @@ export async function POST(request: NextRequest) {
       Verified: 'Not Verified'
     });
 
+    await connectDB();
     // Save the property document
     await property.save();
 
@@ -349,110 +350,4 @@ export async function DELETE(request) {
     return NextResponse.json({ success: false, message: "File and document deletion failed" });
   }
 }
-
-
-// Update property
-
-
-
-
-export async function PUT(request: NextRequest) {
-  try {
-    const data = await request.formData();
-    const productId = data.get('productId'); // Add productId to identify the property to update
-
-    // Check if the provided productId is valid (you may need to validate it further)
-    if (!productId) {
-      return NextResponse.json({ status: 400, error: 'Invalid productId' });
-    }
-
-    // Fetch the existing property based on productId
-    const existingProperty = await Product.findById(productId);
-
-    // Check if the property with the given productId exists
-    if (!existingProperty) {
-      return NextResponse.json({ status: 404, error: 'Property not found' });
-    }
-
-    // Update the property data with the new values from the form
-
-    // existingProperty.purpose = data.get('purpose');
-    // existingProperty.propertyType = data.get('propertyType');
-    // existingProperty.subType = data.get('subType');
-    // existingProperty.city = data.get('city');
-    // existingProperty.location = data.get('location');
-    // existingProperty.Area_size = data.get('Area_size');
-    // existingProperty.price = data.get('price');
-    // existingProperty.bedrooms = data.get('bedrooms');
-    // existingProperty.bathrooms = data.get('bathrooms');
-    // existingProperty.title = data.get('title');
-    // existingProperty.description = data.get('description');
-    // existingProperty.email = data.get('email');
-    // existingProperty.mobile = data.get('mobile');
-
-    // Handle image updates if needed
-    const newImageFiles: File[] = data.getAll('imagefiles') as unknown as File[];
-    
-    if (newImageFiles.length > 0) {
-      // Remove existing images (if any)
-      for (const image of existingProperty.images) {
-        // Delete the old image file from the server folder
-        const imagePath = `./public/tmp/${image.name}`;
-        await fs.unlink(imagePath);
-      }
-      existingProperty.images = [];
-
-      for (const image of newImageFiles) {
-        const bytes = await image.arrayBuffer();
-        const buffer = Buffer.from(bytes);
-        existingProperty.images.push({ name: image.name });
-
-        // Save the new image file to the server
-        const path = `./public/tmp/${image.name}`;
-        await writeFile(path, buffer);
-      }
-    }
-
-
-    // Handle video updates if needed
-const newVideoFiles: File[] = data.getAll("videofiles") as unknown as File[];
-
-
-
-    if (newVideoFiles.length > 0) {
-      // Remove existing videos (if any)
-      for (const video of existingProperty.videos) {
-        // Delete the old video file from the server folder
-        const videoPath = `./public/tmp/${video.name}`;
-        await fs.unlink(videoPath);
-      }
-      existingProperty.videos = [];
-
-      for (const video of newVideoFiles) {
-        const bytes = await video.arrayBuffer();
-        const buffer = Buffer.from(bytes);
-        existingProperty.videos.push({ name: video.name });
-
-        // Save the new video file to the server
-        const path = `./public/tmp/${video.name}`;
-        await writeFile(path, buffer);
-      }
-    }
-
-   // Save the updated property
-    await existingProperty.save();
-
-  
-    return NextResponse.json({ status: 200 });
-  } catch (error) {
-    console.error('Error updating property:', error);
-    return NextResponse.json({ status: 500, error: 'Internal Server Error' });
-  }
-}
-
-
-
-
-
-
 

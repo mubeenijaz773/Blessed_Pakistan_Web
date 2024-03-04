@@ -1,5 +1,6 @@
 
 import Subscribe from "@/models/EmailNotify_subscribe";
+import connectDB from "@/utils/dbconnect";
 import { NextResponse } from "next/server";
 
 
@@ -10,6 +11,7 @@ import { NextResponse } from "next/server";
 export async function POST(request) {
   const { email } = await request.json();
 
+  await connectDB();
   // Check if the email already exists in the database
   const existingUser = await Subscribe.findOne({ email }).lean();
 

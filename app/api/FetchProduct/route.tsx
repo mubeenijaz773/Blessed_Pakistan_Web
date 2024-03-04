@@ -1,9 +1,11 @@
 
 import Product from "@/models/product";
+import connectDB from "@/utils/dbconnect";
 import { NextResponse } from "next/server";
 
 export async function GET() {
   try {
+    await connectDB();
     // Fetch products from the database
     const products = await Product.find().lean();
 

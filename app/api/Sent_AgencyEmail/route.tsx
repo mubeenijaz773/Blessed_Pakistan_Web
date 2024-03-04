@@ -1,4 +1,4 @@
-// Import necessary dependencies
+
 import { NextResponse } from 'next/server';
 import nodemailer from "nodemailer";
 import { pass, user } from '@/app/global';

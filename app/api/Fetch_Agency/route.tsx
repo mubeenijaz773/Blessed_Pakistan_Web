@@ -1,9 +1,10 @@
 
 import Agencies from "@/models/Agency";
 import { NextResponse } from "next/server";
-
+import connectDB from "@/utils/dbconnect";
 export async function GET() {
   try {
+    await connectDB();
     // Fetch agencies from the database
     const agencies = await Agencies.find().lean();
 

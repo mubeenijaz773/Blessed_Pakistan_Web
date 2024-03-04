@@ -5,6 +5,7 @@ import { NextRequest, NextResponse } from "next/server";
 import Draft_Product from "@/models/draft_product";
 
 import { v4 as uuidv4 } from "uuid"; // Import the UUID library
+import connectDB from "@/utils/dbconnect";
 
 export async function POST(request: NextRequest) {
   const data = await request.formData();
@@ -27,12 +28,7 @@ export async function POST(request: NextRequest) {
   const image_files: File[] = data.getAll("imagefiles") as unknown as File[];
   const video_files: File[] = data.getAll("videofiles") as unknown as File[];
 
-//   if (!image_files && !video_files) {
-//     return NextResponse.json({ status: 400 });
-//   }
-
-
-
+  await connectDB();
   // Check if the property already exists in the draft collection
   const existingDraft = await Draft_Product.findOne({ userid });
 

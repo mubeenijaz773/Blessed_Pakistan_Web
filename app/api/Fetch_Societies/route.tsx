@@ -1,9 +1,12 @@
 
 import Society from "@/models/Society";
+import connectDB from "@/utils/dbconnect";
 import { NextResponse } from "next/server";
 
 export async function GET() {
   try {
+
+    await connectDB();
     // Fetch societies from the database
     const societies = await Society.find().lean().maxTimeMS(30000);
 

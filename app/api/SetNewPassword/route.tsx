@@ -2,6 +2,7 @@
 import User from "@/models/user";
 import { NextResponse } from "next/server";
 import bcrypt from "bcrypt";
+import connectDB from "@/utils/dbconnect";
 const saltRounds = 10;
 
 
@@ -13,6 +14,7 @@ export async function PUT(request) {
     // Hash the new password
     const hashedPassword = await bcrypt.hash(password, saltRounds);
 
+    await connectDB();
     // Find the user in the database by their email
     const user = await User.findOne({ email });
 

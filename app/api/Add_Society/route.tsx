@@ -2,7 +2,7 @@ import { writeFile } from "fs/promises";
 import { NextRequest, NextResponse } from "next/server";
 import Society from "@/models/Society";
 import { v4 as uuidv4 } from "uuid"; // Import the UUID library
-
+import connectDB from "@/utils/dbconnect";
 import path from "path";
 
 import fs from "fs/promises";
@@ -70,7 +70,7 @@ export async function POST(request: NextRequest) {
     Longitude,
     images: Societiesimages,
   });
-
+  await connectDB();
   await Agencydata.save();
 
   return NextResponse.json({ status: 200 });

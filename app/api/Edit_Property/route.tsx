@@ -1,7 +1,7 @@
 
 import { writeFile } from "fs/promises";
 import { NextRequest, NextResponse } from "next/server";
-
+import connectDB from "@/utils/dbconnect";
 import Product from "@/models/product";
 
 import { unlink } from "fs/promises";
@@ -57,7 +57,7 @@ export async function PUT(request: NextRequest) {
     const path = `../data/propertyimages/${videoFilename}`;
     await writeFile(path, buffer1);
   }
-
+  await connectDB();
   const property = await Product.findOneAndUpdate(
     { _id },
     {

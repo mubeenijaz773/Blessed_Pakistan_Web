@@ -1,5 +1,6 @@
 
 import Product from "@/models/product";
+import connectDB from "@/utils/dbconnect";
 import { NextRequest, NextResponse } from "next/server";
 
 
@@ -10,7 +11,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
   try {
-    console.log('working Filters')
+    // console.log('working Filters')
     const url = new URL(request.url);
     const queryParameters = url.searchParams;
 
@@ -69,11 +70,11 @@ export async function GET(request: NextRequest) {
     };
   }
 
-
+  await connectDB();
     // Find products based on the filters
     const filteredPrperties = await Product.find(filter).lean();
 
-    console.log(filteredPrperties.length , 'Values in Filters Length');
+    // console.log(filteredPrperties.length , 'Values in Filters Length');
 
 return NextResponse.json({ filteredPrperties });
   } catch (error) {

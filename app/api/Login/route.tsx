@@ -2,11 +2,12 @@
 import User from "@/models/user";
 import { NextResponse } from "next/server";
 import bcrypt from "bcrypt";
+import connectDB from "@/utils/dbconnect";
 const saltRounds = 10;
 
 export async function POST(request) {
   const { email, password } = await request.json();
-
+  await connectDB();
   const user = await User.findOne({ email: email }).lean();
 
   if (!user) {
@@ -21,7 +22,7 @@ export async function POST(request) {
 
     if (match) {
       // Passwords match, user is authenticated
-      console.log("User logged in successfully", user);
+      // console.log("User logged in successfully", user);
       return  NextResponse.json(
         {  user  , status: 200},
 

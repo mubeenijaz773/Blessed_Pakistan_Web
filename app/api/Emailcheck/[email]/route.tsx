@@ -2,14 +2,14 @@
 
 import User from "@/models/user"
 import { NextResponse } from "next/server";
-
+import connectDB from "@/utils/dbconnect";
 
 
 
 export async function GET(request , content) {
 
   const email = content.params.email
-
+  await connectDB();
   var checkemail = await User.find({"email":email}).lean();
 
   console.log(checkemail)
