@@ -29,7 +29,7 @@ const Navbarunique = () => {
     { label: 'ADMIN', value: 'ADMIN', route: '/Admin' },
     { label: 'Add Society', value: 'Add Society', route: '/Add_Society' },
     { label: 'Add Project', value: 'Add Project', route: '/Add_Project' },
-    { label: 'Add Agency', value: 'Add Agency', route: '/Add_Agencies' },
+    // { label: 'Add Agency', value: 'Add Agency', route: '/Add_Agencies' },
   ];
   // Add_Project
 

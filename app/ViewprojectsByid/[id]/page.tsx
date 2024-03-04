@@ -11,12 +11,13 @@ import EmailDailogBox from "../../Email_Dailog/page"
 import {FindProjectbyid } from "@/app/action/projects"
 import { DotSpinner} from "@uiball/loaders";
 import Image from "next/image";
+import Navbarunique from "@/app/Navbar/page";
 
 
 
 
 
-const VideosSlider = (videos ) => {
+const VideosSlider = ({videos} ) => {
   const sliderRef = useRef(null);
   const [scrollLeft, setScrollLeft] = useState(0);
 
@@ -46,9 +47,9 @@ const VideosSlider = (videos ) => {
           ref={sliderRef}
           // style={{ scrollLeft: scrollLeft }}
         >
-          {videos.map((video) => (
+          {videos.map((video:any , index) => (
             <div
-              key={video.id}
+              key={index}
               className="inline-block w-full h-[400px]  shadow-lg rounded-lg overflow-hidden"
             >
               <video
@@ -116,38 +117,38 @@ const Slider = ({ images }) => {
                 width: `${100 / images?.length}%`,
               }}
             >
-                   <div className="w-full h-[400px] relative" >
-      <Image
-                src={`${ServiceUrl}/Add_Project/?filename=${image?.name}`}
-                alt={`Slide ${image?.name}`}
-                className=" rounded object-cover"
-              />
+              <div className="w-full h-[400px] relative">
+                <img
+                  src={`${ServiceUrl}/Add_Project/?filename=${image?.name}`}
+                  alt={`Slide ${image?.name}`}
+                  className="rounded object-cover w-full h-full"
+                  onError={(e) => {
+                    e.target.onerror = null; // Prevent infinite loop
+                    e.target.src = "/default-image.jpg"; // Default image path
+                  }}
+                />
               </div>
-
             </div>
           ))}
         </div>
       </div>
 
       <div className="absolute top-0 bottom-0 w-full h-full flex items-center justify-between">
-      <div className="border border-black bg-black rounded-lg hover:bg-white hover:border-white cursor-pointer " >
-  
-        <button
-          onClick={prevSlide}
-          className="text-white text-2xl  p-4 focus:outline-none hover:text-gray-500 transition duration-300 ease-in-out transform hover:scale-110 active:scale-95"
-        >
-          &#8249;
-        </button>
-  
-  </div>
-        <div className="border border-black bg-black rounded-lg hover:bg-white hover:border-white cursor-pointer " >
-        <button
-          onClick={nextSlide}
-          className="text-white text-2xl p-4 focus:outline-none hover:text-gray-500 transition duration-300 ease-in-out transform hover:scale-110 active:scale-95"
-        >
-
-          &#8250;
-        </button>
+        <div className="border border-black bg-black rounded-lg hover:bg-white hover:border-white cursor-pointer">
+          <button
+            onClick={prevSlide}
+            className="text-white text-2xl  p-4 focus:outline-none hover:text-gray-500 transition duration-300 ease-in-out transform hover:scale-110 active:scale-95"
+          >
+            &#8249;
+          </button>
+        </div>
+        <div className="border border-black bg-black rounded-lg hover:bg-white hover:border-white cursor-pointer">
+          <button
+            onClick={nextSlide}
+            className="text-white text-2xl p-4 focus:outline-none hover:text-gray-500 transition duration-300 ease-in-out transform hover:scale-110 active:scale-95"
+          >
+            &#8250;
+          </button>
         </div>
       </div>
     </div>
@@ -174,7 +175,7 @@ const PropertyDetails = ({params}:{params: any}) => {
         setIsLoading(true)
         const projectId = params.id // Replace with the actual product ID
         const result = await FindProjectbyid(projectId);
-        console.log(result , projectId , "project get ")
+        // console.log(result , projectId , "project get ")
 
       if(result['status'] == 200){
           setProduct(result['Get']); // Assuming 'product' is the key in the result
@@ -199,7 +200,7 @@ const PropertyDetails = ({params}:{params: any}) => {
 
 
 
-  const handleTabClick = (tabName) => {
+  const handleTabClick = (tabName:any) => {
     setSelectedTab(tabName);
   };
 
@@ -233,8 +234,8 @@ const PropertyDetails = ({params}:{params: any}) => {
 
 
   return (
-    <div className="p-10 rounded-lg bg-white min-h-screen w-full ">
-    
+    <div className=" rounded-lg bg-white min-h-screen w-full ">
+    <Navbarunique />
     
 {isLoading ? (
       <div className="w-full h-full  animate-pulse py-4">
@@ -255,12 +256,12 @@ const PropertyDetails = ({params}:{params: any}) => {
 
 
 
-    {product?.map((data , index) => (
+    {product?.map((data:any , index:any) => (
 
 <>
     
       {/* ImAGES Tab content  */}
-<div key={index} >
+<div key={index} className="mt-5" >
 
 
 

@@ -14,6 +14,7 @@ import { useRouter } from "next/navigation";
 import { formatDistanceToNow } from "date-fns";
 import { GetProductByPropertyid } from "@/app/action/Property";
 import Image from "next/image";
+import Navbarunique from "@/app/Navbar/page";
 
 const FindPropertyById = ({params}:{params?:any} ) => {
   const [images, setImages] = useState([]);
@@ -26,7 +27,7 @@ const FindPropertyById = ({params}:{params?:any} ) => {
 
   useEffect(() => {
     fetchImages();
-    setUserid(localStorage.getItem("_id"));
+    setUserid(localStorage.getItem("_id") || '');
   }, [images]);
 
 
@@ -54,7 +55,8 @@ const FindPropertyById = ({params}:{params?:any} ) => {
   }
 
   return (
-    <div className="container mx-auto mt-[50px] mb-[100px] p-4 ">
+    <div >
+      <Navbarunique />
       <div className="max-w-full p-10 rounded-lg relative overflow-hidden">
         <div className="flex flex-row justify-between">
           <h1 className="text-xl text-neutral-900 font-bold mb-4 font-sans">
