@@ -7,8 +7,11 @@ export async function GetAllProjects(){
         await connectDB();
     const data = await Project.find().lean();
 
-    return({ sucess:true , message: "All Projects Fetch Sucessfully ",  data })
-  
+    if(data){
+    return({ status:200 , message: "All Projects Fetch Sucessfully ", "projects": data })
+    }else{
+        return({status : 400})
+    }
 }catch(error){
      return ({ error:error , message: "user not Deleted !" })
     }

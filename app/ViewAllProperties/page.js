@@ -3,11 +3,11 @@
 import { useSearchParams } from "next/navigation";
 import React, { useState, useEffect, useRef , Suspense } from "react";
 import LoadingSpinner from "../Loader/page";
-// import { useRouter } from 'next/navigation';
+
 import { ServiceUrl } from '@/app/global';
 import { MdLocationOn, MdOutlineShareLocation } from 'react-icons/md';
 import { IoMdCall } from 'react-icons/io';
-import { RxCross2 } from 'react-icons/rx';
+import {GetAllProperties} from "@/app/action/Property";
 import EmailDailogBox from "../Email_Dailog/page"
 import { formatDistanceToNow } from "date-fns";
 
@@ -102,6 +102,29 @@ const WrapALLproperties = () =>{
 
 
 
+  useEffect(() => {
+    DataFilter();
+  }, []);
+
+  const DataFilter = async () => {
+    try {
+      const response = await GetAllProperties();
+      if(response.status == 200){
+      console.log(response , "properties")
+      setProperties(response["Get"]);
+      setIsLoading(false);
+      }else if(response.status == 400){
+        setProperties([]);
+        setIsLoading(false);
+      }
+    } catch (error) {
+      setProperties([]);
+      setIsLoading(false);
+      console.error("Error fetching locations:", error);
+    }
+  };
+
+
 
 
 
@@ -173,41 +196,6 @@ const WrapALLproperties = () =>{
     setShowPriceDropdown(false);
   };
 
-
-
-  useEffect(() => {
-    DataFilter();
-  }, []);
-
-  const DataFilter = async () => {
-    try {
-      setIsLoading(true);
-
-      const response = await fetch(
-        `${ServiceUrl}/FetchProduct`,
-
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      const data = await response.json();
-      if (data["products"] && data["products"].length > 0) {
-        setProperties(data["products"]);
-      } else {
-        // If data["products"] is empty or undefined, set locations to an empty array
-        setProperties([]);
-      }
-      // setProperties(data["products"]);
-
-      setIsLoading(false);
-    } catch (error) {
-      console.error("Error fetching properties:", error);
-      setIsLoading(false);
-    }
-  };
 
 
 

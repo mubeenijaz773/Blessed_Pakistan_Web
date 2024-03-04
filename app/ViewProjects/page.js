@@ -69,10 +69,19 @@ export default function Projects() {
   const fetchProjects = async () => {
     try {
       const response = await GetAllProjects();
-      setProjects(response["data"]);
+      if(response['status'] == 200){
+      setProjects(response["projects"]);
    
       setIsLoading(false);
+      }else if (response['status'] == 400){
+        setProjects([]);
+   
+        setIsLoading(false);
+      }
     } catch (error) {
+      setProjects([]);
+   
+      setIsLoading(false);
       console.error("Error fetching Projects:", error);
     }
   };

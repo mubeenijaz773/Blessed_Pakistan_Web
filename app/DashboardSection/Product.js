@@ -7,7 +7,7 @@ import { RiPriceTag3Line } from "react-icons/ri";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import {  FaHome } from "react-icons/fa";
-
+import {GetAllProperties} from "@/app/action/Property";
 import { HiLocationMarker } from "react-icons/hi";
 
 import { BsArrowLeft, BsArrowRight } from "react-icons/bs";
@@ -21,49 +21,36 @@ import Image from "next/image";
 
 const DisplayProduct = () => {
   const [properties, setProperties] = useState([]);
-  // const [filteredImages, setFilteredImages] = useState([]);
+
   const [showAllProperties, setShowAllProperties] = useState(false);
   const [userid, setUserid] = useState("");
   const scrollContainerRef = useRef(null);
   const [isLoading, setIsLoading] = useState(true);
-  // const [isDeleting, setIsDeleting] = useState(false);
-
-  const router = useRouter();
-
 
   useEffect(() => {
-    fetchImages();
+   
     setUserid(localStorage.getItem("_id"));
+    fetchImages();
   }, []);
 
   const fetchImages = async () => {
     try {
-      const response = await fetch(`${ServiceUrl}/FetchProduct`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      const data = await response.json();
-      console.log(data , "properties")
-      setProperties(data["products"]);
+      const response = await GetAllProperties();
+      if(response.status == 200){
+      console.log(response , "properties")
+      setProperties(response["Get"]);
       setIsLoading(false);
+      }else if(response.status == 400){
+        setProperties([]);
+        setIsLoading(false);
+      }
     } catch (error) {
+      setProperties([]);
+      setIsLoading(false);
       console.error("Error fetching images:", error);
     }
   };
 
-  // useEffect(() => {
-  //   if (searchTerm) {
-  //     const filteredImages = images.filter((image) => {
-  //       const title = image.title;
-  //       return title.includes(searchTerm);
-  //     });
-  //     setFilteredImages(filteredImages);
-  //   } else {
-  //     setFilteredImages(images);
-  //   }
-  // }, [searchTerm, images]);
 
   const toggleShowAllProperties = () => {
     setShowAllProperties(!showAllProperties);
@@ -88,31 +75,7 @@ const DisplayProduct = () => {
   };
 
 
-  const handleDelete = async (propertyId, filename) => {
-    try {
-      const response = await fetch(`${ServiceUrl}/Product`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          filename,
-        }),
-      });
 
-      if (response.ok) {
-        // fetchImages();
-        // File and document deleted successfully
-        // Implement any UI updates, like removing the deleted property from the list
-        console.log("Property deleted successfully!");
-      } else {
-        // Handle error
-        console.error("Delete failed:", response.statusText);
-      }
-    } catch (error) {
-      console.error("Delete failed:", error);
-    }
-  };
   return (
     <div className="container mx-auto mt-[50px] mb-[100px] p-4 ">
       <div className="max-w-full border border-slate-300 p-10 rounded-lg relative overflow-hidden">

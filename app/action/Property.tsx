@@ -1,10 +1,6 @@
 "use server"
 import Product from "@/models/product";
 import connectDB from "@/utils/dbconnect";
-import { unlink } from "fs/promises";
-
-import path from 'path';
-
 
 export async function GetProductById(_id){
     try{
@@ -79,8 +75,7 @@ export async function GetPropertyUserId(userid:any){
 
 export async function UpdatePropertyById(_id, updatedData) {
     try {
-      // console.log(fs.readdir('../../../'))
-        // console.log(updatedData , "updated data")
+    
         await connectDB();
       const updatedProperty = await Product.findOneAndUpdate(
         { _id : _id },
@@ -101,31 +96,6 @@ export async function UpdatePropertyById(_id, updatedData) {
 
   
 
-  export async function DeleteByIdImagesVideos(_id  , imageFilenameToDelete ,videoFilenameToDelete ) {
-
-    await connectDB();
-    // Remove image filename from the list
-    await Product.findOneAndUpdate(
-      { _id },
-      { $pull: { images: { name: imageFilenameToDelete } } }
-    );
-  
-    // Remove video filename from the list
-    await Product.findOneAndUpdate(
-      { _id },
-      { $pull: { videos: { name: videoFilenameToDelete } } }
-    );
-  
-// Example of using absolute paths
-await unlink(path.resolve(__dirname, `./data/propertyimages/${imageFilenameToDelete}`));
-await unlink(path.resolve(__dirname, `./data/propertyimages/${videoFilenameToDelete}`));
-
-    return ({ status: 200 });
-  }
-
-
-
-
 
 
   export async function DeletePropertyById(_id) {
@@ -144,6 +114,24 @@ await unlink(path.resolve(__dirname, `./data/propertyimages/${videoFilenameToDel
   }
   
   
+
+
+  export async function GetAllProperties(){
+    try{
+      await connectDB();
+    const getdata = await Product.find().lean();
+    if(getdata){
+    return({ status : 200 , message: "Product Get Sucessfully ",  Get:getdata })
+    }else{
+        return({ status : 400})
+    }
+}catch(error){
+     return ({ error:error , message: "user not Found Error !" })
+    }
+
+
+}
+
 
 
 

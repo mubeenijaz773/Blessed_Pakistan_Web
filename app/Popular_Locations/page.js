@@ -3,7 +3,7 @@ import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import React, { useState, useEffect } from "react";
 import { GrMapLocation } from "react-icons/gr";
-import { ServiceUrl } from '@/app/global';
+import {GetAllProperties} from "@/app/action/Property";
 import Link from "next/link";
 import { useRouter } from 'next/navigation';
 
@@ -24,23 +24,18 @@ export default function DisplayLocations  () {
   }, []);
   const fetchLocations = async () => {
     try {
-      const response = await fetch(`${ServiceUrl}/FetchProduct`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      const data = await response.json();
-  
-      if (data["products"] && data["products"].length > 0) {
-        setLocations(data["products"]);
-      } else {
-        // If data["products"] is empty or undefined, set locations to an empty array
-        setLocations([]);
-      }
-  
+      const response = await GetAllProperties();
+      if(response.status == 200){
+      console.log(response , "properties")
+      setLocations(response["Get"]);
       setIsLoading(false);
+      }else if(response.status == 400){
+        setLocations([]);
+        setIsLoading(false);
+      }
     } catch (error) {
+      setLocations([]);
+      setIsLoading(false);
       console.error("Error fetching locations:", error);
     }
   };

@@ -1,16 +1,16 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
-
+import { GetAllProjects } from "@/app/action/projects";
 import { BiCategoryAlt } from "react-icons/bi";
 import { ServiceUrl } from '@/app/global';
 import { PiProjectorScreenFill } from "react-icons/pi";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { FaHome } from "react-icons/fa";
-import LoadingSpinner from "../Loader/page";
+
 import { BsArrowLeft, BsArrowRight } from "react-icons/bs";
 import { useRouter } from "next/navigation";
-import { RiPriceTag3Line } from "react-icons/ri";
+
 import { HiLocationMarker } from "react-icons/hi";
 import Image from "next/image";
 
@@ -31,18 +31,21 @@ const [userid, setUserid] = useState("");
 
   const fetchProject = async () => {
     try {
-      const response = await fetch(`${ServiceUrl}/Fetch_Projects`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      const data = await response.json();
-      // console.log(data, "project");
-      setProject(data["projects"]);
+      const response = await GetAllProjects();
+      if(response['status'] == 200){
+      setProject(response["projects"]);
+   
       setIsLoading(false);
+      }else if (response['status'] == 400){
+        setProject([]);
+   
+        setIsLoading(false);
+      }
     } catch (error) {
-      console.error("Error fetching Project:", error);
+      setProject([]);
+   
+      setIsLoading(false);
+      console.error("Error fetching Projects:", error);
     }
   };
 
