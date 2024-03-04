@@ -60,12 +60,27 @@ const Navbarunique = () => {
   };
 
   useEffect(() => {
-    const id:any = localStorage.getItem("_id");
+    const id: any = localStorage.getItem("_id") || '';
     setUserid(id);
-    var userobj:any = localStorage.getItem("current_user");
-    setUser(JSON.parse(userobj));
+  
+    // Retrieve user data from local storage
+    const userObjString: string | null = localStorage.getItem("current_user");
+    
+    // Check if userObjString is not null and not an empty string
+    if (userObjString && userObjString.trim() !== "") {
+      try {
+        // Parse the JSON data
+        const userObj: any = JSON.parse(userObjString);
+        
+        // Set the user state
+        setUser(userObj);
+      } catch (error) {
+        // Handle JSON parsing errors
+        console.error("Error parsing user data:", error);
+      }
+    }
   }, []);
-
+  
 
   const [isLoading, setIsLoading] = useState(false);
 
