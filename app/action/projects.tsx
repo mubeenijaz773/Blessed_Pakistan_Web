@@ -21,22 +21,17 @@ export async function GetAllProjects(){
 
 
 
+export async function FindProjectbyid(_id:any) {
+    try {
+        const data = await Project.find({ _id }).lean();
 
-export async function FindProjectbyid(_id){
-    try{
-        
-    const data = await Project.find({_id}).lean();
-    if(data){
-        return({ status : 200 , message: "Projects Get Sucessfully ",  Get:data })
-        }else{
-            return({ status : 400})
+        if (data.length > 0) {
+            return { status: 200, message: "Project fetched successfully", project: data };
+        } else {
+            return { status: 404, message: "Project not found" };
         }
-  
-}catch(error){
-     return ({ error:error , message: "user not Deleted !" })
+    } catch (error) {
+        console.error('Error fetching project:', error);
+        return { status: 500, message: "Internal Server Error" };
     }
-
-
 }
-
-

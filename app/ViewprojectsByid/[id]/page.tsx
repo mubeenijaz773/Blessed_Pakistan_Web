@@ -2,171 +2,26 @@
 
 import React, { useRef, useState  , useEffect} from "react";
 import { ServiceUrl } from '@/app/global';
-import CallDialog from "../../Call_Dailogbox/page"
-import { FaFileContract, FaMailBulk,  FaPhoneSquare, FaPhoneSquareAlt } from "react-icons/fa";
-import { BiChevronLeft, BiChevronRight, BiImage, BiMailSend, BiVideo } from "react-icons/bi";
+
+import { BiChevronLeft, BiChevronRight, BiImage, BiVideo } from "react-icons/bi";
 import { GoogleMap, LoadScript, MarkerF , OverlayView  } from '@react-google-maps/api';
-import EmailDailogBox from "../../Email_Dailog/page"
 
 import {FindProjectbyid } from "@/app/action/projects"
-import { DotSpinner} from "@uiball/loaders";
+
 import Image from "next/image";
 import Navbarunique from "@/app/Navbar/page";
-
-
-
-
-
-const VideosSlider = ({videos} ) => {
-  const sliderRef = useRef(null);
-  const [scrollLeft, setScrollLeft] = useState(0);
-
-  const slideLeft = () => {
-    if (sliderRef.current) {
-      sliderRef.current.scrollLeft -= 200; // Adjust the scroll amount as needed
-      setScrollLeft(sliderRef.current.scrollLeft);
-    }
-  };
-
-  const slideRight = () => {
-    if (sliderRef.current) {
-      sliderRef.current.scrollLeft += 200; // Adjust the scroll amount as needed
-      setScrollLeft(sliderRef.current.scrollLeft);
-    }
-  };
-
-
-  return (
-    <div className="bg-white ">
-      <div className="container mx-auto">
-        <div className="flex justify-between items-center ">      
-        </div>
-        <div
-          className="overflow-x-auto whitespace-nowrap  row-container"
-          id="slider"
-          ref={sliderRef}
-          // style={{ scrollLeft: scrollLeft }}
-        >
-          {videos.map((video:any , index) => (
-            <div
-              key={index}
-              className="inline-block w-full h-[400px]  shadow-lg rounded-lg overflow-hidden"
-            >
-              <video
-                src={`${ServiceUrl}/Add_Project/?filename=${video.name}`}
-                controls
-                className="w-full h-full object-cover"
-              />
-            </div>
-
-          ))}
-        </div>
-        <div className="flex justify-center space-x-4">
-            <button
-              title="Scroll Left"
-              onClick={slideLeft}
-              className="bg-black hover:bg-white rounded hover:shadow-2xl hover:border  text-white hover:text-black p-3  focus:outline-none"
-            >
-              <BiChevronLeft className="w-4 h-4"  />
-            </button>
-            <button
-              title="Scroll Right"
-              onClick={slideRight}
-              className="bg-black hover:bg-white rounded hover:shadow-2xl hover:border text-white hover:text-black p-3 focus:outline-none"
-        >
-              <BiChevronRight className="w-4 h-4" />
-            </button>
-          </div>
-      </div>
-    </div>
-  );
-};
-
-//  Images List Slider
-
-const Slider = ({ images }) => {
-  const [currentIndex, setCurrentIndex] = useState(0);
-
-  const nextSlide = () => {
-    setCurrentIndex((prevIndex) =>
-      prevIndex === images?.length - 1 ? 0 : prevIndex + 1
-    );
-  };
-
-  const prevSlide = () => {
-    setCurrentIndex((prevIndex) =>
-      prevIndex === 0 ? images?.length - 1 : prevIndex - 1
-    );
-  };
-
-  return (
-    <div className="relative w-full bg-white ">
-      <div className="overflow-hidden w-full h-full relative">
-        <div
-          className="h-full flex transition-transform transform"
-          style={{
-            width: `${images?.length * 100}%`,
-            transform: `translateX(-${(100 / images?.length) * currentIndex}%)`,
-          }}
-        >
-          {images?.map((image, index) => (
-            <div
-              key={index}
-              className="w-full h-full  flex-shrink-0"
-              style={{
-                width: `${100 / images?.length}%`,
-              }}
-            >
-              <div className="w-full h-[400px] relative">
-                <img
-                  src={`${ServiceUrl}/Add_Project/?filename=${image?.name}`}
-                  alt={`Slide ${image?.name}`}
-                  className="rounded object-cover w-full h-full"
-                  onError={(e) => {
-                    e.target.onerror = null; // Prevent infinite loop
-                    e.target.src = "/default-image.jpg"; // Default image path
-                  }}
-                />
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      <div className="absolute top-0 bottom-0 w-full h-full flex items-center justify-between">
-        <div className="border border-black bg-black rounded-lg hover:bg-white hover:border-white cursor-pointer">
-          <button
-            onClick={prevSlide}
-            className="text-white text-2xl  p-4 focus:outline-none hover:text-gray-500 transition duration-300 ease-in-out transform hover:scale-110 active:scale-95"
-          >
-            &#8249;
-          </button>
-        </div>
-        <div className="border border-black bg-black rounded-lg hover:bg-white hover:border-white cursor-pointer">
-          <button
-            onClick={nextSlide}
-            className="text-white text-2xl p-4 focus:outline-none hover:text-gray-500 transition duration-300 ease-in-out transform hover:scale-110 active:scale-95"
-          >
-            &#8250;
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-};
 
 
 
 // ///////////////////////////////////   Main Component /////////////////////////////////////////////
 
 
-const PropertyDetails = ({params}:{params: any}) => {
+const ProjectDetails = ({params}:{params: any}) => {
 
 
-  const [isReportDialogOpen, setIsReportDialogOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [selectedTab, setSelectedTab] = useState("Property images");
-  const [product, setProduct] = useState(null);
+  const [product, setProduct] = useState([]);
 
   useEffect(() => {
     // Fetch data when the component mounts
@@ -175,12 +30,12 @@ const PropertyDetails = ({params}:{params: any}) => {
         setIsLoading(true)
         const projectId = params.id // Replace with the actual product ID
         const result = await FindProjectbyid(projectId);
-        // console.log(result , projectId , "project get ")
+        console.log(result , projectId , "project get ")
 
-      if(result['status'] == 200){
-          setProduct(result['Get']); // Assuming 'product' is the key in the result
+      if(result.status == 200){
+          setProduct(result.project); // Assuming 'product' is the key in the result
           setIsLoading(false)
-        }else if(result['status'] == 400){
+        }else if(result.status == 400){
           setIsLoading(false)
       }else{
         setIsLoading(false)
@@ -196,7 +51,7 @@ const PropertyDetails = ({params}:{params: any}) => {
 
 
 
-
+console.log(product , "projects")
 
 
 
@@ -214,18 +69,6 @@ const PropertyDetails = ({params}:{params: any}) => {
     lng: 0, // Add your initial longitude here
   };
   
-
-
-
-
-  const handleButtonClick = () => {
-    setIsReportDialogOpen(true);
-  };
-
-  const handleCloseDialog = () => {
-    setIsReportDialogOpen(false);
-  };
-
 
 
   // Inside your component
@@ -457,10 +300,152 @@ const PropertyDetails = ({params}:{params: any}) => {
   );
 };
 
-export default PropertyDetails;
+export default ProjectDetails;
 
 
 
 
+
+
+
+
+
+const VideosSlider = ({videos} ) => {
+  const sliderRef = useRef(null);
+  const [scrollLeft, setScrollLeft] = useState(0);
+
+  const slideLeft = () => {
+    if (sliderRef.current) {
+      sliderRef.current.scrollLeft -= 200; // Adjust the scroll amount as needed
+      setScrollLeft(sliderRef.current.scrollLeft);
+    }
+  };
+
+  const slideRight = () => {
+    if (sliderRef.current) {
+      sliderRef.current.scrollLeft += 200; // Adjust the scroll amount as needed
+      setScrollLeft(sliderRef.current.scrollLeft);
+    }
+  };
+
+
+  return (
+    <div className="bg-white ">
+      <div className="container mx-auto">
+        <div className="flex justify-between items-center ">      
+        </div>
+        <div
+          className="overflow-x-auto whitespace-nowrap  row-container"
+          id="slider"
+          ref={sliderRef}
+          // style={{ scrollLeft: scrollLeft }}
+        >
+          {videos.map((video:any , index) => (
+            <div
+              key={index}
+              className="inline-block w-full h-[400px]  shadow-lg rounded-lg overflow-hidden"
+            >
+              <video
+                src={`${ServiceUrl}/Add_Project/?filename=${video.name}`}
+                controls
+                className="w-full h-full object-cover"
+              />
+            </div>
+
+          ))}
+        </div>
+        <div className="flex justify-center space-x-4">
+            <button
+              title="Scroll Left"
+              onClick={slideLeft}
+              className="bg-black hover:bg-white rounded hover:shadow-2xl hover:border  text-white hover:text-black p-3  focus:outline-none"
+            >
+              <BiChevronLeft className="w-4 h-4"  />
+            </button>
+            <button
+              title="Scroll Right"
+              onClick={slideRight}
+              className="bg-black hover:bg-white rounded hover:shadow-2xl hover:border text-white hover:text-black p-3 focus:outline-none"
+        >
+              <BiChevronRight className="w-4 h-4" />
+            </button>
+          </div>
+      </div>
+    </div>
+  );
+};
+
+//  Images List Slider
+
+const Slider = ({ images }) => {
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  const nextSlide = () => {
+    setCurrentIndex((prevIndex) =>
+      prevIndex === images?.length - 1 ? 0 : prevIndex + 1
+    );
+  };
+
+  const prevSlide = () => {
+    setCurrentIndex((prevIndex) =>
+      prevIndex === 0 ? images?.length - 1 : prevIndex - 1
+    );
+  };
+
+  return (
+    <div className="relative w-full bg-white ">
+      <div className="overflow-hidden w-full h-full relative">
+        <div
+          className="h-full flex transition-transform transform"
+          style={{
+            width: `${images?.length * 100}%`,
+            transform: `translateX(-${(100 / images?.length) * currentIndex}%)`,
+          }}
+        >
+          {images?.map((image, index) => (
+            <div
+              key={index}
+              className="w-full h-full  flex-shrink-0"
+              style={{
+                width: `${100 / images?.length}%`,
+              }}
+            >
+              <div className="w-full h-[400px] relative">
+                <img
+                  src={`${ServiceUrl}/Add_Project/?filename=${image?.name}`}
+                  alt={`Slide ${image?.name}`}
+                  className="rounded object-cover w-full h-full"
+                  onError={(e) => {
+                    e.target.onerror = null; // Prevent infinite loop
+                    e.target.src = "/default-image.jpg"; // Default image path
+                  }}
+                />
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className="absolute top-0 bottom-0 w-full h-full flex items-center justify-between">
+        <div className="border border-black bg-black rounded-lg hover:bg-white hover:border-white cursor-pointer">
+          <button
+            onClick={prevSlide}
+            className="text-white text-2xl  p-4 focus:outline-none hover:text-gray-500 transition duration-300 ease-in-out transform hover:scale-110 active:scale-95"
+          >
+            &#8249;
+          </button>
+        </div>
+        <div className="border border-black bg-black rounded-lg hover:bg-white hover:border-white cursor-pointer">
+          <button
+            onClick={nextSlide}
+            className="text-white text-2xl p-4 focus:outline-none hover:text-gray-500 transition duration-300 ease-in-out transform hover:scale-110 active:scale-95"
+          >
+            &#8250;
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 
