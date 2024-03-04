@@ -1,9 +1,10 @@
 "use server"
 import Project from "@/models/Project";
+import connectDB from "@/utils/dbconnect";
 
 export async function GetAllProjects(){
     try{
-        
+        await connectDB();
     const data = await Project.find().lean();
 
     return({ sucess:true , message: "All Projects Fetch Sucessfully ",  data })

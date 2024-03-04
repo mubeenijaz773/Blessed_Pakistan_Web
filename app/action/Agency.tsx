@@ -1,8 +1,9 @@
 "use server"
 import Agencies from "@/models/Agency";
+import connectDB from "@/utils/dbconnect";
 export async function GetAllAgencies(){
     try{
-        
+        await connectDB();
     const Getdata = await Agencies.find().lean();
 
     return({ sucess:true , message: "All Agencies Fetch Sucessfully ",GET:Getdata })
@@ -20,6 +21,7 @@ export async function GetAllAgencies(){
 
 
 export async function updateStatus(_id, status) {
+    await connectDB();
     const data = await Agencies.findByIdAndUpdate(
         { _id: _id },
         { status: status },
@@ -32,7 +34,7 @@ export async function updateStatus(_id, status) {
 
 export async function GetAllAgenciesByUserId(userid){
     try{
-        
+        await connectDB();
     const Getdata = await Agencies.find({userid}).lean();
 
     return Getdata
@@ -48,7 +50,7 @@ export async function GetAllAgenciesByUserId(userid){
 
 export async function GetAgenciesById(_id){
     try{
-        
+        await connectDB();
     const Getdata = await Agencies.find({_id}).lean();
 
     return Getdata

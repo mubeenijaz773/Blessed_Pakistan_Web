@@ -1,5 +1,6 @@
 "use server"
 import Product from "@/models/product";
+import connectDB from "@/utils/dbconnect";
 import { unlink } from "fs/promises";
 
 import path from 'path';
@@ -7,6 +8,7 @@ import path from 'path';
 
 export async function GetProductById(_id){
     try{
+      await connectDB();
     const getdata = await Product.find({_id}).lean();
     if(getdata){
     return({ status : 200 , message: "Product Get Sucessfully ",  Get:getdata })
@@ -30,6 +32,7 @@ export async function GetProductById(_id){
 
 export async function GetProductByPropertyid(property_id){
     try{
+      await connectDB();
     const getdata = await Product.find({property_id}).lean();
     if(getdata){
     return({ status : 200 , message: "Product Get Sucessfully ",  Get:getdata })
@@ -54,6 +57,7 @@ export async function GetProductByPropertyid(property_id){
 
 export async function GetPropertyUserId(userid:any){
   try{
+    await connectDB();
   const getdata = await Product.find({userid : userid}).lean();
   if(getdata){
   return({ status : 200 , message: "Product Get Sucessfully ",  Get:getdata })
@@ -76,7 +80,8 @@ export async function GetPropertyUserId(userid:any){
 export async function UpdatePropertyById(_id, updatedData) {
     try {
       // console.log(fs.readdir('../../../'))
-        console.log(updatedData , "updated data")
+        // console.log(updatedData , "updated data")
+        await connectDB();
       const updatedProperty = await Product.findOneAndUpdate(
         { _id : _id },
         { $set: updatedData }, // Pass the object with the properties to update
@@ -98,6 +103,7 @@ export async function UpdatePropertyById(_id, updatedData) {
 
   export async function DeleteByIdImagesVideos(_id  , imageFilenameToDelete ,videoFilenameToDelete ) {
 
+    await connectDB();
     // Remove image filename from the list
     await Product.findOneAndUpdate(
       { _id },
@@ -124,6 +130,7 @@ await unlink(path.resolve(__dirname, `./data/propertyimages/${videoFilenameToDel
 
   export async function DeletePropertyById(_id) {
     try {
+      await connectDB();
       const deletedFavorite = await Product.deleteOne({_id}).lean();
   
       if (deletedFavorite) {

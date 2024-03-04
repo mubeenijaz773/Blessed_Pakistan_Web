@@ -1,10 +1,11 @@
 "use server"
 import User from "@/models/user";
 import bcrypt from "bcrypt";
-
+import connectDB from "@/utils/dbconnect";
 
 export async function DeleteUser(userid){
     try{
+      await connectDB();
     const del_user = await User.findOneAndDelete({_id:userid});
     return({ sucess:true , message: "user Deleted Sucessfully ",del_user:del_user })
   
@@ -20,6 +21,7 @@ export async function DeleteUser(userid){
 
 export async function GetUser(_id){
     try{
+      await connectDB();
     const getdata = await User.find({_id});
     return({ sucess:true , message: "user Get Sucessfully ",  Get:getdata })
   
@@ -36,6 +38,7 @@ export async function GetUser(_id){
 
 export async function UpdateUserById(_id, username , email) {
     try {
+      await connectDB();
       // Assuming User is a Mongoose model
       const updatedUser = await User.findOneAndUpdate({ _id }, {username , email} , { new: true });
   
@@ -55,8 +58,8 @@ export async function UpdateUserById(_id, username , email) {
 
 export async function UserChangePassword(_id ,currentPassword ,newPassword  ){
 
-console.log(_id , currentPassword , newPassword , "get in api ")
-
+// console.log(_id , currentPassword , newPassword , "get in api ")
+await connectDB();
   // Find the user by username
   const user = await User.findOne({ _id });
 

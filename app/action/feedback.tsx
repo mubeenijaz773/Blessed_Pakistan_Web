@@ -5,6 +5,7 @@ import {  user, pass , feedbackuser , feedbackpass , complainuser, complainpass 
 import  FeedBack from "@/models/feedback";
 import Complain from "@/models/Usercomplain";
 import Report from "@/models/report_product";
+import connectDB from "@/utils/dbconnect";
 
 
 export async function FeedbackUser(userid  , email , description) {
@@ -60,7 +61,7 @@ export async function FeedbackUser(userid  , email , description) {
         email : email,
         description:description
     });
-
+    await connectDB();
     await newUser.save();
 
       console.log("Email sent successfully");
@@ -147,7 +148,7 @@ export async function   ComplainUser(userid  , email , description) {
         email : email,
         description:description
     });
-
+    await connectDB();
     await newUser.save();
 
       console.log("Email sent successfully");
@@ -228,7 +229,7 @@ export async function   UserReportProduct(userid  , email , description) {
         email : email,
         description:description
     });
-
+    await connectDB();
     await newUser.save();
 
       console.log("Email sent successfully");

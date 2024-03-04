@@ -1,6 +1,7 @@
 "use server"
 
 import  Subscribe from "@/models/EmailNotify_subscribe";
+import connectDB from "@/utils/dbconnect";
 
 
 
@@ -8,7 +9,7 @@ import  Subscribe from "@/models/EmailNotify_subscribe";
 
 export async function SaveUserNotify(email) {
 
-  
+  await connectDB();
     // Check if the email already exists in the database
     const existingUser = await Subscribe.findOne({ email }).lean();
   

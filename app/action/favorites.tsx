@@ -1,10 +1,12 @@
 "use server"
 import Favorites_Property from "@/models/favorite_properties";
+import connectDB from "@/utils/dbconnect";
 
 
 
 export async function SavefavoriteProperty(userid, property_id) {
     try {
+      await connectDB();
       // Check if the combination of userid and property_id already exists
       const existingFavorite = await Favorites_Property.findOne({
         userid,
@@ -34,6 +36,7 @@ export async function SavefavoriteProperty(userid, property_id) {
 
   export async function GetFavoritePropertyByUserId(userid){
     try{
+      await connectDB();
     const getdata = await Favorites_Property.find({userid}).populate("property_id").lean()
 
 
@@ -55,6 +58,7 @@ export async function SavefavoriteProperty(userid, property_id) {
 
 export async function DeleteFavoritePropertyById(property_id) {
   try {
+    await connectDB();
     const deletedFavorite = await Favorites_Property.deleteOne({property_id}).lean();
 
     if (deletedFavorite) {

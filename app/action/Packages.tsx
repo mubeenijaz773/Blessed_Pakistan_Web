@@ -4,12 +4,13 @@
 // import {  user, pass , feedbackuser , feedbackpass , complainuser, complainpass , reportuser , reportpass } from "../global";
 
 import  Packages from "@/models/Users_Package";
+import connectDB from "@/utils/dbconnect";
 
 
 
 export async function SaveUserPackage(userid, package_type, package_price, adsPosted) {
 
-
+  await connectDB();
    // Check if the user is already subscribed with the same package type
    const existingUserPackage = await Packages.findOne({ userid, package_type });
 
@@ -48,6 +49,7 @@ export async function checkSubscriptionStatus(userid, package_type) {
 
  
      try {
+      await connectDB();
        // Check if the user is already subscribed with the same package type
        const existingUserPackage = await Packages.find({ userid, package_type  });
  
