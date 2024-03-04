@@ -49,7 +49,7 @@ export async function POST(request: NextRequest) {
     const Longitude = data.get("lng");
   const image_files: File[] = data.getAll("imagefiles") as unknown as File[];
     const video_files: File[] = data.getAll("videofiles") as unknown as File[];
-  
+    await connectDB();
     if (!image_files.length && !video_files.length) {
       return NextResponse.json({ status: 400, body: { error: 'No image or video files provided.' } });
     }
@@ -139,7 +139,7 @@ export async function POST(request: NextRequest) {
       Verified: 'Not Verified'
     });
 
-    await connectDB();
+  
     // Save the property document
     await property.save();
 

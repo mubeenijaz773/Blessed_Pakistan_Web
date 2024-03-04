@@ -21,7 +21,7 @@ const description = data.get("description");
   const Longitude = data.get("lng");
 const Societyimages: File[] = data.getAll("images") as unknown as File[];
 const video_files: File[] = data.getAll("videofiles") as unknown as File[];
-  
+await connectDB();
 
 
   if (!Societyimages) {
@@ -93,7 +93,7 @@ images: Societiesimages,
 videos: uniqueVideoFilenames,
 
     });
-    await connectDB();
+ 
    await Projectdata.save()
 
 

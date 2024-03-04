@@ -24,7 +24,7 @@ const CEO_Name = data.get("ceo");
     const members = JSON.parse(data.get("members"));
 const logoimages: File[] = data.getAll("logoimages") as unknown as File[];
   const bannerimages: File[] = data.getAll("bannerimages") as unknown as File[];
-
+  await connectDB();
   if (!logoimages && !bannerimages) {
     return NextResponse.json({ status:400 });
   }
@@ -101,7 +101,7 @@ const Agencydata = new Agencies({
     Bannerimages: Bannerimages,
     status  
   });
-await connectDB();
+
    await Agencydata.save()
 
 

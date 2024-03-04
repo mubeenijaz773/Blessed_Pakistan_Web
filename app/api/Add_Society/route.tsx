@@ -18,7 +18,7 @@ export async function POST(request: NextRequest) {
   const Latitude = data.get("lat");
   const Longitude = data.get("lng");
   const Societyimages: File[] = data.getAll("images") as unknown as File[];
-
+  await connectDB();
   console.log(Societyimages, "request Files in my api");
 
   if (!Societyimages) {
@@ -70,7 +70,7 @@ export async function POST(request: NextRequest) {
     Longitude,
     images: Societiesimages,
   });
-  await connectDB();
+  
   await Agencydata.save();
 
   return NextResponse.json({ status: 200 });
