@@ -1,11 +1,11 @@
 "use client"
 import React,{ useState , useEffect } from 'react';
-// import EmailDialog from '../AgentProfile/[id]/EmailDialog'; 
-import {  GetAllAgenciesByUserId} from "@/app/action/Agency";
+
+import {  AgentByUserId} from "@/app/action/Agency";
 
 import { ServiceUrl } from '@/app/global';
 import { DotSpinner,  } from "@uiball/loaders";
-// import { useSearchParams } from 'next/navigation';
+
 import Image from 'next/image';
 import EmailDialog from '@/Components/Dailogs/Email_Dailog';
 import CallDialog from '@/Components/Dailogs/Call_Dailog';
@@ -16,20 +16,11 @@ const AgentProfile = () => {
   const [showCallDialog, setShowCallDialog] = useState(false);
   const [showEmailDialog, setShowEmailDialog] = useState(false);
   const [images, setImages] = useState([]);
-  const [userid, setUserid] = useState(null);
+
   const [isLoading, setIsLoading] = useState(true);
-// const router  =  useSearchParams()
-// const pro = router.get('Agent') 
 
   useEffect(() => {
-    const getUserData = async () => {
-      const storedUserId = localStorage.getItem('_id');
-      if (storedUserId) {
-        setUserid(storedUserId);
-      }
-    };
-
-    getUserData();
+ 
     fetchAgencyProfile()
   }, []);
 
@@ -37,17 +28,30 @@ const AgentProfile = () => {
 
   const fetchAgencyProfile = async () => {
     try {
+      var _id =  localStorage.getItem('_id') || '';
+  
       setIsLoading(true);
 
       
-        const data = await GetAllAgenciesByUserId(userid);
-        console.log(data, "data");
-        setImages(data);
-        setIsLoading(false);
+        const data = await AgentByUserId(_id);
+        if(data.status == 200){
+          console.log(data, "data");
+          setImages(data.data);
+          setIsLoading(false);
+        }else if (data.status == 500){
+          setImages([]);
+          setIsLoading(false);
+        }else{
+          setImages([]);
+          setIsLoading(false);
+        }
+      
+    
     
     
     } catch (error) {
       console.error("Error fetching images:", error);
+      setImages([]);
       setIsLoading(false);
     }
   };

@@ -118,25 +118,13 @@ const [userid, setUserid] = useState("");
                   onClick={() => GotToNextPage(item)}
                 >
                   <div className="w-[300px] ml-5 cursor-pointer rounded-lg transform hover:scale-105 transition duration-300 snap-start">
-                  {item.images && item.images.length > 0 ? (
-      <div className="h-[200px] w-[300px] relative">
-      <Image
-        className="rounded-lg  object-cover"
-        src={`${ServiceUrl}/Add_Project/?filename=${item.images[0].name}`}
-        alt={item.name}
-        layout="fill"
-      />
-      </div>
-    ) : (
-      <div className="h-[200px] w-[300px] relative">
-      <Image
-        className="rounded-lg object-cover"
-        src="/default-image.jpg"  // Replace with the path to your default image
-        alt="Default Image"
-        layout="fill"
-      />
-  </div>
-    )}
+                  <img
+
+  className="rounded-lg"
+  src={item.images[0]?.name}
+  alt={item.images[0]?.name || 'fallback-alt-text'}
+/>
+
                     <div className="p-1 mt-3">
                       <div className="flex gap-2">
                         <PiProjectorScreenFill  className="text-gray-900" />

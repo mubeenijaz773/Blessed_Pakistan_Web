@@ -1,14 +1,13 @@
 "use client";
 
 import React, { useRef, useState  , useEffect} from "react";
-import { ServiceUrl } from '@/app/global';
+
 
 import { BiChevronLeft, BiChevronRight, BiImage, BiVideo } from "react-icons/bi";
 import { GoogleMap, LoadScript, MarkerF , OverlayView  } from '@react-google-maps/api';
 
 import {FindProjectbyid } from "@/app/action/projects"
 
-import Image from "next/image";
 import Navbarunique from "@/app/Navbar/page";
 
 
@@ -256,24 +255,23 @@ console.log(product , "projects")
             >
           
           <div className="bg-white w-[240px] h-[300px] rounded-lg overflow-hidden shadow-lg">
-  <div className="w-full h-[150px] relative">
-  <Image
-    src={`${ServiceUrl}/Product/?filename=${data?.images[0]['name']}`}
-    alt={`Slide ${data?.images[0]['name']}`}
-    className=" object-cover"
-    layout="fill"
-  />
-  </div>
+          <img
+
+className="rounded-lg w-full h-[150px]"
+src={data?.images[0].name}
+alt={data?.images[0].name || 'fallback-alt-text'}
+/>
+
   <div className="p-4">
-    <h2 className="text-2xl font-bold mb-2 text-gray-800">{data?.propertyType}</h2>
+    <h2 className="text-2xl font-bold mb-2 text-gray-800">{data?.name}</h2>
     <p className="text-gray-600 mb-2">
-      {data?.bedrooms} Bedrooms • {data?.subType}
+ {data?.description}
     </p>
     <p className="text-gray-600">
       <span className="text-gray-400">Location:</span> {data?.city}
     </p>
     <div className="mt-4 flex justify-between items-center">
-      <p className="text-2xl font-semibold text-green-600">${data?.price}</p>
+    
       <button className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-700">
         View Details
       </button>
@@ -340,16 +338,21 @@ const VideosSlider = ({videos} ) => {
           ref={sliderRef}
           // style={{ scrollLeft: scrollLeft }}
         >
-          {videos.map((video:any , index) => (
+          {videos.map((video) => (
             <div
-              key={index}
+              key={video.id}
               className="inline-block w-full h-[400px]  shadow-lg rounded-lg overflow-hidden"
             >
-              <video
-                src={`${ServiceUrl}/Add_Project/?filename=${video.name}`}
-                controls
-                className="w-full h-full object-cover"
-              />
+             <video controls autoPlay loop>
+      <source src={video.name} type="video/mp4" />
+      <track
+        src="/path/to/captions.vtt"
+        kind="subtitles"
+        srcLang="en"
+        label="English"
+      />
+      Your browser does not support the video tag.
+    </video>
             </div>
 
           ))}
@@ -410,17 +413,13 @@ const Slider = ({ images }) => {
                 width: `${100 / images?.length}%`,
               }}
             >
-              <div className="w-full h-[400px] relative">
-                <img
-                  src={`${ServiceUrl}/Add_Project/?filename=${image?.name}`}
-                  alt={`Slide ${image?.name}`}
-                  className="rounded object-cover w-full h-full"
-                  onError={(e) => {
-                    e.target.onerror = null; // Prevent infinite loop
-                    e.target.src = "/default-image.jpg"; // Default image path
-                  }}
-                />
-              </div>
+                        <img
+
+className="rounded-lg w-full object-cover h-[400px]"
+src={image.name}
+alt={image.name || 'fallback-alt-text'}
+/>
+
             </div>
           ))}
         </div>

@@ -20,6 +20,7 @@ import { toast } from "react-toastify";
 import { Island_Moments } from "next/font/google";
 import AgentProfile from "./AgentProfile";
 import Image from "next/image";
+import Navbarunique from "../Navbar/page";
 
 
 const ProfilePage = () => {
@@ -35,7 +36,7 @@ const [isloading1, setIsLoading1] = useState(false);
     setRole(userRole);
     GetData();
    
-    GetpropertyByuserId();
+    GetFavrouitepropertyByuserId();
   }, []);
   
   
@@ -62,17 +63,24 @@ const [isloading1, setIsLoading1] = useState(false);
 
   // /////////////////////////  Favorite properties /////////////////////////////////////////
 
-  const GetpropertyByuserId = async () => {
+  const GetFavrouitepropertyByuserId = async () => {
     try {
-      var userid = localStorage.getItem("_id");
+      var userid = localStorage.getItem("_id") || '';
 
       const data = await GetFavoritePropertyByUserId(userid);
-      // console.log(data, "favorite list");
-      setFavoritePostListing(data["Get"]);
+      console.log(data.Get , "fav property")
+      if (data.status === 200) {
+        setFavoritePostListing(data.Get);
+      } else {
+        setErrorMessage("Failed to fetch favorite properties");
+        setFavoritePostListing([]);
+      }
       setIsLoading(false);
     } catch (error) {
       setIsLoading(false);
+      setFavoritePostListing([]);
       console.error("Error fetching data:", error);
+      setErrorMessage("An error occurred while fetching data");
     }
   };
 
@@ -135,6 +143,7 @@ const [isloading1, setIsLoading1] = useState(false);
 
   return (
     <main className="flex h-screen ">
+      {/* <Navbarunique /> */}
        {/*///////////////////////////////////// Left Sidebar //////////////////////////// */}
 
     <aside className="w-1/5 h-screen bg-white shadow-lg p-4">
@@ -273,7 +282,7 @@ const [isloading1, setIsLoading1] = useState(false);
               key={item._id}
               listing={item}
               onDeleteProperty={handleDeleteMyProperty}
-              GetpropertyByuserId={GetpropertyByuserId}
+              GetpropertyByuserId={GetFavrouitepropertyByuserId}
             />
           ))
         )}
@@ -282,19 +291,28 @@ const [isloading1, setIsLoading1] = useState(false);
   </>
 )}
 
-            {activeTab == "Favorites" && (
-              <div>
+{activeTab === "Favorites" && (
+  <div>
+    {favoritepostlisting.length === 0 && !isLoading && (
+      <div>No favorite properties found</div>
+    )}
 
-                {favoritepostlisting.map((item, index) => (
-                  <MyFavoritesProperties
-                  key={item._id}
-                    listing={item}
-                    isLoading={isLoading}
-                    onRemoveFavorite={handleRemoveFavorite}
-                  />
-                ))}
-              </div>
-            )}
+    {favoritepostlisting.map((item, index) => (
+      <MyFavoritesProperties
+        key={index}
+        listing={item}
+        isLoading={isLoading}
+        onRemoveFavorite={handleRemoveFavorite}
+      />
+    ))}
+
+    {isLoading && (
+      <div>Loading...</div>
+    )}
+
+ 
+  </div>
+)}
 
             {activeTab === "Post Listing" && (
               <div className=" items-center p-6">
@@ -388,14 +406,11 @@ function MyProperties({ listing, onDeleteProperty,GetpropertyByuserId }) {
       >
         <div className="w-1/3 flex justify-center">
 
-        <div className="relative w-[400px] h-[220px]">
-          <Image
-            src={`${ServiceUrl}/Product/?filename=${listing.images[0]["name"]}`}
-            alt={listing.propertyType}
-            className=" object-cover rounded-lg"
-            layout="fill"
-          />
-          </div>
+       
+          <img   
+           className=" object-cover rounded-lg  w-[400px] h-[220px]"
+           src={listing.images[0]?.name || ''}
+    alt={listing.images[0]?.name || 'No Image Load'} />
         </div>
 
         <div className="w-2/3 p-4 px-5">
@@ -523,25 +538,22 @@ function MyFavoritesProperties({ listing, isLoading, onRemoveFavorite }) {
         className="bg-white mb-2 shadow-lg hover:shadow-xl p-4 rounded-lg flex h-auto"
       >
         <div className="w-1/3 flex justify-center">
-        <div className="relative w-[400px] h-[220px]">
-          <Image
-          src={`${ServiceUrl}/Product/?filename=${listing.images[0]["name"]}`}
-            alt={listing.propertyType}
-            className="object-cover  rounded-lg"
-            layout="fill"
-          />
-          </div>
+  
+          <img
+            className="object-cover  rounded-lg w-[400px] h-[220px]"
+            src={listing?.images[0]?.name || ''}
+            alt={listing?.images[0]?.name || ''} />
         </div>
 
         <div className="w-2/3 p-4 px-5">
           <div className="text-sm font-sans font-bold flex gap-3  text-gray-900 mb-2">
             <Image src="/property-type.png" className=" mt-2" width={15} height={15} />
-            <span className="mt-2">{listing.propertyType}</span>
+            <span className="mt-2">{listing?.propertyType}</span>
 
             <p className="text-gray-600 flex ml-8 mt-2 gap-3">
               <Image src="/curr-location.png" width={15} height={15} />
               <span className="font-bold text-sm font-sans text-black ">
-                {listing.location}
+                {listing?.location}
               </span>
             </p>
           </div>
@@ -549,13 +561,13 @@ function MyFavoritesProperties({ listing, isLoading, onRemoveFavorite }) {
             <li className="flex gap-3 items-center">
               <Image src="/bed.png" width={15} height={15} />
               <span className="font-bold text-sm font-sans">
-                {listing.bedrooms}
+                {listing?.bedrooms}
               </span>
               Bedrooms
               <li className="flex gap-3 items-center ml-4 mt-2">
                 <Image src="/bath.png" width={15} height={15} />
                 <span className="font-bold text-sm font-sans">
-                  {listing.bathrooms}
+                  {listing?.bathrooms}
                 </span>
                 Washrooms
               </li>
@@ -563,7 +575,7 @@ function MyFavoritesProperties({ listing, isLoading, onRemoveFavorite }) {
             <li className="flex gap-3 items-center mt-6">
               <Image src="/area.png" width={15} height={15} />
               <span className="font-bold text-sm font-sans">
-                {listing.Area_size}
+                {listing?.Area_size}
               </span>
               sq. ft.
             </li>
@@ -571,7 +583,7 @@ function MyFavoritesProperties({ listing, isLoading, onRemoveFavorite }) {
               <Image src="/price-tag.png" width={15} height={15} />
               PKR
               <span className="font-bold text-sm font-sans">
-                {listing.price}
+                {listing?.price}
               </span>
             </li>
           </ul>

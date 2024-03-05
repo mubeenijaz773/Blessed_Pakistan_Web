@@ -85,7 +85,7 @@ export default function Agents() {
       <Navbarunique />
 </Suspense>
       <div
-        className="flex flex-col items-center justify-center h-[400px] bg-blue-500"
+        className="flex flex-col items-center justify-center h-[300px] bg-slate-900"
         // style={{ backgroundImage: 'url("/project.jpg")' }}
       >
         <div className="text-center text-white">
@@ -119,8 +119,7 @@ export default function Agents() {
         </div>
       </div>
       <h1 className="p-4 font-semibold py-10 text-2xl">Agencies</h1>
-
-<div className="p-4 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 mb-12">
+      <div className="p-4 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 mb-12">
   {isLoading ? (
     <div className="text-center text-gray-500 w-full flex justify-center items-center">Loading...</div>
   ) : agencylist.length === 0 ? (
@@ -129,12 +128,10 @@ export default function Agents() {
     agencylist.map((agency, index) => (
       <div key={index} className="bg-white shadow-lg rounded-lg overflow-hidden transform hover:scale-105 duration-300">
         <div className="relative">
-          <Image
-            className="object-cover transition transform scale-100 hover:scale-105"
-            src={`${ServiceUrl}/Add_Agency/?filename=${agency.Logoimages[0]['name']}`}
-            alt={agency.name}
-            width={800}
-            height={600}
+          <img
+            className="object-cover w-full h-48 sm:h-64"
+            src={agency.Logoimages[0]?.name}
+            alt={agency.Logoimages[0]?.name || 'Image not available'}
           />
           <div className="absolute inset-0 flex flex-col justify-center p-4 bg-black bg-opacity-50 hover:bg-opacity-0 transition duration-300">
             <h1 className="text-white text-xl font-bold mb-2">{agency.Agencyname}</h1>

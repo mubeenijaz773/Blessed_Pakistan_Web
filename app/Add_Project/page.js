@@ -1,19 +1,18 @@
 "use client";
-import React, { useState, useRef, useEffect } from "react";
-import axios from "axios"; // You'll need axios or another HTTP library to make API requests
-import Select from "react-select";
-import { ServiceUrl } from "@/app/global";
+import React, { useState} from "react";
+import { CldUploadWidget } from 'next-cloudinary';
 import { GoogleMap, LoadScript, MarkerF , OverlayView  } from '@react-google-maps/api';
 import { toast , ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import{cities} from '@/app/GetList'
-import { RiDeleteBin6Line } from "react-icons/ri";
+
 import { MdSlowMotionVideo } from "react-icons/md";
 import { FaImages, FaVideo } from "react-icons/fa";
 import { IoIosSave } from "react-icons/io";
 import  Image  from 'next/image';
-
+import {Add_Projects} from "../action/projects";
 import LoadingSpinner from "../Loader/page";
+import Navbarunique from "../Navbar/page";
 
 const Add_Project = () => {
 
@@ -62,53 +61,36 @@ const Add_Project = () => {
 
 
 
-  //  Upload image
-
-  const fileInputRef = React.createRef();
-  const [previewLogoImages, setPreviewLogoImages] = useState([]);
-
-  const handleImageUpload = (e) => {
-    const files = Array.from(e.target.files);
-
-    const newImages = files.map((file) => URL.createObjectURL(file));
-    setPreviewLogoImages(newImages);
-    setLogoImages([...logoimages, ...e.target.files]);
-  };
-
-  const handleButtonClick = () => {
-    // Trigger the hidden file input
-    fileInputRef.current.click();
-  };
 
 
+  // upload Images on cloudinary
+  const [uploadedImagesUrls, setUploadedImagesUrls] = useState([]);
 
-//  Upload video
-
-const [selectedVideos, setSelectedVideos] = useState([]);
-const [previewVideos, setPreviewVideos] = useState([]);
-const videoInputRef = React.createRef();
-
-const handleVideoUpload = (e) => {
-
-
-
-
-  const files = Array.from(e.target.files);
-
-  const newVideos = files.map((file) => URL.createObjectURL(file));
-
-  setPreviewVideos(newVideos)
-  setSelectedVideos([...selectedVideos, ...e.target.files]);
-};
-
-const handleButtonnClick = () => {
-  // Trigger the hidden video input
-  videoInputRef.current.click();
+  const handleUploadImagesSuccess = (response) => {
+    const uploadedUrl = response.info.url;
+ 
+    // Update the state to include the new uploaded URL and name
+    setUploadedImagesUrls((prevUrls) => [...prevUrls, { name: uploadedUrl }]);
 };
 
 
 
+  
 
+
+
+  const [uploadedVideoUrls, setUploadedVideosUrls] = useState([]);
+
+
+  // upload videos on cloudinary
+
+  const handleUploadVideosSuccess = (response) => {
+    const uploadedUrl = response.info.url;
+    // console.log("Uploaded URL:", uploadedUrl);
+
+    // Update the state to include the new uploaded URL
+    setUploadedVideosUrls((prevUrls) => [...prevUrls, { name: uploadedUrl }]);
+  };
 
 
 
@@ -128,59 +110,40 @@ const handleButtonnClick = () => {
     description && 
     location && 
     selectedCity &&
-    logoimages.length > 0 &&
-    selectedVideos.length > 0 &&
-    longitude &&
+  longitude &&
     latitude
 
     ) {
       // If all fields are filled, show loading state
       setLoading(true);
-      const formData = new FormData();
-      formData.append("name", name);
-      formData.append("description", description);
-      formData.append("location", location);
-      formData.append("city", selectedCity);
-      formData.append('lat', latitude);
-      formData.append('lng', longitude);
-      logoimages.forEach((logo) => {
-        formData.append("images", logo);
-      });
-
-      selectedVideos.forEach((video) => {
-        formData.append("videofiles", video);
-      });
   
  
       try {
-        // Simulate API call delay (remove in production)
-        setTimeout(async () => {
-          const response = await axios.post(`${ServiceUrl}/Add_Project`, formData);
-
-          if (response.status === 200) {
-            // setSuccess(true);
-            toast.success("Project Added Successfully")
-            setLoading(false);
-            // Handle success (e.g., redirect or show a success message)
-          } else {
-            toast.error("Error uploading file.")
-            // setSuccess(false);
-            setLoading(false);
-            // setError("Error uploading file.");
-          }
-        }, 2000); // Simulated 2-second delay
+        const response = await Add_Projects(
+          name, description, location, selectedCity,
+         latitude, longitude ,  uploadedImagesUrls,
+          uploadedVideoUrls
+        )
+            if (response.status === 200) {
+          
+              toast.success("Project Added Successfully")
+           
+  setUploadedImagesUrls([]);
+  setUploadedVideosUrls([]);
+  setLoading(false);
+            } else {
+              toast.error("Error to Added")
+             
+              setLoading(false);
+  
+            }
       } catch (error) {
-
-        toast.error("Error uploading file.")
-        console.error("Error uploading file:", error);
-        // setSuccess(false);
+        toast.error("Error to Added")
         setLoading(false);
-        // setError("Error uploading file.");
       }
     } else {
       toast.error("Please fill in all required fields.")
-      // If any required field is missing, display an error message
-      // setError("Please fill in all required fields.");
+    
     }
   };
 
@@ -218,7 +181,8 @@ const handleButtonnClick = () => {
   
 
   return (
-    <main className="h-[400vh] m-9">
+    <main >
+      <Navbarunique />
       <div className="bg-white rounded-lg shadow-md mt-9 p-4">
         <div className="flex flex-row gap-12 justify-center w-[100%]">
           <div className="flex flex-col gap-2  w-[15%] ">
@@ -454,51 +418,27 @@ const handleButtonnClick = () => {
 
                 <div>
                   <h1 className="text-sm font-semibold mb-4">Upload</h1>
-
-                  <button
-                    onClick={handleButtonClick}
-                    className="flex gap-2 text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 shadow-lg shadow-purple-500/50 dark:shadow-lg dark:shadow-purple-800/80 font-medium rounded-lg text-xs px-5 py-2.5 text-center mr-2 mb-2"
+                  <CldUploadWidget
+                    uploadPreset="next_cloudinary_web_app"
+                    onSuccess={handleUploadImagesSuccess}
+                    onError={(error) => toast.error(error)}
+                    maxFiles={5} // set limits
                   >
-                    <FaImages className="w-4 h-4 " />
-                    Upload  Image
-                  </button>
+                    {({ open }) => (
+                      <button
+                        onClick={() => open()}
+                        className="flex gap-2 text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 shadow-lg shadow-purple-500/50 dark:shadow-lg dark:shadow-purple-800/80 font-medium rounded-lg text-xs px-5 py-2.5 text-center mr-2 mb-2"
+                      >
+                        <FaImages className="w-4 h-4 " />
+                        Upload Image
+                      </button>
+                    )}
+                  </CldUploadWidget>
+                
                 </div>
               </div>
 
-              <input
-                type="file"
-                accept="image/*"
-                multiple
-                name="logoimages"
-                onChange={handleImageUpload}
-                className="hidden"
-                ref={fileInputRef}
-              />
-              <div className="flex flex-wrap gap-4 mt-4">
-                {previewLogoImages.map((imageUrl, index) => (
-                  <div key={index} className=" relative">
-                    <Image
-                      src={imageUrl}
-                      alt={`Uploaded Image ${index + 1}`}
-                      width={250}
-                      height={250}
-                
-                    
-                      className="object-cover rounded-lg"
-                    />
-                    <button
-                      className="absolute top-0 right-0 text-white mt-2 bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 shadow-lg shadow-red-500/50 dark:shadow-lg dark:shadow-red-800/80 font-medium rounded-lg text-sm px-4 py-2 opacity-30 hover:opacity-100 text-center mr-2 mb-2"
-                      onClick={() => {
-                        const updatedImages = [...previewLogoImages];
-                        updatedImages.splice(index, 1);
-                        setPreviewLogoImages(updatedImages);
-                      }}
-                    >
-                      <RiDeleteBin6Line className="w-4 h-4" />
-                    </button>
-                  </div>
-                ))}
-              </div>
+             
             </div>
 
             <div className="flex flex-row gap-3 mt-5">
@@ -528,51 +468,30 @@ const handleButtonnClick = () => {
 
      <div>
       <h1 className="text-sm font-semibold mb-4">Video Upload</h1>
-      <button
-        onClick={handleButtonnClick}
-        className="flex gap-2 text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 shadow-lg shadow-purple-500/50 dark:shadow-lg dark:shadow-purple-800/80 font-medium rounded-lg text-xs px-5 py-2.5 text-center mr-2 mb-2"
-      >
-        <MdSlowMotionVideo className="w-4 h-4" />
-          Upload Video
-      </button>
-     
+      <CldUploadWidget
+                    uploadPreset="next_cloudinary_web_app"
+                    onSuccess={handleUploadVideosSuccess}
+                    onError={(error) => toast.error(error)}
+                    maxFiles={5} // set limits
+                    resourceType="video" // specify resource type as video
+                  >
+                    {({ open }) => (
+                      <button
+                        onClick={() => open()}
+                        className="flex gap-2 text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 shadow-lg shadow-purple-500/50 dark:shadow-lg dark:shadow-purple-800/80 font-medium rounded-lg text-xs px-5 py-2.5 text-center mr-2 mb-2"
+                      >
+                        <MdSlowMotionVideo className="w-4 h-4" />
+                        Upload Video
+                      </button>
+                    )}
+                  </CldUploadWidget>
       </div>
       
      
       </div>
       
       
-      <input
-        type="file"
-        accept="video/*"
-        multiple
-        name="videofiles"
-        onChange={handleVideoUpload}
-        className="hidden"
-        ref={videoInputRef}
-      />
-      <div className="mt-4 flex flex-wrap gap-6 ">
-  
-        {previewVideos.map((videoUrl, index) => (
-          <div key={index} className="mb-4">
-            <video
-              src={videoUrl} 
-              controls
-              className="w-[300px] h-[200px] rounded-lg  "
-            />
-            <button
-              onClick={() => {
-                const updatedVideos = [...previewVideos];
-                updatedVideos.splice(index, 1);
-                setPreviewVideos(updatedVideos);
-              }}
-              className="text-white mt-2 bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 shadow-lg shadow-red-500/50 dark:shadow-lg dark:shadow-red-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
-           >
-              <RiDeleteBin6Line />
-            </button>
-          </div>
-        ))}
-      </div>
+      
     </div>
 
  </div>

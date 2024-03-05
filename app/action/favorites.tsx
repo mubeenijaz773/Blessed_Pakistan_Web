@@ -34,12 +34,12 @@ export async function SavefavoriteProperty(userid, property_id) {
 
 
 
-  export async function GetFavoritePropertyByUserId(userid){
+  export async function GetFavoritePropertyByUserId(userid:any){
     try{
       await connectDB();
     const getdata = await Favorites_Property.find({userid}).populate("property_id").lean()
 
-
+console.log(getdata , "get Favrouites")
 
     if(getdata){
     return({ status : 200 , message: "Favorite Get Sucessfully ",   Get: getdata.map(item => item.property_id) })

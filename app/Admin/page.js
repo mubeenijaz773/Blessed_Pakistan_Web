@@ -1,7 +1,7 @@
 "use client"
 import React, { useEffect, useState } from 'react';
 import { BiSearchAlt2, BiSolidMinusCircle } from 'react-icons/bi';
-import { FiTrash } from 'react-icons/fi';
+import Navbarunique from "../Navbar/page";
 import { ServiceUrl } from "@/app/global"
 import { Ring } from '@uiball/loaders';
 import { DeleteUser } from '@/app/action/user';
@@ -94,6 +94,7 @@ const handleDeleteUSer = async (id) => {
 
   return (
     <main>
+       <Navbarunique />
       <nav className="navbar px-10  flex flex-row justify-between items-center bg-gray-800  h-[80px] w-full">
         <div className='relative w-[500px] h-[57px] flex justify-center items-center'>
           <input

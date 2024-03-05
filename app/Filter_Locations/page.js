@@ -14,6 +14,7 @@ import { useRouter } from "next/navigation";
 import { formatDistanceToNow } from "date-fns";
 import Image from "next/image";
 import Footer from "../Footer/page";
+import Navbarunique from "../Navbar/page";
 
 
 
@@ -308,6 +309,7 @@ return(
   <>
     
     <SuspenseBoundary>
+      <Navbarunique />
   <WrapFilterLocations />
 </SuspenseBoundary>
   </>

@@ -1,26 +1,23 @@
 "use client";
-import React, { useState, useRef, useEffect } from "react";
-import axios from "axios"; // You'll need axios or another HTTP library to make API requests
-import Select from "react-select";
-import { ServiceUrl } from "@/app/global";
+import React, { useState } from "react";
+
 import { GoogleMap, LoadScript, MarkerF, OverlayView } from '@react-google-maps/api';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { cities } from '@/app/GetList'
-import { RiDeleteBin6Line } from "react-icons/ri";
+import { CldUploadWidget } from 'next-cloudinary';
 import { FaImages, FaVideo } from "react-icons/fa";
 import { IoIosSave } from "react-icons/io";
 import  Image from "next/image";
-
+import {Add_Societies} from "@/app/action/society";
 import LoadingSpinner from "../Loader/page";
+import Navbarunique from "../Navbar/page";
 
 const Add_Society = () => {
 
 
-  const [logoimages, setLogoImages] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [success, setSuccess] = useState(false);
-  const [error, setError] = useState("");
+
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [location, setLocation] = useState('');
@@ -61,23 +58,19 @@ const Add_Society = () => {
 
 
 
-  //  Upload image
 
-  const fileInputRef = React.createRef();
-  const [previewLogoImages, setPreviewLogoImages] = useState([]);
 
-  const handleImageUpload = (e) => {
-    const files = Array.from(e.target.files);
+  // upload Images on cloudinary
+  const [uploadedImagesUrls, setUploadedImagesUrls] = useState([]);
 
-    const newImages = files.map((file) => URL.createObjectURL(file));
-    setPreviewLogoImages(newImages);
-    setLogoImages([...logoimages, ...e.target.files]);
-  };
+  const handleUploadImagesSuccess = (response) => {
+    const uploadedUrl = response.info.url;
+ 
+    // Update the state to include the new uploaded URL and name
+    setUploadedImagesUrls((prevUrls) => [...prevUrls, { name: uploadedUrl }]);
+};
 
-  const handleButtonClick = () => {
-    // Trigger the hidden file input
-    fileInputRef.current.click();
-  };
+
 
 
   //  Submit ADS butoon
@@ -89,49 +82,37 @@ const Add_Society = () => {
       description &&
       location &&
       selectedCity &&
-      logoimages.length > 0 &&
+   
       longitude &&
       latitude
 
     ) {
       // If all fields are filled, show loading state
       setLoading(true);
-      const formData = new FormData();
-      formData.append("name", name);
-      formData.append("description", description);
-      formData.append("location", location);
-      formData.append("city", selectedCity);
-      formData.append('lat', latitude);
-      formData.append('lng', longitude);
-      logoimages.forEach((logo) => {
-        formData.append("images", logo);
-      });
+   
 
 
       try {
-        // Simulate API call delay (remove in production)
-        setTimeout(async () => {
-          const response = await axios.post(`${ServiceUrl}/Add_Society`, formData);
+        const response = await Add_Societies(
+          name, description, location, selectedCity,
+         latitude, longitude ,  uploadedImagesUrls
+        )
+            if (response.status === 200) {
+          
+              toast.success("Society Added Successfully")
+           
+  setUploadedImagesUrls([]);
 
-          if (response.status === 200) {
-            // setSuccess(true);
-            toast.success("Society Added Successfully")
-            setLoading(false);
-            // Handle success (e.g., redirect or show a success message)
-          } else {
-            toast.error("Error uploading file.")
-            // setSuccess(false);
-            setLoading(false);
-            // setError("Error uploading file.");
-          }
-        }, 2000); // Simulated 2-second delay
+  setLoading(false);
+            } else {
+              toast.error("Error to Added")
+             
+              setLoading(false);
+  
+            }
       } catch (error) {
-
-        toast.error("Error uploading file.")
-        console.error("Error uploading file:", error);
-        // setSuccess(false);
+        toast.error("Error to Added")
         setLoading(false);
-        // setError("Error uploading file.");
       }
     } else {
       toast.error("Please fill in all required fields.")
@@ -172,7 +153,8 @@ const Add_Society = () => {
 
 
   return (
-    <main className="h-[400vh] m-9">
+    <main >
+      <Navbarunique />
       <div className="bg-white rounded-lg shadow-md mt-9 p-4">
         <div className="flex flex-row gap-12 justify-center w-[100%]">
           <div className="flex flex-col gap-2  w-[15%] ">
@@ -291,7 +273,7 @@ const Add_Society = () => {
           </div>
 
 
-          {/* <LoadScript googleMapsApiKey="AIzaSyAq-OloyVfWl2PTCxFlXQ0OGW_VvBmhCoQ">
+          <LoadScript googleMapsApiKey="AIzaSyAq-OloyVfWl2PTCxFlXQ0OGW_VvBmhCoQ">
             <GoogleMap
               mapContainerStyle={containerStyle}
               center={center}
@@ -306,7 +288,7 @@ const Add_Society = () => {
               />
 
             </GoogleMap>
-          </LoadScript> */}
+          </LoadScript>
 
 
         </div>
@@ -382,53 +364,30 @@ const Add_Society = () => {
                   />
                 </div>
 
-                <div>
-                  <h1 className="text-sm font-semibold mb-4">Upload</h1>
+              <div>
 
-                  <button
-                    onClick={handleButtonClick}
-                    className="flex gap-2 text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 shadow-lg shadow-purple-500/50 dark:shadow-lg dark:shadow-purple-800/80 font-medium rounded-lg text-xs px-5 py-2.5 text-center mr-2 mb-2"
+             
+                  <CldUploadWidget
+                    uploadPreset="next_cloudinary_web_app"
+                    onSuccess={handleUploadImagesSuccess}
+                    onError={(error) => toast.error(error)}
+                    maxFiles={5} // set limits
                   >
-                    <FaImages className="w-4 h-4 " />
-                    Upload  Image
-                  </button>
-                </div>
-              </div>
-
-              <input
-                type="file"
-                accept="image/*"
-                multiple
-                name="logoimages"
-                onChange={handleImageUpload}
-                className="hidden"
-                ref={fileInputRef}
-              />
-              <div className="flex flex-wrap gap-4 mt-4">
-                {previewLogoImages.map((imageUrl, index) => (
-                  <div key={index} className="w-32 h-32 relative">
-                    <Image
-                      src={imageUrl}
-                      alt={`Uploaded Image ${index + 1}`}
-
-                      width={250}
-                      height={250}
-
-                      className=" object-cover rounded-lg"
-                    />
-                    <button
-                      className="absolute top-0 right-0 text-white mt-2 bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 shadow-lg shadow-red-500/50 dark:shadow-lg dark:shadow-red-800/80 font-medium rounded-lg text-sm px-4 py-2 opacity-30 hover:opacity-100 text-center mr-2 mb-2"
-                      onClick={() => {
-                        const updatedImages = [...previewLogoImages];
-                        updatedImages.splice(index, 1);
-                        setPreviewLogoImages(updatedImages);
-                      }}
-                    >
-                      <RiDeleteBin6Line className="w-4 h-4" />
-                    </button>
+                    {({ open }) => (
+                      <button
+                        onClick={() => open()}
+                        className="flex gap-2 text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 shadow-lg shadow-purple-500/50 dark:shadow-lg dark:shadow-purple-800/80 font-medium rounded-lg text-xs px-5 py-2.5 text-center mr-2 mb-2"
+                      >
+                        <FaImages className="w-4 h-4 " />
+                        Upload Images
+                      </button>
+                    )}
+                  </CldUploadWidget>
+              
                   </div>
-                ))}
               </div>
+
+            
             </div>
 
           </div>

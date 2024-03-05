@@ -18,3 +18,53 @@ export async function GetAllSocieties(){
 
 
 
+// Add New Project //////////////////
+
+
+
+  
+export async function Add_Societies(
+    name, description, city,
+    location, Latitude, Longitude ,  ImagesList
+  
+  ) {
+    try {
+
+  
+        await connectDB();
+      var ImagesUrls = [];
+    
+  
+      for (const image of ImagesList) {
+        ImagesUrls.push({ name: image.name });
+      }
+  
+  
+      // Save data
+      await Society.create({
+        name,
+        description,
+        city,
+        location,
+        Latitude,
+        Longitude,
+        images: ImagesUrls,
+      });
+  
+  
+      // Return a success response with the created product
+      return ({ status: 200, message: 'Project added successfully' });
+    } catch (error) {
+      // Return an error response if there's any issue
+      return ({ status: 400, message: 'Failed to add Project', error: error.message });
+    }
+  }
+  
+
+
+
+
+
+
+
+

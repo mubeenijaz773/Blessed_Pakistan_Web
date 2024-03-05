@@ -1,14 +1,13 @@
 // pages/landing.js
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect , useCallback  } from "react";
 import Select from "react-select";
-import { ServiceUrl } from '@/app/global';
-// import LoadingSpinner from "../Loader/page";
+
 import Navbarunique from "../Navbar/page";
 import { cities } from "@/app/GetList";
 import { GetAllProjects } from "@/app/action/projects";
 import Footer from "../Footer/page";
-import Image from "next/image";
+
 
 // Define custom styles for the Select component
 const customStyles = {
@@ -46,45 +45,48 @@ const customStyles = {
 };
 
 export default function Projects() {
-  const [Projects, setProjects] = useState([]);
-  const [selectedCity, setSelectedCity] = useState(null); // Initialize with null
+  const [projects, setProjects] = useState([]);
+  const [selectedCity, setSelectedCity] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredProjects, setFilteredProjects] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    fetchProjects();
-    // Filter Projects when the search query changes
-    if (searchQuery) {
-      const filteredData = Projects.filter((item) =>
-        item.name.toLowerCase().includes(searchQuery.toLowerCase())
-      );
-      setFilteredProjects(filteredData);
-    } else {
-      // If no search query, show all data
-      setFilteredProjects(Projects);
-    }
-  }, [searchQuery, Projects]);
-
-  const fetchProjects = async () => {
+  const fetchProjects = useCallback(async () => {
     try {
       const response = await GetAllProjects();
-      if(response['status'] == 200){
-      setProjects(response["projects"]);
-   
-      setIsLoading(false);
-      }else if (response['status'] == 400){
+      if (response.status === 200) {
+        setProjects(response.projects);
+      } else if (response.status === 400) {
         setProjects([]);
-   
-        setIsLoading(false);
       }
-    } catch (error) {
-      setProjects([]);
-   
       setIsLoading(false);
+    } catch (error) {
       console.error("Error fetching Projects:", error);
+      setProjects([]);
+      setIsLoading(false);
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    fetchProjects();
+  }, [fetchProjects]);
+
+  useEffect(() => {
+    // Filter projects when the search query or selected city changes
+    let filteredData = projects;
+
+    if (searchQuery) {
+      filteredData = filteredData.filter((item) =>
+        item.name.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+    }
+
+    if (selectedCity) {
+      filteredData = filteredData.filter((item) => item.city === selectedCity.value);
+    }
+
+    setFilteredProjects(filteredData);
+  }, [searchQuery, selectedCity, projects]);
 
   // Options for the select dropdown
   const options = cities.map((city) => ({ value: city, label: city }));
@@ -97,7 +99,6 @@ export default function Projects() {
   const handleSearchChange = (event) => {
     setSearchQuery(event.target.value);
   };
-
   return (
     <div className="bg-gray-100 min-h-screen w-full">
        <Navbarunique />
@@ -157,14 +158,14 @@ export default function Projects() {
         className="bg-white shadow-lg rounded-lg overflow-hidden transform hover:scale-105 duration-300"
       >
               <div className="relative">
-              <div className="w-full h-[400px] relative" >
-      <Image
-       className="object-cover transition transform scale-100 hover:scale-105"
-                  src={`${ServiceUrl}/Add_Project/?filename=${Project.images[0]["name"]}`}
-                  alt={Project.images.name}
-                  layout="fill"
-                />
-                </div>
+             
+                                    <img
+
+className="rounded-lg w-full object-cover h-[400px]"
+src={Project.images[0]["name"]}
+alt={Project.images[0]["name"] || 'fallback-alt-text'}
+/>
+
                 <h1 className="absolute text-white top-0 font-bold p-4 text-3xl">
                   {Project.name}
                 </h1>

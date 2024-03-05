@@ -23,6 +23,7 @@ import { TbHomeSearch } from "react-icons/tb";
 import { GoLocation } from "react-icons/go";
 import  Image  from "next/image";
 import  {GoogleMapKey} from  "@/app/global"
+import Navbarunique from "../../Navbar/page";
 
 
 
@@ -298,7 +299,8 @@ function EditPropertyPage({params} ) {
   
 
   return (
-    <div className="container mx-auto p-8">
+    <div >
+<Navbarunique />
       <h1 className="text-3xl font-bold mb-6">Edit Property</h1>
 
       {isLoading ? (

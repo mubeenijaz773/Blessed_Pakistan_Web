@@ -1,6 +1,6 @@
 
 "use client"
-import React, { useState, useRef, Suspense, useEffect } from "react";
+import React, { useState, Suspense, useEffect } from "react";
 import axios from "axios"; // You'll need axios or another HTTP library to make API requests
 import Select from 'react-select';
 import { ServiceUrl } from "@/app/global"
@@ -22,7 +22,7 @@ import UpgradeDialog from "./PricingDialog";
 import { DraftById } from "@/app/action/draft_property";
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
-import seedrandom from 'seedrandom';
+import Navbarunique from "../Navbar/page";
 import Image from "next/image";
 import { CldUploadWidget } from 'next-cloudinary';
 import {Add_Property} from "@/app/action/Property";
@@ -493,33 +493,7 @@ const WrapNewProperties = () => {
     ) {
 
       setLoading(true);
-      // const formData = new FormData();
-
-      // formData.append('property_id', propertyId);
-      // formData.append('userid', userid);
-      // formData.append('purpose', selectedOption);
-      // formData.append('propertyType', activeTab);
-      // formData.append('subType', subType);
-      // formData.append('city', selectedCity);
-      // formData.append('location', Location);
-      // formData.append('Area_size', Area + ' ' + selectedValue);
-      // formData.append('price', price);
-      // formData.append('bedrooms', selectedBedroom);
-      // formData.append('bathrooms', selectedIndex);
-      // formData.append('title', title);
-      // formData.append('description', description);
-      // formData.append('email', email);
-      // formData.append('mobile', mobile);
-      // formData.append('lat', latitude);
-      // formData.append('lng', longitude);
-      // uploadedImagesUrls.forEach((image) => {
-      //   formData.append("imagefiles", image);
-      // });
-
-      // uploadedVideosUrls.forEach((video) => {
-      //   formData.append("videofiles", video);
-      // });
-
+  
 
       try {
         
@@ -606,7 +580,7 @@ setUploadedVideosUrls([])
   return (
     <main className="h-auto  bg-white">
 
-
+<Navbarunique />
 
       <div className="bg-white  border border-gray-300 p-10">
 

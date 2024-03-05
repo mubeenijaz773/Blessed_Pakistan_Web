@@ -32,16 +32,18 @@ export async function updateStatus(_id, status) {
 }
 
 
-export async function GetAllAgenciesByUserId(userid){
-    try{
-        await connectDB();
-    const Getdata = await Agencies.find({userid}).lean();
 
-    return Getdata
-  
-}catch(error){
-     return ({ error:error , message: "Agent not Found !" })
-    }
+
+
+export async function AgentByUserId(userid) {
+  try {
+      await connectDB();
+      const agencies = await Agencies.find({ userid }).lean();
+      return ({ status: 200, data: agencies });
+  } catch (error) {
+      console.error("Error fetching agencies:", error);
+      return ({ status: 500, error: error, message: "An error occurred while fetching agencies" });
+  }
 }
 
 

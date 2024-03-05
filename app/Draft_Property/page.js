@@ -6,7 +6,7 @@ import {useRouter } from "next/navigation";
 import { FaFileContract, FaPhoneSquareAlt } from "react-icons/fa";
 import { BiChevronLeft, BiChevronRight, BiImage, BiMailSend, BiVideo } from "react-icons/bi";
 import { GoogleMap, LoadScript, MarkerF , OverlayView  } from '@react-google-maps/api';
-
+import Navbarunique from "../Navbar/page";
 import { DraftByUserId } from "@/app/action/draft_property"
 import { DotSpinner} from "@uiball/loaders";
 import  Image  from 'next/image';
@@ -90,8 +90,8 @@ router.push(`/Add_Property/?id=${id}`)
 
   return (
     <div className=" shadow-lg p-10 rounded-lg ">
-    
-    
+
+    <Navbarunique />
 {isLoading ? (
   <>
    <div className="flex justify-center  mb-[60px] items-center">

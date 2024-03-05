@@ -178,14 +178,10 @@ export  default function SocietiesPage() {
       className="bg-white shadow-lg w-[400px] rounded-lg overflow-hidden transform hover:scale-105 duration-300"
     >
       <div className="relative">
-      <div className="w-full h-[400px] relative" >
-      <Image
-      className=" object-cover transition transform scale-100 hover:scale-105"
-          src={`${ServiceUrl}/Add_Society/?filename=${society.images[0]["name"]}`}
-          alt={society.name}
-          layout='fill'
-        />
-        </div>
+     
+        <img 
+          className=" object-cover transition transform scale-100 hover:scale-105 w-full h-[400px]"
+        src={society.images[0]["name"]} alt={society.images[0]["name"]} />
         <h1 className='absolute text-white top-0 font-bold p-4 text-3xl' >{society.name}</h1>
         <h1 className='absolute text-white top-[40px] p-4 font-semibold' >{society.city}</h1>
         <div className="absolute inset-0 flex flex-col justify-center mt-[170px] m-7  opacity-0 hover:opacity-100 transition-opacity duration-300">
