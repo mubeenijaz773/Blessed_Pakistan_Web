@@ -1,6 +1,6 @@
 "use client"
 import React, { useState , useEffect , useRef } from "react";
-
+import {GetAllAgencies} from "@/app/action/Agency";
 import {  FiChevronsUp } from "react-icons/fi";
 import AgencyDialog from "@/Components/Dailogs/Agency_Dailog"
 import BrowseProperties from "../BrowseProperties/page"
@@ -113,14 +113,9 @@ const Navbar = () => {
 
 const fetchAgencies = async () => {
   try {
-    const response = await fetch(`${ServiceUrl}/Fetch_Agency`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    const data = await response.json();
-    setAgency(data["agencies"]);
+    const data = await GetAllAgencies();
+    
+    setAgency(data["GET"]);
 
     setIsAgencyLoading(false);
   } catch (error) {

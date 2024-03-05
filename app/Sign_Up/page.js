@@ -5,8 +5,8 @@ import React, { useState } from 'react';
 import { toast , ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { ServiceUrl } from '@/app/global';
-import { BiLock, BiMailSend, BiUser } from "react-icons/bi";
-import { BsEye, BsEyeSlash, BsFillPersonBadgeFill, BsPerson } from "react-icons/bs";
+import {  BiMailSend, BiUser } from "react-icons/bi";
+
 import { Ring } from "@uiball/loaders";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
@@ -16,11 +16,12 @@ import Image from "next/image";
 const SignUp = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
+  const [userid, setUserId] = useState("");
   const [selectedRole, setSelectedRole] = useState('');
 const router =  useRouter()
   const [isLoading, setIsLoading] = useState(false);
-
-
+  const [isShowVerifyCard, setIsShowVerifyCard] = useState(false);
+  const [verificationcode, setVerificationCode] = useState("");
   const [isUserRoleValid, setIsUserRoleValid] = useState(true);
   const isEmailValid = (email) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -74,17 +75,22 @@ const router =  useRouter()
           });
   
           const data = await response.json();
-          console.log(data); // Check the response from the API
-          // if (data["status"] === 200) {
-          //   if(selectedRole === "agent"){
-          //     router.push(`/Add_Agencies?email=${email}`)
-          //     toast.success("Email Sent First make your Profile")
-          //   }else{
-          //     toast.success("Email Sent successfully");
-          //   }
-          // } else if (data["status"] === 400) {
-          //   toast.error("Enter Valid Email");
-          // }
+          setVerificationCode(data['code']);
+          setUserId(data['_id'])
+          if (data["status"] === 200) {
+            if(selectedRole === "agent"){
+              // setIsShowVerifyCard(true)
+              // var userId = data1['_id']
+              console.log(userid ,"_id")
+              router.push(`/Add_Agencies?_id=${data['_id']}`)
+              toast.success("Email Sent First make your Profile")
+            }else{
+              setIsShowVerifyCard(true)
+              toast.success("Email Sent successfully");
+            }
+          } else if (data["status"] === 400) {
+            toast.error("Enter Valid Email");
+          }
           // You can handle the response here and show appropriate messages to the user
         } catch (error) {
           toast.error("Error signing up:", error);
@@ -100,7 +106,7 @@ const router =  useRouter()
     setEmail(newEmail);
 
     // Check if the email contains "@gmail.com"
-    setIsEmailValid(newEmail.toLowerCase().includes('@gmail.com'));
+    // setIsEmailValid(newEmail.toLowerCase().includes('@gmail.com'));
   };
 
 
@@ -121,7 +127,17 @@ const router =  useRouter()
             {/* <div className="absolute bg-black opacity-60 inset-0 z-0"></div> */}
           </div>
     
+{/* Verify  card  */}
+{isShowVerifyCard ? (<>
+  <VerificationComponent code={verificationcode} userid={userid} />
+</>):(<>
+
+
+
+
           {/* Signup Card */}
+
+
           <div className="flex-shrink-0 w-1/2 flex justify-center items-center bg-slate-100 py-10 ">
             <div className="max-w-md w-full  p-10 bg-white rounded-xl z-10 ">
               <div className="text-center">
@@ -257,9 +273,95 @@ const router =  useRouter()
               
             </div>
           </div>
+          </>)
+}
         </main>  
       
     
     )
   };
 export default SignUp;
+
+
+
+
+
+const VerificationComponent = ({code , userid}) => {
+  const [verificationCode, setVerificationCode] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const router =  useRouter()
+  const handleConfirm = () => {
+    // Add logic here to handle confirmation
+    console.log('Verification Code:', code);
+    setIsLoading(true);
+ if(verificationCode == code){
+router.push(`/Setpassword?_id=${userid}`)
+setIsLoading(false);
+ }else{
+  alert("Verification Failed!")
+  setIsLoading(false);
+ }
+
+
+
+
+  };
+
+  return (
+    <div className="flex-shrink-0 w-1/2 flex justify-center items-center bg-slate-100 py-10">
+      <div className="max-w-md w-full p-10 bg-white rounded-xl z-10">
+        <div className="text-center">
+          <h2 className="mt-6 text-3xl font-bold text-gray-900">Verification code</h2>
+          <p className="mt-2 text-sm text-gray-600">Enter Verification code to continue</p>
+        </div>
+        <div className="flex flex-row justify-center items-center">
+          <div className="w-[200px] h-[120px] relative">
+            <Image layout="fill" src="/logo_app.jpg" alt="Logo" />
+          </div>
+        </div>
+        <form className="mt-8 space-y-6" action="#" method="POST">
+          <div className="mt-8 content-center relative">
+            <div className="absolute right-0 mt-8">
+              <BiUser className="h-5 w-5 text-green-500" />
+            </div>
+            <label className="text-sm font-bold text-gray-700 tracking-wide">Verification Code</label>
+            <input
+              id="username"
+              type="text"
+              value={verificationCode}
+              onChange={(e) => setVerificationCode(e.target.value)}
+              placeholder="Enter code"
+              className="w-full content-center text-base py-2 border-b border-gray-300 focus:outline-none focus:border-indigo-500"
+            />
+          </div>
+          <button
+            disabled={isLoading}
+            onClick={handleConfirm}
+            type="button"
+            className={`w-full mt-5 flex justify-center bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:ring-purple-300 dark:focus:ring-purple-800 text-gray-100 p-4 rounded-full tracking-wide
+            font-semibold focus:outline-none focus:shadow-outline hover:bg-indigo-600 shadow-lg cursor-pointer transition ease-in duration-300 ${isLoading ? 'opacity-50 cursor-not-allowed' : ''}`}
+          >
+            {isLoading ? (
+              <div className="flex gap-1 justify-center items-center text-blue-600 text-xs">
+                <Ring size={15} lineWeight={5} speed={2} className="mt-1" color="white" />
+              </div>
+            ) : (
+              <div className="flex justify-center items-center">Confirm</div>
+            )}
+          </button>
+        </form>
+        <div className="flex items-center justify-center space-x-2 mt-10">
+          <span className="h-px w-16 bg-gray-300"></span>
+          <span className="text-gray-500 font-normal">OR</span>
+          <span className="h-px w-16 bg-gray-300"></span>
+        </div>
+        <p className="flex flex-col items-center justify-center mt-5 text-center text-md text-gray-500">
+          <span>Already have an account?</span>
+          <Link href="/Login" className="text-indigo-500 hover:text-indigo-500no-underline hover:underline cursor-pointer transition ease-in duration-300">
+            Login
+          </Link>
+        </p>
+      </div>
+    </div>
+  );
+};

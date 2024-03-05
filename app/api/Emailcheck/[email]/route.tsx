@@ -15,7 +15,7 @@ export async function GET(request , content) {
   console.log(checkemail)
 
   if(checkemail.length > 0){
-    return NextResponse.json({ status: 200 });
+    return NextResponse.json({ status: 200 , "_id" : checkemail[0]['_id'] });
   }else if(checkemail.length == 0){
     return NextResponse.json({ status: 400 });
   }else{

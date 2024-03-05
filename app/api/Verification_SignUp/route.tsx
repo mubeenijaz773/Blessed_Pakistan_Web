@@ -1,18 +1,23 @@
 
 
-import { NextResponse } from "next/server";
+import { NextResponse, userAgentFromString } from "next/server";
 import nodemailer from "nodemailer";
 import { verificationLink, user, pass } from "@/app/global";
+import User from "@/models/user";
 
+// Function to generate a random 5-digit code
+function generateRandomCode() {
+  return Math.floor(10000 + Math.random() * 90000);
+}
 
 export async function POST(request) {
   try {
     const { username, email , role } = await request.json();
 
-    // Validate the email address format
-    if (!isValidEmail(email)) {
-      throw new Error("Invalid email address format");
-    }
+    // Generate a random 5-digit verification code
+    const verificationCode = generateRandomCode();
+
+  
 
     // Send an email
     const transporter = nodemailer.createTransport({
@@ -26,21 +31,30 @@ export async function POST(request) {
       },
     });
 
-    const verificationLinkData = {
-      username: username,
-      email: email,
-      role : role
-    };
+    /////////////  by email  find User ////////
 
-    // Convert the verificationLinkData object to a JSON string
-    const encodedData = encodeURIComponent(JSON.stringify(verificationLinkData));
+  // Check if the user already exists in the database
+  let users:any = await User.findOne({ email }).lean();
+  let userId = '';
+
+  // If user doesn't exist, create a new user
+  if (!users) {
+    users = await new User({ username, email, role }).save();
+    userId = users._id.toString();
+    console.log("New user created:", users);
+  } else {
+    userId = users['_id'].toString();
+    console.log("User already exists:", users);
+  }
 
     // HTML email content with the verification link
     const htmlContent = `
       <p>Dear ${username},</p>
       <p>Thank you for creating an account with our service.</p>
+      <h1>Verification Code</h1>
+      <p>Your Verification Code: ${verificationCode}</p>
       <p>To verify your email address, please click the link below:</p>
-      <p><a href="${verificationLink}?data=${encodedData}">Verify Email</a></p>
+      <p><a href="${verificationLink}?_id=${userId}">Verify Email</a></p>
       <p>${email}</p>
       <p>If you did not create an account with us, please ignore this email.</p>
       <p>Thank you for using our service!</p>
@@ -58,7 +72,9 @@ export async function POST(request) {
 
     if (info.messageId) {
       console.log("Email sent successfully");
-      return NextResponse.json({ status: 200});
+
+
+      return NextResponse.json({ status: 200 , code:verificationCode , '_id':userId });
     } else {
       console.error("Email sending failed");
       return NextResponse.json({ status: 400 });
@@ -67,11 +83,4 @@ export async function POST(request) {
     console.error("Error sending email:", error.message);
     return NextResponse.json({ status: 400, error: error.message });
   }
-}
-
-// Function to validate email format
-function isValidEmail(email) {
-  // Use a regular expression for basic email format validation
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return emailRegex.test(email);
 }

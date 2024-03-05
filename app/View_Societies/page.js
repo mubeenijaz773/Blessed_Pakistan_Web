@@ -2,10 +2,9 @@
 "use client"
 import React, { useState, useEffect } from 'react';
 import Select from 'react-select';
-import { ServiceUrl } from '@/app/global';
-import LoadingSpinner from "../Loader/page";
+import {GetAllSocieties}from "../action/society";
 import {cities} from '@/app/GetList'
-import Image from 'next/image';
+
 import Navbarunique from '../Navbar/page';
 
 // Define custom styles for the Select component
@@ -76,13 +75,7 @@ export  default function SocietiesPage() {
 
   const fetchImages = async () => {
     try {
-      const response = await fetch(`${ServiceUrl}/Fetch_Societies`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      const data = await response.json();
+      const data =  GetAllSocieties();
       if(data["societies"] && data["societies"].length > 0){
       setImages(data["societies"]);
       }else{

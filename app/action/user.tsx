@@ -34,6 +34,19 @@ export async function GetUser(_id){
 
 
 
+export async function GetUserByEmail(email:any){
+  try{
+    await connectDB();
+  const getdata = await User.find({email});
+  return({ status:200 , message: "user Get Sucessfully ",  Get:getdata })
+
+}catch(error){
+   return ({ status : 400 , message: "user not Found Error !" })
+  }
+
+
+}
+
 
 
 export async function UpdateUserById(_id, username , email) {

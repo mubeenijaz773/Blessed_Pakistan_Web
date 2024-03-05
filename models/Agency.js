@@ -19,7 +19,7 @@ var AgencySchema = new mongoose.Schema({
     city:{
         type: String
     },
-    email:{
+    userid:{
         type:String
     },
 

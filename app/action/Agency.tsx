@@ -38,7 +38,7 @@ export async function updateStatus(_id, status) {
 export async function AgentByUserId(userid) {
   try {
       await connectDB();
-      const agencies = await Agencies.find({ userid }).lean();
+      const agencies = await Agencies.find({userid :  userid }).lean();
       return ({ status: 200, data: agencies });
   } catch (error) {
       console.error("Error fetching agencies:", error);
@@ -72,7 +72,7 @@ export async function GetAgenciesById(_id){
   
 export async function Add_Agencies(
     Agencyname, CEO_Name, address, city,
-    email, Latitude, Longitude, members ,  Logoimages,
+    userid, Latitude, Longitude, members ,  Logoimages,
      Bannerimages
   ) {
     try {
@@ -96,7 +96,7 @@ export async function Add_Agencies(
         CEO_Name,
         address,
         city ,
-        email,
+        userid,
         Latitude,
         Longitude,
         members :members,

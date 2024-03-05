@@ -1,13 +1,13 @@
 'use client'
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
-import React, { useState , Suspense } from 'react';
+import React, { useState , Suspense, useEffect } from 'react';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { ServiceUrl } from '@/app/global';
 import { useRouter } from "next/navigation";
 import { Ring } from "@uiball/loaders";
-
+import {GetUser} from "@/app/action/user";
 
 
 // Use the defined type for the children prop
@@ -24,14 +24,27 @@ const WrapSetPassword = () =>{
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
+  const [users, setUsers] = useState('');
   const [confirmpassword, setConfirmpassword] = useState('');
   const router = useSearchParams();
-  const data = JSON.parse(decodeURIComponent(router.get("data")));
-  const email = data['email']
-  const username = data['username']
-  const role = data["role"]
+  const userId = router.get("_id")
+
 
   const route = useRouter()
+
+useEffect(() => {
+
+  GetUserData()
+},[])
+
+
+async function GetUserData() {
+  
+const user = await GetUser(userId)
+setUsers(user.Get[0])
+}
+
+
 
   const isStrongPassword = (password) => {
     // Define your strong password criteria here
@@ -46,36 +59,33 @@ const WrapSetPassword = () =>{
       return;
     }
   
-    if (password === confirmpassword) {
-      setIsLoading(true);
-  
+     // Check if the password and confirm password match
+     if (password !== confirmpassword) {
+      alert("Passwords do not match.");
+    } else {
       try {
-        const response = await fetch(`${ServiceUrl}/SignUp`, {
-          method: 'POST',
+        // Update password
+        const res = await fetch(`${ServiceUrl}/SetNewPassword`, {
+          method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            username: username,
-            email: email,
-            password: password,
-            role: role,
+            email: users.email,
+            password: password
           }),
         });
-  
-        const data = await response.json();
-        toast.success('Account Created successfully');
-  
-        if (data.obj['role'] === 'agent') {
-          route.push('/Add_Agencies');
-        } else if (data.obj['role'] === 'user') {
+        const data = await res.json();
+  console.log(data.status , res.status , data)
+        if (data.status == 200) {
           route.push('/Login');
+          toast.success("Password updated successfully");
+        } else {
+          toast.error("Failed to update password");
         }
       } catch (error) {
-        toast.error('Error signing up:', error);
-      } finally {
-        // Set loading state to false, regardless of success or error
-        setIsLoading(false);
+        console.error("Error updating password:", error);
+        toast.error("Failed to update password");
       }
     }
   };

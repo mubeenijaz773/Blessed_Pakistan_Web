@@ -7,10 +7,10 @@ export async function GetAllSocieties(){
         await connectDB();
     const data = await Society.find().lean();
 
-    return({ sucess:true , message: "All Societies Fetch Sucessfully ",  data })
+    return({ sucess:200 , message: "All Societies Fetch Sucessfully ", "societies" : data })
   
 }catch(error){
-     return ({ error:error , message: "Not Fetch !" })
+     return ({ status : 400 , message: "Not Fetch !" })
     }
 
 

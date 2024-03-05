@@ -87,7 +87,7 @@ return(
       {images.map((item, index) => (
         <div key={index}>
        {/* Banner Image */}
-
+{/* 
 <div className='w-full h-[300px] relative ' >
 <Image
   className="object-cover rounded-lg shadow-lg"
@@ -95,19 +95,19 @@ return(
   alt="Banner"
   layout='fill'
 />
-</div>
+</div> */}
+
+<img
+   className=" object-cover rounded-lg shadow-lg w-full h-[300px] relative"
+src={item.Bannerimages[0]['name'] || ''} alt={item.Bannerimages[0]['name'] || ''} />
 
 
 {/* Logo Image */}
 <div className="bg-white  rounded-full overflow-hidden absolute top-[230px] left-20   border-4 border-white shadow-md">
-  <div className='w-[186px] h-[186px] relative' >
-  <Image
-    src={`${ServiceUrl}/Add_Agency/?filename=${item.Logoimages[0]['name']}`}
-    className="w-full h-full object-cover"
-    alt="Logo"
-    layout='fill'
-/>
-</div>
+
+<img
+   className=" object-cover w-[186px] h-[186px] relative"
+src={item.Logoimages[0]['name'] || ''} alt={item.Logoimages[0]['name'] || ''} />
 </div>
 
 

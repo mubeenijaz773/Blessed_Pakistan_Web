@@ -48,7 +48,7 @@ const WrapComponent = () =>{
   const [success, setSuccess] = useState("");
   const router = useRouter();
   const params = useSearchParams();
-  var email:any = params.get("email");
+  var userid:any = params.get("_id");
   const [selectedCity, setSelectedCity] = useState(null);
   const [agencyName, setAgencyName] = useState("");
   const [ceoName, setCeoName] = useState("");
@@ -176,15 +176,14 @@ const WrapComponent = () =>{
       address &&
       selectedCity &&
       ceoName &&
-      longitude &&
-      latitude &&
+     
       members.length > 0 
     ) {
     
       try {
         const response = await Add_Agencies(
           agencyName, ceoName, address, selectedCity,
-          email, latitude, longitude, members ,  uploadedImagesUrls,
+          userid, latitude, longitude, members ,  uploadedImagesUrls,
           uploadedBannerUrls
         )
             if (response.status === 200) {
@@ -193,7 +192,7 @@ const WrapComponent = () =>{
             setSuccess("Agency Created Success")
   setUploadedImagesUrls([]);
   setUploadedBannerUrls([]);
-  router.push('/Login')
+  router.push(`/Setpassword?_id=${userid}`)
             } else {
               toast.error("Error to Added")
               setError("Error to Add");
